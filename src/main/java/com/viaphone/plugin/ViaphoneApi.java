@@ -52,7 +52,7 @@ public class ViaphoneApi {
         if (obj instanceof CreateReq) {
             return gson.fromJson(result, CreateResp.class);
         }
-        return obj;
+        return result;
     }
 
     private OauthToken getAccessToken() {
