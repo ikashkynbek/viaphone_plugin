@@ -8,6 +8,7 @@ import com.viaphone.plugin.model.OauthToken;
 import com.viaphone.plugin.model.Product;
 import com.viaphone.plugin.utils.Utils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +73,7 @@ public class ViaphoneApi {
         items.add(new Product("apple china", "grocery", "lg", 1, 550));
 
         CreateResp resp = api.createPayment(items);
+        File file = Utils.generateQr(resp.getToken());
         System.out.println(resp);
 
     }
