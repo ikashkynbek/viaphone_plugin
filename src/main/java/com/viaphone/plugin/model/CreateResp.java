@@ -5,7 +5,7 @@ public class CreateResp {
 
     private long ref;
     private long paymentId;
-    private PaymentStatus paymentStatus;
+    private PurchaseStatus paymentStatus;
     private String token;
     private Status status;
     private ConfirmType confirmType;
@@ -27,11 +27,11 @@ public class CreateResp {
         this.paymentId = paymentId;
     }
 
-    public PaymentStatus getPaymentStatus() {
+    public PurchaseStatus getPaymentStatus() {
         return paymentStatus;
     }
 
-    public void setPaymentStatus(PaymentStatus paymentStatus) {
+    public void setPaymentStatus(PurchaseStatus paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
 

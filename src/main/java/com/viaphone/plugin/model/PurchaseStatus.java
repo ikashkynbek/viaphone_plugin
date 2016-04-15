@@ -1,6 +1,6 @@
 package com.viaphone.plugin.model;
 
-public enum PaymentStatus {
+public enum PurchaseStatus {
     CREATED,
     AUTHORIZED,
     FUNDED,
