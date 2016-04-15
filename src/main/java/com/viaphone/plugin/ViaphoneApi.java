@@ -87,14 +87,19 @@ public class ViaphoneApi {
     private Object sendRequest(String url, Object obj) {
         String result = postRequest(url, token.getAccess_token(), gson.toJson(obj));
         System.out.println(result);
-        if (obj instanceof CreateReq) {
-            return gson.fromJson(result, CreateResp.class);
-        } else if (obj instanceof PurchaseStatusReq) {
-            return gson.fromJson(result, PurchaseStatusResp.class);
-        } else if (obj instanceof LookupReq) {
-            return gson.fromJson(result, LookupResp.class);
+        try {
+            if (obj instanceof CreateReq) {
+                return gson.fromJson(result, CreateResp.class);
+            } else if (obj instanceof PurchaseStatusReq) {
+                return gson.fromJson(result, PurchaseStatusResp.class);
+            } else if (obj instanceof LookupReq) {
+                return gson.fromJson(result, LookupResp.class);
+            } else {
+                return result;
+            }
+        } catch (Exception e) {
+            return null;
         }
-        return result;
     }
 
     private OauthToken getAccessToken() {
