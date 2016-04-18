@@ -5,9 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.viaphone.plugin.model.*;
 import com.viaphone.plugin.utils.Utils;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -15,7 +12,7 @@ import static com.viaphone.plugin.HttpClient.getRequestJson;
 import static com.viaphone.plugin.HttpClient.postRequest;
 
 
-public class ViaphoneApi {
+public class ViaphoneApi implements Runnable {
 
     public static String HOST = "http://default-environment-xt3p4dpnej.elasticbeanstalk.com";
     //    public static String HOST = "http://ikashkynbek.com";
@@ -29,40 +26,18 @@ public class ViaphoneApi {
     private String clientSecret;
     private OauthToken token;
     private Gson gson;
-    private List<CreateResp> purchasedList = Collections.synchronizedList(new ArrayList<>());
+    private ResultListener resultListener;
+    private Long purchaseId;
 
-    public ViaphoneApi(String clientId, String clientSecret) throws Exception {
+    public ViaphoneApi(String clientId, String clientSecret, ResultListener resultListener) throws Exception {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
+        this.resultListener = resultListener;
         gson = new GsonBuilder().create();
         token = getAccessToken();
         if (token == null || token.getAccess_token() == null) {
             throw new Exception("Access token is null");
         }
-    }
-
-    public void executeTask(CreateResp createResp) {
-        Runnable runnable = () -> {
-            try {
-                PurchaseStatus status = PurchaseStatus.CREATED;
-                while (status == PurchaseStatus.CREATED) {
-                    System.out.println("Get status for payment: " + createResp.getPaymentId());
-                    PurchaseStatusResp resp = getPurchaseStatus(createResp.getPaymentId());
-                    if (resp != null && resp.getStatus().equals(PurchaseStatusResp.Status.OK)) {
-                        status = resp.getPaymentStatus();
-                        if (status == PurchaseStatus.AUTHORIZED) {
-                            LookupResp lookupResp = lookupPurchase(createResp.getPaymentId());
-                            System.out.println(lookupResp);
-                        }
-                    }
-                    TimeUnit.SECONDS.sleep(3);
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
     }
 
     public CreateResp createPurchase(List<Product> items) {
@@ -72,7 +47,10 @@ public class ViaphoneApi {
             amount += item.getPrice() * item.getQty();
         }
         CreateResp resp = (CreateResp) sendRequest(CREATE_PURCHASE, new CreateReq(ref, amount, items));
-        executeTask(resp);
+        if (resp != null) {
+            purchaseId = resp.getPaymentId();
+            run();
+        }
         return resp;
     }
 
@@ -107,20 +85,54 @@ public class ViaphoneApi {
         return gson.fromJson(getRequestJson(url), OauthToken.class);
     }
 
-    public static void main(String[] args) throws Exception {
-        String clientId = "ae99f6c6-52f2-4433-85b5-e81c31f5805f";
-        String clientSecret = "3cfe5805-da51-4359-9db1-fc1754ee449f";
-//        String clientId = "92ae1229-0665-482f-b3e2-9bd103502f23";
-//        String clientSecret = "c3e10bc9-699e-45c0-b282-3f048e94c8f2";
+    @Override
+    public void run() {
+        try {
+            while (true) {
+                System.out.println("Get status for payment: " + purchaseId);
+                PurchaseStatusResp resp = getPurchaseStatus(purchaseId);
+                if (resp != null) {
+                    if (resp.getStatus().equals(PurchaseStatusResp.Status.OK)) {
+                        PurchaseStatus status = resp.getPaymentStatus();
+                        if (status == PurchaseStatus.AUTHORIZED) {
+                            LookupResp lookupResp = lookupPurchase(purchaseId);
+                            resultListener.onAuthorized(lookupResp.getDiscountPrice());
+                            break;
+                        }
+                    } else {
+                        resultListener.onError(resp.getStatus());
+                        break;
+                    }
+                }
+                TimeUnit.SECONDS.sleep(3);
+            }
 
-        ViaphoneApi api = new ViaphoneApi(clientId, clientSecret);
-
-        List<Product> items = new ArrayList<>();
-        items.add(new Product("apple china", "grocery", "lg", 1, 550));
-
-        CreateResp resp = api.createPurchase(items);
-        File file = Utils.generateQr(resp.getToken());
-        System.out.println(resp);
-
+            while (true) {
+                System.out.println("Get status for payment: " + purchaseId);
+                PurchaseStatusResp resp = getPurchaseStatus(purchaseId);
+                if (resp != null) {
+                    if (resp.getStatus().equals(PurchaseStatusResp.Status.OK)) {
+                        PurchaseStatus status = resp.getPaymentStatus();
+                        if (status == PurchaseStatus.FUNDED
+                                || status == PurchaseStatus.INTRANSIT) {
+                            resultListener.onConfirmed(status);
+                            break;
+                        } else if (status == PurchaseStatus.REFUNDED
+                                || status == PurchaseStatus.PARTIALLY_REFUNDED
+                                || status == PurchaseStatus.NOT_ENOUGH_FUNDS
+                                || status == PurchaseStatus.CANCELED) {
+                            resultListener.onCancel(status);
+                            break;
+                        }
+                    } else {
+                        resultListener.onError(resp.getStatus());
+                        break;
+                    }
+                }
+                TimeUnit.SECONDS.sleep(3);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
