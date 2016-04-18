@@ -85,43 +85,39 @@ public class ViaphoneApi {
     public void executeTask(Long purchaseId) {
         Runnable runnable = () -> {
             try {
-                while (true) {
+                PurchaseStatus status = PurchaseStatus.CREATED;
+                while (status == PurchaseStatus.CREATED) {
                     PurchaseStatusResp resp = getPurchaseStatus(purchaseId);
                     if (resp != null) {
                         if (resp.getStatus().equals(PurchaseStatusResp.Status.OK)) {
-                            PurchaseStatus status = resp.getPaymentStatus();
+                            status = resp.getPaymentStatus();
                             if (status == PurchaseStatus.AUTHORIZED) {
                                 LookupResp lookupResp = lookupPurchase(purchaseId);
                                 resultListener.onAuthorized(lookupResp.getDiscountPrice());
-                                break;
                             }
                         } else {
                             resultListener.onError(resp.getStatus());
-                            break;
                         }
                     }
                     TimeUnit.SECONDS.sleep(3);
                 }
 
-                while (true) {
+                while (status == PurchaseStatus.AUTHORIZED) {
                     PurchaseStatusResp resp = getPurchaseStatus(purchaseId);
                     if (resp != null) {
                         if (resp.getStatus().equals(PurchaseStatusResp.Status.OK)) {
-                            PurchaseStatus status = resp.getPaymentStatus();
+                            status = resp.getPaymentStatus();
                             if (status == PurchaseStatus.FUNDED
                                     || status == PurchaseStatus.INTRANSIT) {
                                 resultListener.onConfirmed(status);
-                                break;
                             } else if (status == PurchaseStatus.REFUNDED
                                     || status == PurchaseStatus.PARTIALLY_REFUNDED
                                     || status == PurchaseStatus.NOT_ENOUGH_FUNDS
                                     || status == PurchaseStatus.CANCELED) {
                                 resultListener.onCancel(status);
-                                break;
                             }
                         } else {
                             resultListener.onError(resp.getStatus());
-                            break;
                         }
                     }
                     TimeUnit.SECONDS.sleep(3);
