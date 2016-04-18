@@ -4,9 +4,7 @@ import com.viaphone.plugin.model.CreateResp;
 import com.viaphone.plugin.model.Product;
 import com.viaphone.plugin.model.PurchaseStatus;
 import com.viaphone.plugin.model.PurchaseStatusResp;
-import com.viaphone.plugin.utils.Utils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +23,7 @@ public class TestPlugin implements ResultListener {
         items.add(new Product("apple china", "grocery", "lg", 1, 550));
 
         CreateResp resp = api.createPurchase(items);
-        File file = Utils.generateQr(resp.getToken());
+//        File file = Utils.generateQr(resp.getToken());
         System.out.println(resp);
 
     }

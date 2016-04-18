@@ -12,7 +12,7 @@ import static com.viaphone.plugin.HttpClient.getRequestJson;
 import static com.viaphone.plugin.HttpClient.postRequest;
 
 
-public class ViaphoneApi implements Runnable {
+public class ViaphoneApi {
 
     public static String HOST = "http://default-environment-xt3p4dpnej.elasticbeanstalk.com";
     //    public static String HOST = "http://ikashkynbek.com";
@@ -27,7 +27,6 @@ public class ViaphoneApi implements Runnable {
     private OauthToken token;
     private Gson gson;
     private ResultListener resultListener;
-    private Long purchaseId;
 
     public ViaphoneApi(String clientId, String clientSecret, ResultListener resultListener) throws Exception {
         this.clientId = clientId;
@@ -48,8 +47,7 @@ public class ViaphoneApi implements Runnable {
         }
         CreateResp resp = (CreateResp) sendRequest(CREATE_PURCHASE, new CreateReq(ref, amount, items));
         if (resp != null) {
-            purchaseId = resp.getPaymentId();
-            run();
+            executeTask(resp.getPaymentId());
         }
         return resp;
     }
@@ -64,7 +62,6 @@ public class ViaphoneApi implements Runnable {
 
     private Object sendRequest(String url, Object obj) {
         String result = postRequest(url, token.getAccess_token(), gson.toJson(obj));
-        System.out.println(result);
         try {
             if (obj instanceof CreateReq) {
                 return gson.fromJson(result, CreateResp.class);
@@ -85,54 +82,55 @@ public class ViaphoneApi implements Runnable {
         return gson.fromJson(getRequestJson(url), OauthToken.class);
     }
 
-    @Override
-    public void run() {
-        try {
-            while (true) {
-                System.out.println("Get status for payment: " + purchaseId);
-                PurchaseStatusResp resp = getPurchaseStatus(purchaseId);
-                if (resp != null) {
-                    if (resp.getStatus().equals(PurchaseStatusResp.Status.OK)) {
-                        PurchaseStatus status = resp.getPaymentStatus();
-                        if (status == PurchaseStatus.AUTHORIZED) {
-                            LookupResp lookupResp = lookupPurchase(purchaseId);
-                            resultListener.onAuthorized(lookupResp.getDiscountPrice());
+    public void executeTask(Long purchaseId) {
+        Runnable runnable = () -> {
+            try {
+                while (true) {
+                    PurchaseStatusResp resp = getPurchaseStatus(purchaseId);
+                    if (resp != null) {
+                        if (resp.getStatus().equals(PurchaseStatusResp.Status.OK)) {
+                            PurchaseStatus status = resp.getPaymentStatus();
+                            if (status == PurchaseStatus.AUTHORIZED) {
+                                LookupResp lookupResp = lookupPurchase(purchaseId);
+                                resultListener.onAuthorized(lookupResp.getDiscountPrice());
+                                break;
+                            }
+                        } else {
+                            resultListener.onError(resp.getStatus());
                             break;
                         }
-                    } else {
-                        resultListener.onError(resp.getStatus());
-                        break;
                     }
+                    TimeUnit.SECONDS.sleep(3);
                 }
-                TimeUnit.SECONDS.sleep(3);
-            }
 
-            while (true) {
-                System.out.println("Get status for payment: " + purchaseId);
-                PurchaseStatusResp resp = getPurchaseStatus(purchaseId);
-                if (resp != null) {
-                    if (resp.getStatus().equals(PurchaseStatusResp.Status.OK)) {
-                        PurchaseStatus status = resp.getPaymentStatus();
-                        if (status == PurchaseStatus.FUNDED
-                                || status == PurchaseStatus.INTRANSIT) {
-                            resultListener.onConfirmed(status);
-                            break;
-                        } else if (status == PurchaseStatus.REFUNDED
-                                || status == PurchaseStatus.PARTIALLY_REFUNDED
-                                || status == PurchaseStatus.NOT_ENOUGH_FUNDS
-                                || status == PurchaseStatus.CANCELED) {
-                            resultListener.onCancel(status);
+                while (true) {
+                    PurchaseStatusResp resp = getPurchaseStatus(purchaseId);
+                    if (resp != null) {
+                        if (resp.getStatus().equals(PurchaseStatusResp.Status.OK)) {
+                            PurchaseStatus status = resp.getPaymentStatus();
+                            if (status == PurchaseStatus.FUNDED
+                                    || status == PurchaseStatus.INTRANSIT) {
+                                resultListener.onConfirmed(status);
+                                break;
+                            } else if (status == PurchaseStatus.REFUNDED
+                                    || status == PurchaseStatus.PARTIALLY_REFUNDED
+                                    || status == PurchaseStatus.NOT_ENOUGH_FUNDS
+                                    || status == PurchaseStatus.CANCELED) {
+                                resultListener.onCancel(status);
+                                break;
+                            }
+                        } else {
+                            resultListener.onError(resp.getStatus());
                             break;
                         }
-                    } else {
-                        resultListener.onError(resp.getStatus());
-                        break;
                     }
+                    TimeUnit.SECONDS.sleep(3);
                 }
-                TimeUnit.SECONDS.sleep(3);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 }
