@@ -27,6 +27,7 @@ public class ViaphoneApi {
     private OauthToken token;
     private Gson gson;
     private ResultListener resultListener;
+    private boolean shutdownThread = false;
 
     public ViaphoneApi(String clientId, String clientSecret, ResultListener resultListener) throws Exception {
         this.clientId = clientId;
@@ -85,40 +86,35 @@ public class ViaphoneApi {
     public void executeTask(Long purchaseId) {
         Runnable runnable = () -> {
             try {
-                PurchaseStatus status = PurchaseStatus.CREATED;
-                while (status == PurchaseStatus.CREATED) {
+                boolean lookuped = false;
+                while (!shutdownThread) {
+                    System.out.println("getPurchaseStatus: " + purchaseId);
                     PurchaseStatusResp resp = getPurchaseStatus(purchaseId);
                     if (resp != null) {
                         if (resp.getStatus().equals(PurchaseStatusResp.Status.OK)) {
-                            status = resp.getPaymentStatus();
-                            if (status == PurchaseStatus.AUTHORIZED) {
+                            PurchaseStatus status = resp.getPaymentStatus();
+                            if (status == PurchaseStatus.AUTHORIZED && !lookuped) {
                                 LookupResp lookupResp = lookupPurchase(purchaseId);
                                 resultListener.onAuthorized(lookupResp.getDiscountPrice());
-                            }
-                        } else {
-                            resultListener.onError(resp.getStatus());
-                        }
-                    }
-                    TimeUnit.SECONDS.sleep(3);
-                }
-
-                while (status == PurchaseStatus.AUTHORIZED) {
-                    PurchaseStatusResp resp = getPurchaseStatus(purchaseId);
-                    if (resp != null) {
-                        if (resp.getStatus().equals(PurchaseStatusResp.Status.OK)) {
-                            status = resp.getPaymentStatus();
-                            if (status == PurchaseStatus.FUNDED
+                                lookuped = true;
+                            } else if (status == PurchaseStatus.FUNDED
                                     || status == PurchaseStatus.INTRANSIT) {
                                 resultListener.onConfirmed(status);
+                                shutdownThread = true;
                             } else if (status == PurchaseStatus.REFUNDED
                                     || status == PurchaseStatus.PARTIALLY_REFUNDED
                                     || status == PurchaseStatus.NOT_ENOUGH_FUNDS
                                     || status == PurchaseStatus.CANCELED) {
                                 resultListener.onCancel(status);
+                                shutdownThread = true;
                             }
                         } else {
                             resultListener.onError(resp.getStatus());
+                            shutdownThread = true;
                         }
+                    } else {
+                        resultListener.onError(null);
+                        shutdownThread = true;
                     }
                     TimeUnit.SECONDS.sleep(3);
                 }
@@ -128,5 +124,10 @@ public class ViaphoneApi {
         };
         Thread thread = new Thread(runnable);
         thread.start();
+    }
+
+    public void stopExecutor() {
+        System.out.println("Stop executor");
+        shutdownThread = true;
     }
 }
