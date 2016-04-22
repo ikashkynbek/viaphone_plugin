@@ -4,8 +4,8 @@ package com.viaphone.plugin.model;
 public class CreateResp {
 
     private long ref;
-    private long paymentId;
-    private PurchaseStatus paymentStatus;
+    private long purchaseId;
+    private PurchaseStatus purchaseStatus;
     private String token;
     private Status status;
     private ConfirmType confirmType;
@@ -19,20 +19,20 @@ public class CreateResp {
         this.ref = ref;
     }
 
-    public long getPaymentId() {
-        return paymentId;
+    public long getPurchaseId() {
+        return purchaseId;
     }
 
-    public void setPaymentId(long paymentId) {
-        this.paymentId = paymentId;
+    public void setPurchaseId(long purchaseId) {
+        this.purchaseId = purchaseId;
     }
 
-    public PurchaseStatus getPaymentStatus() {
-        return paymentStatus;
+    public PurchaseStatus getPurchaseStatus() {
+        return purchaseStatus;
     }
 
-    public void setPaymentStatus(PurchaseStatus paymentStatus) {
-        this.paymentStatus = paymentStatus;
+    public void setPurchaseStatus(PurchaseStatus purchaseStatus) {
+        this.purchaseStatus = purchaseStatus;
     }
 
     public String getToken() {
@@ -69,8 +69,8 @@ public class CreateResp {
 
     @Override
     public String toString() {
-        return "ref: " + ref + " paymentId: " + paymentId + " token: " + token
-                + " paymentStatus:" + paymentStatus + " status: " + status;
+        return "ref: " + ref + " purchaseId: " + purchaseId + " token: " + token
+                + " purchaseStatus:" + purchaseStatus + " status: " + status;
     }
 
     public enum Status {

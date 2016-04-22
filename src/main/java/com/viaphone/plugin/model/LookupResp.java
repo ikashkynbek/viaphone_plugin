@@ -39,7 +39,7 @@ public class LookupResp {
         OK,
         REQUIRED_FIELD_NULL,
         MERCHANT_NOT_FOUND,
-        PAYMENT_NOT_FOUND,
-        NOT_OWN_PAYMENT
+        PURCHASE_NOT_FOUND,
+        NOT_OWN_PURCHASE
     }
 }

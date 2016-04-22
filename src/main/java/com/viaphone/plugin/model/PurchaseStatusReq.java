@@ -3,11 +3,11 @@ package com.viaphone.plugin.model;
 public class PurchaseStatusReq {
 
     private Long ref;
-    private Long paymentId;
+    private Long purchaseId;
 
-    public PurchaseStatusReq(Long ref, long paymentId) {
+    public PurchaseStatusReq(Long ref, long purchaseId) {
         this.ref = ref;
-        this.paymentId = paymentId;
+        this.purchaseId = purchaseId;
     }
 
     public Long getRef() {
@@ -18,16 +18,16 @@ public class PurchaseStatusReq {
         this.ref = ref;
     }
 
-    public Long getPaymentId() {
-        return paymentId;
+    public Long getPurchaseId() {
+        return purchaseId;
     }
 
-    public void setPaymentId(Long paymentId) {
-        this.paymentId = paymentId;
+    public void setPurchaseId(Long purchaseId) {
+        this.purchaseId = purchaseId;
     }
 
     @Override
     public String toString() {
-        return "\n\tref: " + ref + "\n\tpayment: " + paymentId;
+        return "\n\tref: " + ref + "\n\tpurchase: " + purchaseId;
     }
 }

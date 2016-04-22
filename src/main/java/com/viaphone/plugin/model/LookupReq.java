@@ -3,18 +3,18 @@ package com.viaphone.plugin.model;
 public class LookupReq {
 
     private Long ref;
-    private Long paymentId;
+    private Long purchaseId;
     private boolean calcDiscount = false;
 
-    public LookupReq(Long ref, long paymentId) {
+    public LookupReq(Long ref, long purchaseId) {
         this.ref = ref;
-        this.paymentId = paymentId;
+        this.purchaseId = purchaseId;
         this.calcDiscount = true;
     }
 
-    public LookupReq(Long ref, long paymentId, boolean calcDiscount) {
+    public LookupReq(Long ref, long purchaseId, boolean calcDiscount) {
         this.ref = ref;
-        this.paymentId = paymentId;
+        this.purchaseId = purchaseId;
         this.calcDiscount = calcDiscount;
     }
 
@@ -26,12 +26,12 @@ public class LookupReq {
         this.ref = ref;
     }
 
-    public Long getPaymentId() {
-        return paymentId;
+    public Long getPurchaseId() {
+        return purchaseId;
     }
 
-    public void setPaymentId(Long paymentId) {
-        this.paymentId = paymentId;
+    public void setPurchaseId(Long purchaseId) {
+        this.purchaseId = purchaseId;
     }
 
     public boolean isCalcDiscount() {
@@ -44,6 +44,6 @@ public class LookupReq {
 
     @Override
     public String toString() {
-        return "\n\tref: " + ref + "\n\tpayment: " + paymentId + "\n\tcalcDiscount: " + calcDiscount;
+        return "\n\tref: " + ref + "\n\tpurchase: " + purchaseId + "\n\tcalcDiscount: " + calcDiscount;
     }
 }

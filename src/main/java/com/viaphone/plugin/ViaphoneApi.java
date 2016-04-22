@@ -15,12 +15,12 @@ import static com.viaphone.plugin.HttpClient.postRequest;
 public class ViaphoneApi {
 
     public static String HOST = "http://default-environment-xt3p4dpnej.elasticbeanstalk.com";
-    //    public static String HOST = "http://ikashkynbek.com";
+//        public static String HOST = "http://ikashkynbek.com";
     public static String ACCESS_TOKEN = HOST + "/oauth/token?grant_type=password&client_id=%s&client_secret=%s";
     public static String API_ROOT = HOST + "/api/merchant";
-    public static final String CREATE_PURCHASE = API_ROOT + "/create-payment-token";
-    public static final String LOOKUP_PURCHASE = API_ROOT + "/lookup-payment";
-    public static final String PURCHASE_STATUS = API_ROOT + "/payment-status";
+    public static final String CREATE_PURCHASE = API_ROOT + "/create-purchase-token";
+    public static final String LOOKUP_PURCHASE = API_ROOT + "/lookup-purchase";
+    public static final String PURCHASE_STATUS = API_ROOT + "/purchase-status";
 
     private String clientId;
     private String clientSecret;
@@ -48,7 +48,7 @@ public class ViaphoneApi {
         }
         CreateResp resp = (CreateResp) sendRequest(CREATE_PURCHASE, new CreateReq(ref, amount, items));
         if (resp != null) {
-            executeTask(resp.getPaymentId());
+            executeTask(resp.getPurchaseId());
         }
         return resp;
     }
@@ -92,7 +92,7 @@ public class ViaphoneApi {
                     PurchaseStatusResp resp = getPurchaseStatus(purchaseId);
                     if (resp != null) {
                         if (resp.getStatus().equals(PurchaseStatusResp.Status.OK)) {
-                            PurchaseStatus status = resp.getPaymentStatus();
+                            PurchaseStatus status = resp.getPurchaseStatus();
                             if (status == PurchaseStatus.AUTHORIZED && !lookuped) {
                                 LookupResp lookupResp = lookupPurchase(purchaseId);
                                 resultListener.onAuthorized(lookupResp.getDiscountPrice());
