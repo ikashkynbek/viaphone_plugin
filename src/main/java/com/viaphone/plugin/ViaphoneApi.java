@@ -16,9 +16,9 @@ public class ViaphoneApi {
 
     //    public static String HOST = "http://default-environment-xt3p4dpnej.elasticbeanstalk.com";
     public static String HOST = "http://ikashkynbek.com";
-    public static String ACCESS_TOKEN = HOST + "/oauth/token?grant_type=password&client_id=%s&client_secret=%s";
-    public static String ACCESS_TOKEN_CLIENT = ACCESS_TOKEN + "&username=%s&password=%s";
-    public static String API_ROOT = HOST + "/api/merchant";
+    public static final String ACCESS_TOKEN = HOST + "/oauth/token?grant_type=password&client_id=%s&client_secret=%s";
+    public static final String ACCESS_TOKEN_CLIENT = ACCESS_TOKEN + "&username=%s&password=%s";
+    public static final String API_ROOT = HOST + "/api/merchant";
     public static final String CREATE_CUSTOMER = API_ROOT + "/create-customer";
     public static final String CREATE_PURCHASE = API_ROOT + "/create-purchase-token";
     public static final String LOOKUP_PURCHASE = API_ROOT + "/lookup-purchase";
@@ -33,6 +33,11 @@ public class ViaphoneApi {
     private boolean shutdownThread = false;
 
     public ViaphoneApi(String clientId, String clientSecret, ResultListener resultListener) throws Exception {
+        new ViaphoneApi(HOST, clientId, clientSecret, resultListener);
+    }
+
+    public ViaphoneApi(String host, String clientId, String clientSecret, ResultListener resultListener) throws Exception {
+        HOST = host;
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.resultListener = resultListener;
