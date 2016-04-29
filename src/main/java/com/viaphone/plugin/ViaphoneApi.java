@@ -23,7 +23,7 @@ public class ViaphoneApi {
     public static final String CREATE_PURCHASE = API_ROOT + "/create-purchase-token";
     public static final String LOOKUP_PURCHASE = API_ROOT + "/lookup-purchase";
     public static final String PURCHASE_STATUS = API_ROOT + "/purchase-status";
-    public static final String AUTH_PAYMENT = HOST + "/api/customer/authorize-payment";
+    public static final String AUTH_PAYMENT = HOST + "/api/customer/authorize-purchase";
 
     private String clientId;
     private String clientSecret;
