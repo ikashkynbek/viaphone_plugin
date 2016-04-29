@@ -33,7 +33,7 @@ public class ViaphoneApi {
     private boolean shutdownThread = false;
 
     public ViaphoneApi(String clientId, String clientSecret, ResultListener resultListener) throws Exception {
-        new ViaphoneApi(HOST, clientId, clientSecret, resultListener);
+        this (HOST, clientId, clientSecret, resultListener);
     }
 
     public ViaphoneApi(String host, String clientId, String clientSecret, ResultListener resultListener) throws Exception {
