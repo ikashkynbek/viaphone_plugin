@@ -14,16 +14,16 @@ import static com.viaphone.plugin.HttpClient.postRequest;
 
 public class ViaphoneApi {
 
-    //    public static String HOST = "http://default-environment-xt3p4dpnej.elasticbeanstalk.com";
-    public static String HOST = "http://ikashkynbek.com";
-    public static final String ACCESS_TOKEN = HOST + "/oauth/token?grant_type=password&client_id=%s&client_secret=%s";
-    public static final String ACCESS_TOKEN_CLIENT = ACCESS_TOKEN + "&username=%s&password=%s";
-    public static final String API_ROOT = HOST + "/api/merchant";
-    public static final String CREATE_CUSTOMER = API_ROOT + "/create-customer";
-    public static final String CREATE_PURCHASE = API_ROOT + "/create-purchase-token";
-    public static final String LOOKUP_PURCHASE = API_ROOT + "/lookup-purchase";
-    public static final String PURCHASE_STATUS = API_ROOT + "/purchase-status";
-    public static final String AUTH_PAYMENT = HOST + "/api/customer/authorize-purchase";
+    //    public static String host = "http://default-environment-xt3p4dpnej.elasticbeanstalk.com";
+    private static String host = "http://ikashkynbek.com";
+    private static String accessToken = host + "/oauth/token?grant_type=password&client_id=%s&client_secret=%s";
+    private static String accessTokenClient = accessToken + "&username=%s&password=%s";
+    private static String apiRoot = host + "/api/merchant";
+    private static String createCustomer = apiRoot + "/create-customer";
+    private static String createPurchase = apiRoot + "/create-purchase-token";
+    private static String lookupPurchase = apiRoot + "/lookup-purchase";
+    private static String purchaseStatus = apiRoot + "/purchase-status";
+    private static String authPayment = host + "/api/customer/authorize-purchase";
 
     private String clientId;
     private String clientSecret;
@@ -33,11 +33,19 @@ public class ViaphoneApi {
     private boolean shutdownThread = false;
 
     public ViaphoneApi(String clientId, String clientSecret, ResultListener resultListener) throws Exception {
-        this (HOST, clientId, clientSecret, resultListener);
+        this (host, clientId, clientSecret, resultListener);
     }
 
     public ViaphoneApi(String host, String clientId, String clientSecret, ResultListener resultListener) throws Exception {
-        HOST = host;
+        ViaphoneApi.host = host;
+        accessToken = host + "/oauth/token?grant_type=password&client_id=%s&client_secret=%s";
+        accessTokenClient = accessToken + "&username=%s&password=%s";
+        apiRoot = host + "/api/merchant";
+        createCustomer = apiRoot + "/create-customer";
+        createPurchase = apiRoot + "/create-purchase-token";
+        lookupPurchase = apiRoot + "/lookup-purchase";
+        purchaseStatus = apiRoot + "/purchase-status";
+        authPayment = host + "/api/customer/authorize-purchase";
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.resultListener = resultListener;
@@ -54,7 +62,7 @@ public class ViaphoneApi {
         for (Product item : items) {
             amount += item.getPrice() * item.getQty();
         }
-        CreateResp resp = (CreateResp) sendRequest(CREATE_PURCHASE, new CreateReq(ref, amount, items));
+        CreateResp resp = (CreateResp) sendRequest(createPurchase, new CreateReq(ref, amount, items));
         if (resp != null && resultListener != null) {
             executeTask(resp.getPurchaseId());
         }
@@ -62,22 +70,22 @@ public class ViaphoneApi {
     }
 
     public PurchaseStatusResp getPurchaseStatus(long purchaseId) {
-        return (PurchaseStatusResp) sendRequest(PURCHASE_STATUS, new PurchaseStatusReq(Utils.nextRef(), purchaseId));
+        return (PurchaseStatusResp) sendRequest(purchaseStatus, new PurchaseStatusReq(Utils.nextRef(), purchaseId));
     }
 
     public LookupResp lookupPurchase(long purchaseId) {
-        return (LookupResp) sendRequest(LOOKUP_PURCHASE, new LookupReq(Utils.nextRef(), purchaseId));
+        return (LookupResp) sendRequest(lookupPurchase, new LookupReq(Utils.nextRef(), purchaseId));
     }
 
     public String createCustomer(CustomerReq customerReq) {
         customerReq.setPassword("123");
-        return (String) sendRequest(CREATE_CUSTOMER, customerReq);
+        return (String) sendRequest(createCustomer, customerReq);
     }
 
     public AuthPurchaseResp authPayment(String phone, String code) {
         OauthToken token = getClientAccessToken(phone, "123");
         if (token != null) {
-            return (AuthPurchaseResp) sendRequest(AUTH_PAYMENT, token.getAccess_token(), new AuthPurchaseReq(Utils.nextRef(), code));
+            return (AuthPurchaseResp) sendRequest(authPayment, token.getAccess_token(), new AuthPurchaseReq(Utils.nextRef(), code));
         }
         return null;
     }
@@ -106,12 +114,12 @@ public class ViaphoneApi {
     }
 
     private OauthToken getAccessToken() {
-        String url = String.format(ACCESS_TOKEN, clientId, clientSecret);
+        String url = String.format(accessToken, clientId, clientSecret);
         return gson.fromJson(getRequestJson(url), OauthToken.class);
     }
 
     private OauthToken getClientAccessToken(String username, String password) {
-        String url = String.format(ACCESS_TOKEN_CLIENT, "mobileapp", "secret", username, password);
+        String url = String.format(accessTokenClient, "mobileapp", "secret", username, password);
         return gson.fromJson(getRequestJson(url), OauthToken.class);
     }
 
