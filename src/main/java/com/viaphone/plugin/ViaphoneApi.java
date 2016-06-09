@@ -3,8 +3,10 @@ package com.viaphone.plugin;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.viaphone.plugin.model.*;
+import com.viaphone.plugin.utils.ChirpApi;
 import com.viaphone.plugin.utils.Utils;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -14,8 +16,8 @@ import static com.viaphone.plugin.HttpClient.postRequest;
 
 public class ViaphoneApi {
 
-    //    public static String host = "http://default-environment-xt3p4dpnej.elasticbeanstalk.com";
-    private static String host = "http://ikashkynbek.com";
+    public static String host = "http://viaphoneplatform-dev.us-west-2.elasticbeanstalk.com";
+    //    private static String host = "http://ikashkynbek.com";
     private static String accessToken = host + "/oauth/token?grant_type=password&client_id=%s&client_secret=%s";
     private static String accessTokenClient = accessToken + "&username=%s&password=%s";
     private static String apiRoot = host + "/api/merchant";
@@ -30,10 +32,11 @@ public class ViaphoneApi {
     private OauthToken token;
     private Gson gson;
     private ResultListener resultListener;
+    private ChirpApi chirpApi;
     private boolean shutdownThread = false;
 
     public ViaphoneApi(String clientId, String clientSecret, ResultListener resultListener) throws Exception {
-        this (host, clientId, clientSecret, resultListener);
+        this(host, clientId, clientSecret, resultListener);
     }
 
     public ViaphoneApi(String host, String clientId, String clientSecret, ResultListener resultListener) throws Exception {
@@ -54,6 +57,15 @@ public class ViaphoneApi {
         if (token == null || token.getAccess_token() == null) {
             throw new Exception("Access token is null");
         }
+    }
+
+    public void playChirp(String token) throws Exception {
+        chirpApi = new ChirpApi();
+        chirpApi.start(token);
+    }
+
+    public void stopChirp() {
+        chirpApi.stopSound();
     }
 
     public CreateResp createPurchase(List<Product> items) {
