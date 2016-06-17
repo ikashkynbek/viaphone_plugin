@@ -3,12 +3,7 @@ package com.viaphone.plugin.model;
 public enum PurchaseStatus {
     CREATED,
     AUTHORIZED,
-    FUNDED,
-    INTRANSIT,
-    SETTLED,
-    NOT_ENOUGH_FUNDS,
-    REFUNDED,
-    PARTIALLY_REFUNDED,
+    COMPLETED,
     CANCELED;
 
     private String errorMsg;

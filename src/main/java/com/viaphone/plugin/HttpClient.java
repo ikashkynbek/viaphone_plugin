@@ -17,9 +17,9 @@ import java.net.URL;
 import java.util.Map;
 
 
-public class HttpClient {
+class HttpClient {
 
-    public static String getRequestJson(String url) {
+    static String getRequestJson(String url) {
         try {
             org.apache.http.client.HttpClient client = HttpClientBuilder.create().build();
             HttpGet request = new HttpGet(url);
@@ -42,7 +42,7 @@ public class HttpClient {
         return null;
     }
 
-    public static String postRequest(String url, String accessToken, String content) {
+    static String postRequest(String url, String accessToken, String content) {
         String result = null;
         try {
             org.apache.http.client.HttpClient client = HttpClientBuilder.create().build();

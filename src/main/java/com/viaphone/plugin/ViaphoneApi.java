@@ -6,7 +6,6 @@ import com.viaphone.plugin.model.*;
 import com.viaphone.plugin.utils.ChirpApi;
 import com.viaphone.plugin.utils.Utils;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -16,16 +15,13 @@ import static com.viaphone.plugin.HttpClient.postRequest;
 
 public class ViaphoneApi {
 
-    public static String host = "http://viaphoneplatform-dev.us-west-2.elasticbeanstalk.com";
-    //    private static String host = "http://ikashkynbek.com";
-    private static String accessToken = host + "/oauth/token?grant_type=password&client_id=%s&client_secret=%s";
-    private static String accessTokenClient = accessToken + "&username=%s&password=%s";
-    private static String apiRoot = host + "/api/merchant";
-    private static String createCustomer = apiRoot + "/create-customer";
-    private static String createPurchase = apiRoot + "/create-purchase-token";
-    private static String lookupPurchase = apiRoot + "/lookup-purchase";
-    private static String purchaseStatus = apiRoot + "/purchase-status";
-    private static String authPayment = host + "/api/customer/authorize-purchase";
+    private static String DEFAULT_HOST = "http://viaphoneplatform-dev.us-west-2.elasticbeanstalk.com";
+    private final String accessToken;
+    private final String accessTokenClient;
+    private final String createPurchase;
+    private final String lookupPurchase;
+    private final String purchaseStatus;
+    private  final String authPayment;
 
     private String clientId;
     private String clientSecret;
@@ -36,19 +32,19 @@ public class ViaphoneApi {
     private boolean shutdownThread = false;
 
     public ViaphoneApi(String clientId, String clientSecret, ResultListener resultListener) throws Exception {
-        this(host, clientId, clientSecret, resultListener);
+        this(DEFAULT_HOST, clientId, clientSecret, resultListener);
     }
 
     public ViaphoneApi(String host, String clientId, String clientSecret, ResultListener resultListener) throws Exception {
-        ViaphoneApi.host = host;
-        accessToken = host + "/oauth/token?grant_type=password&client_id=%s&client_secret=%s";
-        accessTokenClient = accessToken + "&username=%s&password=%s";
-        apiRoot = host + "/api/merchant";
-        createCustomer = apiRoot + "/create-customer";
-        createPurchase = apiRoot + "/create-purchase-token";
-        lookupPurchase = apiRoot + "/lookup-purchase";
-        purchaseStatus = apiRoot + "/purchase-status";
-        authPayment = host + "/api/customer/authorize-purchase";
+        String apiRoot = host + "/api/merchant";
+
+        this.accessToken = host + "/oauth/token?grant_type=password&client_id=%s&client_secret=%s";
+        this.accessTokenClient = accessToken + "&username=%s&password=%s";
+        this.createPurchase = apiRoot + "/create-purchase";
+        this.lookupPurchase = apiRoot + "/lookup-purchase";
+        this.purchaseStatus = apiRoot + "/purchase-status";
+        this.authPayment = host + "/api/customer/authorize-purchase";
+
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.resultListener = resultListener;
@@ -81,20 +77,16 @@ public class ViaphoneApi {
         return resp;
     }
 
-    public PurchaseStatusResp getPurchaseStatus(long purchaseId) {
+    private PurchaseStatusResp getPurchaseStatus(long purchaseId) {
         return (PurchaseStatusResp) sendRequest(purchaseStatus, new PurchaseStatusReq(Utils.nextRef(), purchaseId));
     }
 
-    public LookupResp lookupPurchase(long purchaseId) {
+    private LookupResp lookupPurchase(long purchaseId) {
         return (LookupResp) sendRequest(lookupPurchase, new LookupReq(Utils.nextRef(), purchaseId));
     }
 
-    public String createCustomer(CustomerReq customerReq) {
-        customerReq.setPassword("123");
-        return (String) sendRequest(createCustomer, customerReq);
-    }
-
-    public AuthPurchaseResp authPayment(String phone, String code) {
+    //todo remove on production
+    public AuthPurchaseResp authPurchase(String phone, String code) {
         OauthToken token = getClientAccessToken(phone, "123");
         if (token != null) {
             return (AuthPurchaseResp) sendRequest(authPayment, token.getAccess_token(), new AuthPurchaseReq(Utils.nextRef(), code));
@@ -135,28 +127,24 @@ public class ViaphoneApi {
         return gson.fromJson(getRequestJson(url), OauthToken.class);
     }
 
-    public void executeTask(Long purchaseId) {
+    private void executeTask(Long purchaseId) {
         Runnable runnable = () -> {
             try {
                 boolean lookuped = false;
                 while (!shutdownThread) {
-                    System.out.println("getPurchaseStatus: " + purchaseId);
                     PurchaseStatusResp resp = getPurchaseStatus(purchaseId);
                     if (resp != null) {
                         if (resp.getStatus().equals(PurchaseStatusResp.Status.OK)) {
                             PurchaseStatus status = resp.getPurchaseStatus();
                             if (status == PurchaseStatus.AUTHORIZED && !lookuped) {
+                                stopChirp();
                                 LookupResp lookupResp = lookupPurchase(purchaseId);
                                 resultListener.onAuthorized(lookupResp.getDiscountPrice());
                                 lookuped = true;
-                            } else if (status == PurchaseStatus.FUNDED
-                                    || status == PurchaseStatus.INTRANSIT) {
+                            } else if (status == PurchaseStatus.COMPLETED) {
                                 resultListener.onConfirmed(status);
                                 shutdownThread = true;
-                            } else if (status == PurchaseStatus.REFUNDED
-                                    || status == PurchaseStatus.PARTIALLY_REFUNDED
-                                    || status == PurchaseStatus.NOT_ENOUGH_FUNDS
-                                    || status == PurchaseStatus.CANCELED) {
+                            } else if (status == PurchaseStatus.CANCELED) {
                                 resultListener.onCancel(status);
                                 shutdownThread = true;
                             }
