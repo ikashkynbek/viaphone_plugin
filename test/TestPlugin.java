@@ -16,7 +16,7 @@ public class TestPlugin implements ResultListener {
         ViaphoneApi api = new ViaphoneApi(host, clientId, clientSecret, test);
 
         List<Product> items = new ArrayList<>();
-        items.add(new Product("product test", "Produce", "Zanone", 3, 20));
+        items.add(new Product("123456789", "product test", "Produce", "Zanone", 3, 20));
 
         CreateResp resp = api.createPurchase(items);
         api.playChirp(resp.getToken());

@@ -2,13 +2,15 @@ package com.viaphone.plugin.model;
 
 public class Product {
 
+    private String barCode;
     private String name;
     private String category;
     private String brand;
     private int qty;
     private double price;
 
-    public Product(String name, String category, String brand, int qty, double price) {
+    public Product(String barCode, String name, String category, String brand, int qty, double price) {
+        this.barCode = barCode;
         this.name = name;
         this.category = category;
         this.brand = brand;
@@ -54,5 +56,13 @@ public class Product {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getBarCode() {
+        return barCode;
+    }
+
+    public void setBarCode(String barCode) {
+        this.barCode = barCode;
     }
 }
