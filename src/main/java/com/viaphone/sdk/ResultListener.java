@@ -1,7 +1,7 @@
-package com.viaphone.plugin;
+package com.viaphone.sdk;
 
-import com.viaphone.plugin.model.PurchaseStatus;
-import com.viaphone.plugin.model.PurchaseStatusResp;
+import com.viaphone.sdk.model.PurchaseStatus;
+import com.viaphone.sdk.model.merchant.PurchaseStatusResp;
 
 public interface ResultListener {
 

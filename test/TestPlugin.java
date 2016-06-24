@@ -1,6 +1,9 @@
-import com.viaphone.plugin.ResultListener;
-import com.viaphone.plugin.ViaphoneApi;
-import com.viaphone.plugin.model.*;
+import com.viaphone.sdk.ResultListener;
+import com.viaphone.sdk.MerchantSdk;
+import com.viaphone.sdk.model.merchant.CreateResp;
+import com.viaphone.sdk.model.Product;
+import com.viaphone.sdk.model.PurchaseStatus;
+import com.viaphone.sdk.model.merchant.PurchaseStatusResp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +16,7 @@ public class TestPlugin implements ResultListener {
         String clientSecret = "d2de319a-4613-4d71-8741-f801c5f15a54";
         TestPlugin test = new TestPlugin();
 
-        ViaphoneApi api = new ViaphoneApi(host, clientId, clientSecret, test);
+        MerchantSdk api = new MerchantSdk(host, clientId, clientSecret, test);
 
         List<Product> items = new ArrayList<>();
         items.add(new Product("123456789", "product test", "Produce", "Zanone", 3, 20));

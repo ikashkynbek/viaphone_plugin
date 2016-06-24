@@ -1,20 +1,24 @@
-package com.viaphone.plugin;
+package com.viaphone.sdk;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.viaphone.plugin.model.*;
-import com.viaphone.plugin.utils.ChirpApi;
-import com.viaphone.plugin.utils.Utils;
+import com.viaphone.sdk.model.OauthToken;
+import com.viaphone.sdk.model.Product;
+import com.viaphone.sdk.model.PurchaseStatus;
+import com.viaphone.sdk.model.Response;
+import com.viaphone.sdk.model.merchant.*;
+import com.viaphone.sdk.utils.ChirpApi;
+import com.viaphone.sdk.utils.Utils;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static com.viaphone.plugin.HttpClient.getRequestJson;
-import static com.viaphone.plugin.HttpClient.postRequest;
+import static com.viaphone.sdk.HttpClient.getRequestJson;
+import static com.viaphone.sdk.HttpClient.postRequest;
 
 
-public class ViaphoneApi {
+public class MerchantSdk {
 
     private static String DEFAULT_HOST = "http://viaphoneplatform-dev.us-west-2.elasticbeanstalk.com";
     private final String accessToken;
@@ -32,11 +36,11 @@ public class ViaphoneApi {
     private ChirpApi chirpApi;
     private boolean shutdownThread = false;
 
-    public ViaphoneApi(String clientId, String clientSecret, ResultListener resultListener) throws Exception {
+    public MerchantSdk(String clientId, String clientSecret, ResultListener resultListener) throws Exception {
         this(DEFAULT_HOST, clientId, clientSecret, resultListener);
     }
 
-    public ViaphoneApi(String host, String clientId, String clientSecret, ResultListener resultListener) throws Exception {
+    public MerchantSdk(String host, String clientId, String clientSecret, ResultListener resultListener) throws Exception {
         String apiRoot = host + "/api/merchant";
 
         this.accessToken = host + "/oauth/token?grant_type=password&client_id=%s&client_secret=%s";
@@ -61,7 +65,7 @@ public class ViaphoneApi {
         chirpApi.start(token);
     }
 
-    public void stopChirp() {
+    private void stopChirp() {
         chirpApi.stopSound();
     }
 
@@ -71,7 +75,7 @@ public class ViaphoneApi {
         for (Product item : items) {
             amount += item.getPrice() * item.getQty();
         }
-        CreateResp resp = (CreateResp) sendRequest(createPurchase, new CreateReq(ref, amount, items));
+        CreateResp resp = (CreateResp) sendRequest(createPurchase, new CreateReq(amount, items));
         if (resp != null && resultListener != null) {
             executeTask(resp.getPurchaseId());
         }
@@ -79,18 +83,18 @@ public class ViaphoneApi {
     }
 
     private PurchaseStatusResp getPurchaseStatus(long purchaseId) throws IOException {
-        return (PurchaseStatusResp) sendRequest(purchaseStatus, new PurchaseStatusReq(Utils.nextRef(), purchaseId));
+        return (PurchaseStatusResp) sendRequest(purchaseStatus, new PurchaseStatusReq(purchaseId));
     }
 
     private LookupResp lookupPurchase(long purchaseId) throws IOException {
-        return (LookupResp) sendRequest(lookupPurchase, new LookupReq(Utils.nextRef(), purchaseId));
+        return (LookupResp) sendRequest(lookupPurchase, new LookupReq(purchaseId));
     }
 
     //todo remove on production
-    public AuthPurchaseResp authPurchase(String phone, String code) throws IOException {
+    public PurchaseAuthResp authPurchase(String phone, String code) throws IOException {
         OauthToken token = getClientAccessToken(phone, "123");
         if (token != null) {
-            return (AuthPurchaseResp) sendRequest(authPayment, token.getAccess_token(), new AuthPurchaseReq(Utils.nextRef(), code));
+            return (PurchaseAuthResp) sendRequest(authPayment, token.getAccess_token(), new PurchaseAuthReq(code));
         }
         return null;
     }
@@ -107,8 +111,8 @@ public class ViaphoneApi {
             return gson.fromJson(result, PurchaseStatusResp.class);
         } else if (obj instanceof LookupReq) {
             return gson.fromJson(result, LookupResp.class);
-        } else if (obj instanceof AuthPurchaseReq) {
-            return gson.fromJson(result, AuthPurchaseResp.class);
+        } else if (obj instanceof PurchaseAuthReq) {
+            return gson.fromJson(result, PurchaseAuthResp.class);
         } else {
             return result;
         }
@@ -131,7 +135,7 @@ public class ViaphoneApi {
                 while (!shutdownThread) {
                     PurchaseStatusResp resp = getPurchaseStatus(purchaseId);
                     if (resp != null) {
-                        if (resp.getStatus().equals(PurchaseStatusResp.Status.OK)) {
+                        if (resp.getStatus() == Response.Status.OK) {
                             PurchaseStatus status = resp.getPurchaseStatus();
                             if (status == PurchaseStatus.AUTHORIZED && !lookuped) {
                                 stopChirp();

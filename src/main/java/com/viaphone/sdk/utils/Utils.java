@@ -1,4 +1,4 @@
-package com.viaphone.plugin.utils;
+package com.viaphone.sdk.utils;
 
 import net.glxn.qrgen.QRCode;
 import net.glxn.qrgen.image.ImageType;
@@ -7,13 +7,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class Utils {
 
-    private static long ref = 1;
+    private static AtomicLong ref = new AtomicLong(0);
 
-    public static synchronized long nextRef() {
-        return ref++;
+    public static long nextRef() {
+        return ref.incrementAndGet();
     }
 
     public static File generateQr(String code) {

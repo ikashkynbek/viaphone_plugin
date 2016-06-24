@@ -1,4 +1,4 @@
-package com.viaphone.plugin.utils;
+package com.viaphone.sdk.utils;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
