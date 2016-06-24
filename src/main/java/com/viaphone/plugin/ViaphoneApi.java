@@ -6,6 +6,7 @@ import com.viaphone.plugin.model.*;
 import com.viaphone.plugin.utils.ChirpApi;
 import com.viaphone.plugin.utils.Utils;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -21,7 +22,7 @@ public class ViaphoneApi {
     private final String createPurchase;
     private final String lookupPurchase;
     private final String purchaseStatus;
-    private  final String authPayment;
+    private final String authPayment;
 
     private String clientId;
     private String clientSecret;
@@ -64,7 +65,7 @@ public class ViaphoneApi {
         chirpApi.stopSound();
     }
 
-    public CreateResp createPurchase(List<Product> items) {
+    public CreateResp createPurchase(List<Product> items) throws IOException {
         long ref = Utils.nextRef();
         double amount = 0;
         for (Product item : items) {
@@ -77,16 +78,16 @@ public class ViaphoneApi {
         return resp;
     }
 
-    private PurchaseStatusResp getPurchaseStatus(long purchaseId) {
+    private PurchaseStatusResp getPurchaseStatus(long purchaseId) throws IOException {
         return (PurchaseStatusResp) sendRequest(purchaseStatus, new PurchaseStatusReq(Utils.nextRef(), purchaseId));
     }
 
-    private LookupResp lookupPurchase(long purchaseId) {
+    private LookupResp lookupPurchase(long purchaseId) throws IOException {
         return (LookupResp) sendRequest(lookupPurchase, new LookupReq(Utils.nextRef(), purchaseId));
     }
 
     //todo remove on production
-    public AuthPurchaseResp authPurchase(String phone, String code) {
+    public AuthPurchaseResp authPurchase(String phone, String code) throws IOException {
         OauthToken token = getClientAccessToken(phone, "123");
         if (token != null) {
             return (AuthPurchaseResp) sendRequest(authPayment, token.getAccess_token(), new AuthPurchaseReq(Utils.nextRef(), code));
@@ -94,35 +95,31 @@ public class ViaphoneApi {
         return null;
     }
 
-    private Object sendRequest(String url, Object obj) {
+    private Object sendRequest(String url, Object obj) throws IOException {
         return sendRequest(url, token.getAccess_token(), obj);
     }
 
-    private Object sendRequest(String url, String token, Object obj) {
+    private Object sendRequest(String url, String token, Object obj) throws IOException {
         String result = postRequest(url, token, gson.toJson(obj));
-        try {
-            if (obj instanceof CreateReq) {
-                return gson.fromJson(result, CreateResp.class);
-            } else if (obj instanceof PurchaseStatusReq) {
-                return gson.fromJson(result, PurchaseStatusResp.class);
-            } else if (obj instanceof LookupReq) {
-                return gson.fromJson(result, LookupResp.class);
-            } else if (obj instanceof AuthPurchaseReq) {
-                return gson.fromJson(result, AuthPurchaseResp.class);
-            } else {
-                return result;
-            }
-        } catch (Exception e) {
-            return null;
+        if (obj instanceof CreateReq) {
+            return gson.fromJson(result, CreateResp.class);
+        } else if (obj instanceof PurchaseStatusReq) {
+            return gson.fromJson(result, PurchaseStatusResp.class);
+        } else if (obj instanceof LookupReq) {
+            return gson.fromJson(result, LookupResp.class);
+        } else if (obj instanceof AuthPurchaseReq) {
+            return gson.fromJson(result, AuthPurchaseResp.class);
+        } else {
+            return result;
         }
     }
 
-    private OauthToken getAccessToken() {
+    private OauthToken getAccessToken() throws IOException {
         String url = String.format(accessToken, clientId, clientSecret);
         return gson.fromJson(getRequestJson(url), OauthToken.class);
     }
 
-    private OauthToken getClientAccessToken(String username, String password) {
+    private OauthToken getClientAccessToken(String username, String password) throws IOException {
         String url = String.format(accessTokenClient, "mobileapp", "secret", username, password);
         return gson.fromJson(getRequestJson(url), OauthToken.class);
     }
@@ -158,7 +155,7 @@ public class ViaphoneApi {
                     }
                     TimeUnit.SECONDS.sleep(3);
                 }
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         };

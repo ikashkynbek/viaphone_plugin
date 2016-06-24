@@ -19,43 +19,27 @@ import java.util.Map;
 
 class HttpClient {
 
-    static String getRequestJson(String url) {
-        try {
-            org.apache.http.client.HttpClient client = HttpClientBuilder.create().build();
-            HttpGet request = new HttpGet(url);
-            HttpResponse response = client.execute(request);
-            int resCode = response.getStatusLine().getStatusCode();
-
-            StringBuilder result = new StringBuilder();
-            BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-            String line;
-            while ((line = rd.readLine()) != null) {
-                result.append(line);
-            }
-            if (resCode == 200) {
-                return result.toString();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
+    static String getRequestJson(String url) throws IOException {
+        org.apache.http.client.HttpClient client = HttpClientBuilder.create().build();
+        HttpGet request = new HttpGet(url);
+        HttpResponse response = client.execute(request);
+        StringBuilder result = new StringBuilder();
+        BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+        String line;
+        while ((line = rd.readLine()) != null) {
+            result.append(line);
         }
-        return null;
+        return result.toString();
     }
 
-    static String postRequest(String url, String accessToken, String content) {
-        String result = null;
-        try {
-            org.apache.http.client.HttpClient client = HttpClientBuilder.create().build();
-            HttpPost post = new HttpPost(url);
-            post.setHeader("Content-Type", "application/json");
-            post.setHeader("Authorization", "Bearer " + accessToken);
-            HttpEntity entity = new ByteArrayEntity(content.getBytes("UTF-8"));
-            post.setEntity(entity);
-            HttpResponse response = client.execute(post);
-            result = EntityUtils.toString(response.getEntity());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
+    static String postRequest(String url, String accessToken, String content) throws IOException {
+        org.apache.http.client.HttpClient client = HttpClientBuilder.create().build();
+        HttpPost post = new HttpPost(url);
+        post.setHeader("Content-Type", "application/json");
+        post.setHeader("Authorization", "Bearer " + accessToken);
+        HttpEntity entity = new ByteArrayEntity(content.getBytes("UTF-8"));
+        post.setEntity(entity);
+        HttpResponse response = client.execute(post);
+        return EntityUtils.toString(response.getEntity());
     }
 }
