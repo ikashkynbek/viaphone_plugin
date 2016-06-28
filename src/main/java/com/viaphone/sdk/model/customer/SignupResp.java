@@ -6,7 +6,10 @@ public class SignupResp extends Response {
     Long customerId;
 
 
-    public SignupResp(Long customerId) {
+    public SignupResp() {
+    }
+
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 

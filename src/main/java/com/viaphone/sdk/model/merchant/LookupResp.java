@@ -7,10 +7,16 @@ public class LookupResp extends Response {
     private Long purchaseId;
     private Double discountPrice;
 
-    public LookupResp(Long purchaseId, double discountPrice, Status status) {
+    public LookupResp() {
+    }
+
+
+    public void setPurchaseId(Long purchaseId) {
         this.purchaseId = purchaseId;
+    }
+
+    public void setDiscountPrice(Double discountPrice) {
         this.discountPrice = discountPrice;
-        this.status = status;
     }
 
     public Long getPurchaseId() {

@@ -15,7 +15,7 @@ public class Purchase extends Response implements Serializable, Comparable {
     private String secret;
     private Date created;
     private Date completed;
-    private List<Product> products = new ArrayList<>();
+    private List<ProductItem> products = new ArrayList<>();
 
 
     public Purchase() {
@@ -77,11 +77,11 @@ public class Purchase extends Response implements Serializable, Comparable {
         this.completed = completed;
     }
 
-    public List<Product> getProducts() {
+    public List<ProductItem> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(List<ProductItem> products) {
         this.products = products;
     }
 

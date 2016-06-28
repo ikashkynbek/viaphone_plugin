@@ -3,9 +3,11 @@ package com.viaphone.sdk;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.viaphone.sdk.model.OauthToken;
-import com.viaphone.sdk.model.Product;
+import com.viaphone.sdk.model.ProductItem;
 import com.viaphone.sdk.model.PurchaseStatus;
 import com.viaphone.sdk.model.Response;
+import com.viaphone.sdk.model.customer.PurchaseAuthReq;
+import com.viaphone.sdk.model.customer.PurchaseAuthResp;
 import com.viaphone.sdk.model.merchant.*;
 import com.viaphone.sdk.utils.ChirpApi;
 import com.viaphone.sdk.utils.Utils;
@@ -35,6 +37,7 @@ public class MerchantSdk {
     private ResultListener resultListener;
     private ChirpApi chirpApi;
     private boolean shutdownThread = false;
+    public static final String SIMPLE_DT_FOMRATE = "yyyy-MM-dd hh:mm:ss";
 
     public MerchantSdk(String clientId, String clientSecret, ResultListener resultListener) throws Exception {
         this(DEFAULT_HOST, clientId, clientSecret, resultListener);
@@ -53,7 +56,7 @@ public class MerchantSdk {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.resultListener = resultListener;
-        gson = new GsonBuilder().create();
+        gson = new GsonBuilder().setDateFormat(SIMPLE_DT_FOMRATE).create();
         token = getAccessToken();
         if (token == null || token.getAccess_token() == null) {
             throw new Exception("Access token is null");
@@ -69,10 +72,10 @@ public class MerchantSdk {
         chirpApi.stopSound();
     }
 
-    public CreateResp createPurchase(List<Product> items) throws IOException {
+    public CreateResp createPurchase(List<ProductItem> items) throws IOException {
         long ref = Utils.nextRef();
         double amount = 0;
-        for (Product item : items) {
+        for (ProductItem item : items) {
             amount += item.getPrice() * item.getQty();
         }
         CreateResp resp = (CreateResp) sendRequest(createPurchase, new CreateReq(amount, items));
@@ -82,22 +85,22 @@ public class MerchantSdk {
         return resp;
     }
 
-    private PurchaseStatusResp getPurchaseStatus(long purchaseId) throws IOException {
+    public PurchaseStatusResp getPurchaseStatus(long purchaseId) throws IOException {
         return (PurchaseStatusResp) sendRequest(purchaseStatus, new PurchaseStatusReq(purchaseId));
     }
 
-    private LookupResp lookupPurchase(long purchaseId) throws IOException {
+    public LookupResp lookupPurchase(long purchaseId) throws IOException {
         return (LookupResp) sendRequest(lookupPurchase, new LookupReq(purchaseId));
     }
 
-    //todo remove on production
+/*    //todo remove on production
     public PurchaseAuthResp authPurchase(String phone, String code) throws IOException {
         OauthToken token = getClientAccessToken(phone, "123");
         if (token != null) {
             return (PurchaseAuthResp) sendRequest(authPayment, token.getAccess_token(), new PurchaseAuthReq(code));
         }
         return null;
-    }
+    }*/
 
     private Object sendRequest(String url, Object obj) throws IOException {
         return sendRequest(url, token.getAccess_token(), obj);

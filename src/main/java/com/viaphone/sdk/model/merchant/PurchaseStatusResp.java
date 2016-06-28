@@ -4,11 +4,12 @@ package com.viaphone.sdk.model.merchant;
 import com.viaphone.sdk.model.PurchaseStatus;
 import com.viaphone.sdk.model.Response;
 
-public class PurchaseStatusResp extends Response{
+public class PurchaseStatusResp extends Response {
 
     private PurchaseStatus purchaseStatus;
 
-    public PurchaseStatusResp(PurchaseStatus purchaseStatus) {
+
+    public void setPurchaseStatus(PurchaseStatus purchaseStatus) {
         this.purchaseStatus = purchaseStatus;
     }
 

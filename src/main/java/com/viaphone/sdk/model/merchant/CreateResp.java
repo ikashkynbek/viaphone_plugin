@@ -4,6 +4,8 @@ package com.viaphone.sdk.model.merchant;
 import com.viaphone.sdk.model.PurchaseStatus;
 import com.viaphone.sdk.model.Response;
 
+import java.util.Date;
+
 public class CreateResp extends Response {
 
     private Long purchaseId;
@@ -13,11 +15,26 @@ public class CreateResp extends Response {
     private String qr;
 
 
-    public CreateResp(long purchaseId, PurchaseStatus purchaseStatus, String token, ConfirmType confirmType, String qr) {
+    public CreateResp() {
+    }
+
+    public void setPurchaseId(Long purchaseId) {
         this.purchaseId = purchaseId;
+    }
+
+    public void setPurchaseStatus(PurchaseStatus purchaseStatus) {
         this.purchaseStatus = purchaseStatus;
+    }
+
+    public void setToken(String token) {
         this.token = token;
+    }
+
+    public void setConfirmType(ConfirmType confirmType) {
         this.confirmType = confirmType;
+    }
+
+    public void setQr(String qr) {
         this.qr = qr;
     }
 

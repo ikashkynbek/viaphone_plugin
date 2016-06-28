@@ -1,26 +1,38 @@
 package com.viaphone.sdk.model.merchant;
 
 
-import com.viaphone.sdk.model.Product;
+import com.viaphone.sdk.model.ProductItem;
 import com.viaphone.sdk.model.Request;
 
+import java.util.Date;
 import java.util.List;
 
-public class CreateReq extends Request{
+public class CreateReq extends Request {
 
     private final Double amount;
-    private final List<Product> details;
+    private final List<ProductItem> productItems;
+    private Date createDate;  //only for purchase generation
 
-    public CreateReq (Double amount, List<Product> details) {
+    public CreateReq(Double amount, List<ProductItem> details) {
         this.amount = amount;
-        this.details = details;
+        this.productItems = details;
     }
+
+    public void setCreateDate(Date ceateDate) {
+        this.createDate = ceateDate;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
 
     public Double getAmount() {
         return amount;
     }
-    public List<Product> getDetails() {
-        return details;
+
+    public List<ProductItem> getProductItems() {
+        return productItems;
     }
 
 }

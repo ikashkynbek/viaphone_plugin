@@ -1,4 +1,4 @@
-package com.viaphone.sdk.model.merchant;
+package com.viaphone.sdk.model.customer;
 
 import com.viaphone.sdk.model.Request;
 

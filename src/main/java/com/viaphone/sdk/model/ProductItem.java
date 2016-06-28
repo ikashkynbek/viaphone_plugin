@@ -1,6 +1,6 @@
 package com.viaphone.sdk.model;
 
-public class Product {
+public class ProductItem {
 
     private String barCode;
     private String name;
@@ -8,10 +8,17 @@ public class Product {
     private String brand;
     private int qty;
     private double price;
+    private String type;
 
-    public Product(String barCode, String name, String category, String brand, int qty, double price) {
+
+    public ProductItem() {
+    }
+
+
+    public ProductItem(String barCode, String name, String category, String brand, String type, int qty, double price) {
         this.barCode = barCode;
         this.name = name;
+        this.type = type;
         this.category = category;
         this.brand = brand;
         this.qty = qty;
@@ -44,6 +51,10 @@ public class Product {
 
     public int getQty() {
         return qty;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public void setQty(int qty) {
