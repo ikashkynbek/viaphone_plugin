@@ -6,11 +6,11 @@ public class CreateInfoResp extends Response {
 
     private Long infoId;
 
-    public CreateInfoResp (Long infoId) {
-        this.infoId = infoId;
-    }
-
     public Long getInfoId() {
         return infoId;
+    }
+
+    public void setInfoId(Long infoId) {
+        this.infoId = infoId;
     }
 }

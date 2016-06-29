@@ -1,7 +1,7 @@
 package com.viaphone.sdk.model;
 
-public class Branch extends Response {
-    private Long id;
+public class Branch {
+
     private String name;
     private String phone;
     private int openTime;
@@ -11,66 +11,67 @@ public class Branch extends Response {
     private double longitude;
     private double distance;
 
-
-    public double getDistance() {
-        return distance;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void update(Branch newBranch) {
-        if (newBranch.distance != 0) {
-            this.distance = newBranch.distance;
-        }
-        if (newBranch.latitude != 0) {
-            this.latitude = newBranch.latitude;
-        }
-        if (newBranch.longitude != 0) {
-            this.longitude = newBranch.longitude;
-        }
-        if (newBranch.address != null) {
-            this.address = newBranch.address;
-        }
-        if (newBranch.address != null) {
-            this.address = newBranch.address;
-        }
-        if (newBranch.openTime != -1) {
-            this.openTime = newBranch.openTime;
-        }
-        if (newBranch.closeTime != -1) {
-            this.closeTime = newBranch.closeTime;
-        }
-
-    }
-
-
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPhone() {
         return phone;
     }
 
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public int getOpenTime() {
         return openTime;
+    }
+
+    public void setOpenTime(int openTime) {
+        this.openTime = openTime;
     }
 
     public int getCloseTime() {
         return closeTime;
     }
 
+    public void setCloseTime(int closeTime) {
+        this.closeTime = closeTime;
+    }
+
     public String getAddress() {
         return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public double getLatitude() {
         return latitude;
     }
 
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
     public double getLongitude() {
         return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 }

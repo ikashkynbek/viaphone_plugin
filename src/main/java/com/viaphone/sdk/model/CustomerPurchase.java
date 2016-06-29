@@ -1,12 +1,10 @@
 package com.viaphone.sdk.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Purchase extends Response implements Serializable, Comparable {
-
+public class CustomerPurchase extends Response {
 
     private String branchName;
     private String storeName;
@@ -16,10 +14,6 @@ public class Purchase extends Response implements Serializable, Comparable {
     private Date created;
     private Date completed;
     private List<ProductItem> products = new ArrayList<>();
-
-
-    public Purchase() {
-    }
 
     public String getBranchName() {
         return branchName;
@@ -84,31 +78,5 @@ public class Purchase extends Response implements Serializable, Comparable {
     public void setProducts(List<ProductItem> products) {
         this.products = products;
     }
-
-    public void update(Purchase p) {
-        if (p.getAmount() != null && p.getAmount() != 0) {
-            amount = p.getAmount();
-        }
-        if (p.created != null) {
-            created = p.created;
-        }
-        if (p.completed != null) {
-            completed = p.completed;
-        }
-        if (p.getStatus() != null) {
-            status = p.getStatus();
-        }
-
-    }
-
-    @Override
-    public int compareTo(Object another) {
-        if (another instanceof Purchase) {
-            Purchase anotherPayment = (Purchase) another;
-            return anotherPayment.created.compareTo(created);
-        }
-        return -1;
-    }
-
 }
 

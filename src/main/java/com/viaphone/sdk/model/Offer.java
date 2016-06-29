@@ -15,56 +15,51 @@ public class Offer {
     private String productName;
     private String discountUnit;
 
-    public void update(Offer off) {
-        if (off.manufacturerName != null) {
-            manufacturerName = off.manufacturerName;
-        }
-        if (off.customerDiscount != null) {
-            customerDiscount = off.customerDiscount;
-        }
-        if (off.startDate != null) {
-            startDate = off.startDate;
-        }
-        if (off.endDate != null) {
-            endDate = off.endDate;
-        }
-        if (off.productName != null) {
-            productName = off.productName;
-        }
-        if (off.discountUnit != null) {
-            discountUnit = off.discountUnit;
-        }
-    }
-
     public String getManufacturerName() {
         return manufacturerName;
     }
 
-    public String getDiscountUnit() {
-        return discountUnit;
+    public void setManufacturerName(String manufacturerName) {
+        this.manufacturerName = manufacturerName;
     }
 
-    public double getCustomerDiscount() {
+    public Double getCustomerDiscount() {
         return customerDiscount;
     }
 
+    public void setCustomerDiscount(Double customerDiscount) {
+        this.customerDiscount = customerDiscount;
+    }
 
     public Date getStartDate() {
         return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public Date getEndDate() {
         return endDate;
     }
 
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
     public String getProductName() {
         return productName;
     }
 
-    public enum DiscountUnit {
-        PERCENT,
-        MONEY
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
+    public String getDiscountUnit() {
+        return discountUnit;
+    }
+
+    public void setDiscountUnit(String discountUnit) {
+        this.discountUnit = discountUnit;
+    }
 }

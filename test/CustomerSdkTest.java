@@ -18,7 +18,7 @@ public class CustomerSdkTest {
 
     }
 
-    @Test
+//    @Test
     public void signup() throws IOException {
         System.out.println("Signing up customer " + NICK);
         Long resp = sdk.signUp(PHONE, PASS, NICK);

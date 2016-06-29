@@ -6,12 +6,12 @@ public class SignupResp extends Response {
 
     private Long customerId;
 
-    public SignupResp(Long customerId) {
-        this.customerId = customerId;
-    }
-
     public long getCustomerId() {
         return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
     @Override

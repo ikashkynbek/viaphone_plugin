@@ -1,22 +1,26 @@
 package com.viaphone.sdk.model.customer;
 
 import com.viaphone.sdk.model.Response;
+import com.viaphone.sdk.model.enums.PurchaseStatus;
 
 public class ConfirmPurchaseResp extends Response {
 
-    private String purchaseStatus;
+    private PurchaseStatus purchaseStatus;
     private long purchaseId;
 
-    public ConfirmPurchaseResp(String purchaseStatus, long purchaseId) {
-        this.purchaseStatus = purchaseStatus;
-        this.purchaseId = purchaseId;
+    public PurchaseStatus getPurchaseStatus() {
+        return purchaseStatus;
     }
 
-    public String getPurchaseStatus() {
-        return purchaseStatus;
+    public void setPurchaseStatus(PurchaseStatus purchaseStatus) {
+        this.purchaseStatus = purchaseStatus;
     }
 
     public long getPurchaseId() {
         return purchaseId;
+    }
+
+    public void setPurchaseId(long purchaseId) {
+        this.purchaseId = purchaseId;
     }
 }

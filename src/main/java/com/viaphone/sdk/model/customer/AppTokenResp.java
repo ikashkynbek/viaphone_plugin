@@ -7,11 +7,11 @@ public class AppTokenResp extends Response {
 
     private Long customerId;
 
-    public AppTokenResp(Long customerId) {
-        this.customerId = customerId;
-    }
-
     public Long getCustomerId() {
         return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 }

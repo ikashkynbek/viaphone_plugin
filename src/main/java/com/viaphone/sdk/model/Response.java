@@ -5,7 +5,7 @@ import java.util.Date;
 
 public abstract class Response {
     protected long ref;
-    protected Status status;
+    protected Status status = Status.OK;
     private Date timestamp;
     private String error;
 
@@ -51,6 +51,10 @@ public abstract class Response {
         MERCHANT_NOT_FOUND,
         NOT_OWN_PURCHASE,
         PURCHASE_NOT_FOUND,
+        PURCHASE_NOT_AUTHORIZED,
+        PURCHASE_ALREADY_AUTHORIZED,
+        PURCHASE_ALREADY_COMPLETED,
+        TOKEN_NULL_OR_EMPTY,
         ERROR
     }
 

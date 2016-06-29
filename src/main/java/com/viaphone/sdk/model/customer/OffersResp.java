@@ -6,15 +6,15 @@ import com.viaphone.sdk.model.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OffersResp extends Response{
+public class OffersResp extends Response {
 
     private List<Offer> offers = new ArrayList<>();
 
-    public OffersResp(List<Offer> offers) {
-        this.offers = offers;
-    }
-
     public List<Offer> getOffers() {
         return offers;
+    }
+
+    public void setOffers(List<Offer> offers) {
+        this.offers = offers;
     }
 }

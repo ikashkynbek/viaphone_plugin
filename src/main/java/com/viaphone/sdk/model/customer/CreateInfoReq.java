@@ -1,11 +1,12 @@
 package com.viaphone.sdk.model.customer;
 
+import com.viaphone.sdk.model.Request;
 import com.viaphone.sdk.model.enums.Gender;
 import com.viaphone.sdk.model.enums.SocialStatus;
 
 import java.util.Date;
 
-public class CreateInfoReq {
+public class CreateInfoReq extends Request {
 
     private String email;
     private String country;
