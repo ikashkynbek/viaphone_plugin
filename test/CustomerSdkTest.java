@@ -1,8 +1,8 @@
 import com.viaphone.sdk.CustomerSdk;
-import com.viaphone.sdk.model.customer.AuthorizeResp;
-import com.viaphone.sdk.model.customer.SignupResp;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.io.IOException;
 
 public class CustomerSdkTest {
 
@@ -13,26 +13,20 @@ public class CustomerSdkTest {
     private CustomerSdk sdk;
 
 
-    public CustomerSdkTest() {
-        sdk = new CustomerSdk();
+    public CustomerSdkTest() throws Exception {
+        sdk = new CustomerSdk(PHONE, PASS);
 
     }
 
     @Test
-    public void signup() {
+    public void signup() throws IOException {
         System.out.println("Signing up customer " + NICK);
-        SignupResp resp = sdk.signUp(PHONE, PASS, NICK);
+        Long resp = sdk.signUp(PHONE, PASS, NICK);
         Assert.assertNotEquals(resp, null);
         System.out.println("Response: " + (resp));
     }
 
-    @Test
-    public void authorize() {
-        System.out.println("Authorizung customer " + PHONE);
-        AuthorizeResp resp = sdk.authorize(PHONE,PASS);
-        Assert.assertNotEquals(resp, null);
-        System.out.println("Response: " + (resp));
-    }
+
 
 /*
 

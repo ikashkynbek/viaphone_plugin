@@ -1,8 +1,8 @@
 import com.viaphone.sdk.ResultListener;
 import com.viaphone.sdk.MerchantSdk;
+import com.viaphone.sdk.model.enums.PurchaseStatus;
 import com.viaphone.sdk.model.merchant.CreateResp;
 import com.viaphone.sdk.model.ProductItem;
-import com.viaphone.sdk.model.PurchaseStatus;
 import com.viaphone.sdk.model.merchant.LookupResp;
 import com.viaphone.sdk.model.merchant.PurchaseStatusResp;
 
