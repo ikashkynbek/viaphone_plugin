@@ -9,6 +9,7 @@ public class PurchaseAuthReq extends Request {
     public PurchaseAuthReq(String code) {
         this.code = code;
     }
+
     public String getCode() {
         return code;
     }
@@ -17,5 +18,4 @@ public class PurchaseAuthReq extends Request {
     public String toString() {
         return "\n\tref: " + ref + "\n\tcode: " + code;
     }
-
 }

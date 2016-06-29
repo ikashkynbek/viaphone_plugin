@@ -51,6 +51,4 @@ public abstract class Response {
         PURCHASE_NOT_FOUND,
         ERROR
     }
-
-
 }

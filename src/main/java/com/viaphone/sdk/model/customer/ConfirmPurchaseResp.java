@@ -12,13 +12,6 @@ public class ConfirmPurchaseResp extends Response {
         this.purchaseId = purchaseId;
     }
 
-    /* public Purchase getPurchase() {
-        Purchase p = new Purchase();
-        p.setStatus(purchaseStatus);
-        p.setId(purchaseId);
-        return p;
-    }*/
-
     public String getPurchaseStatus() {
         return purchaseStatus;
     }
@@ -26,5 +19,4 @@ public class ConfirmPurchaseResp extends Response {
     public long getPurchaseId() {
         return purchaseId;
     }
-
 }

@@ -3,6 +3,7 @@ package com.viaphone.sdk.model.customer;
 import com.viaphone.sdk.model.Request;
 
 public class AppTokenReq extends Request {
+
     private final String token;
 
     public AppTokenReq(String token) {

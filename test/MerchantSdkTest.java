@@ -2,7 +2,7 @@ import com.viaphone.sdk.ResultListener;
 import com.viaphone.sdk.MerchantSdk;
 import com.viaphone.sdk.model.merchant.CreateResp;
 import com.viaphone.sdk.model.ProductItem;
-import com.viaphone.sdk.model.PurchaseStatus;
+import com.viaphone.sdk.model.enums.PurchaseStatus;
 import com.viaphone.sdk.model.merchant.LookupResp;
 import com.viaphone.sdk.model.merchant.PurchaseStatusResp;
 
@@ -21,9 +21,9 @@ public class MerchantSdkTest implements ResultListener {
 
     public static void main(String[] args) throws Exception {
         MerchantSdkTest mt = new MerchantSdkTest();
-//        mt.createResponse();
+        CreateResp resp = mt.createResponse();
 //        mt.loockup(33);
-        mt.loockup(33);
+        mt.loockup(resp.getPurchaseId());
     }
 
 
@@ -44,13 +44,14 @@ public class MerchantSdkTest implements ResultListener {
     }
 
 
-    private void createResponse() throws Exception {
+    private CreateResp createResponse() throws Exception {
         System.out.println("Sendind CreateReq");
         List<ProductItem> items = new ArrayList<>();
         items.add(new ProductItem("45745755374y", "Rastishka", "Produce", "Zanone", "Yogurt", 5, 20));
         CreateResp resp = api.createPurchase(items);
         api.playChirp(resp.getToken());
         System.out.println("Response: " + resp);
+        return resp;
     }
 
     @Override

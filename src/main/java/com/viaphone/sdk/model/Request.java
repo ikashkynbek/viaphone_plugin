@@ -11,16 +11,9 @@ abstract public class Request {
 
     protected Request() {
         ref = Utils.nextRef();
-//        ref = 32434L;
     }
 
     public long getRef() {
         return ref;
     }
-
-    public String toJson() {
-        Gson gson = new Gson();
-        return gson.toJson(this);
-    }
-
 }

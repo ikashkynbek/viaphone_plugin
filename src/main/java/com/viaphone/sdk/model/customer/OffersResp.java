@@ -10,7 +10,6 @@ public class OffersResp extends Response{
 
     private List<Offer> offers = new ArrayList<>();
 
-
     public OffersResp(List<Offer> offers) {
         this.offers = offers;
     }
