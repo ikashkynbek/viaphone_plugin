@@ -68,7 +68,7 @@ public class MerchantSdk {
         chirpApi.start(token);
     }
 
-    private void stopChirp() {
+    public void stopChirp() {
         chirpApi.stopSound();
     }
 

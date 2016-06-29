@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 
 class HttpClient {
 
+
     static String getRequestJson(String url) throws IOException {
         org.apache.http.client.HttpClient client = HttpClientBuilder.create().build();
         HttpGet request = new HttpGet(url);
@@ -38,4 +39,7 @@ class HttpClient {
         HttpResponse response = client.execute(post);
         return EntityUtils.toString(response.getEntity());
     }
+
+
+
 }

@@ -32,5 +32,13 @@ public class AuthorizeResp extends Response {
         return scope;
     }
 
+    @Override
+    public String toString() {
+        return super.toString() +
+                "access_token: " + access_token + '\n' +
+                "token_type: " + token_type + '\n' +
+                "refresh_token: " + refresh_token + '\n' +
+                "scope: " + scope + '\n';
+    }
 }
 

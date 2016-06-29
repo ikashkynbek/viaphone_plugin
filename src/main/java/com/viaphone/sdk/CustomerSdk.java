@@ -4,6 +4,7 @@ package com.viaphone.sdk;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.viaphone.sdk.model.Request;
+import com.viaphone.sdk.model.customer.AuthorizeResp;
 import com.viaphone.sdk.model.customer.SignupReq;
 import com.viaphone.sdk.model.customer.SignupResp;
 
@@ -30,7 +31,7 @@ public class CustomerSdk {
 //    private final String clientId;
 //    private final String secretId;
 
-    public static final String SIMPLE_DT_FOMRATE = "yyyy-MM-dd hh:mm:ss";
+    private static final String SIMPLE_DT_FOMRATE = "yyyy-MM-dd hh:mm:ss";
 
     public CustomerSdk() {
         gson = new GsonBuilder().setDateFormat(SIMPLE_DT_FOMRATE).create();
@@ -39,7 +40,15 @@ public class CustomerSdk {
     }
 
 
-    public void authorize(String name, String pass) {
+    public AuthorizeResp authorize(String name, String pass) {
+        String url = "grant_type=password&client_id=mobileapp&client_secret=secret&username=" + name + "&password=" + pass;
+        try {
+            String resp = HttpClient.getRequestJson(URL_AUTH + "/?" + url);
+            return gson.fromJson(resp, AuthorizeResp.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void sendAppToken(String token) {
@@ -63,16 +72,16 @@ public class CustomerSdk {
 
     }
 
-    public long signUp(String phone, String pass, String nick) {
+    public SignupResp signUp(String phone, String pass, String nick) {
         Request signupReq = new SignupReq(phone, pass, nick);
         try {
             String resp = HttpClient.postRequest(URL_SIGN_UP, null, signupReq.toJson());
-            SignupResp sResp = gson.fromJson(resp, SignupResp.class);
-            return sResp.getCustomerId();
+            return gson.fromJson(resp, SignupResp.class);
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
+
         }
-        return 0;
     }
 
 }

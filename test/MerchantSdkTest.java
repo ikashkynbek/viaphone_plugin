@@ -32,20 +32,20 @@ public class MerchantSdkTest implements ResultListener {
     }
 
     private void loockup(long purchaseId) throws IOException {
-        System.out.println("Sendind LookupReq");
+        System.out.println("Sending LookupReq");
         LookupResp resp = api.lookupPurchase(purchaseId);
         System.out.println("Response: " + resp);
     }
 
     public void purchaseStatus(long purchaseId) throws IOException {
-        System.out.println("Sendind PurchaseStatusReq");
+        System.out.println("Sending PurchaseStatusReq");
         PurchaseStatusResp resp = api.getPurchaseStatus(purchaseId);
         System.out.println("Response: " + resp);
     }
 
 
     private void createResponse() throws Exception {
-        System.out.println("Sendind CreateReq");
+        System.out.println("Sending CreateReq");
         List<ProductItem> items = new ArrayList<>();
         items.add(new ProductItem("45745755374y", "Rastishka", "Produce", "Zanone", "Yogurt", 5, 20));
         CreateResp resp = api.createPurchase(items);

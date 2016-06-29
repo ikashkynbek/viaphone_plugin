@@ -17,4 +17,9 @@ public class SignupResp extends Response {
         return customerId;
     }
 
+    @Override
+    public String toString() {
+        return super.toString() +
+                "customerId: " + customerId;
+    }
 }

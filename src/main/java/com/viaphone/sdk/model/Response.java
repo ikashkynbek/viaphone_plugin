@@ -6,8 +6,8 @@ import java.util.Date;
 public abstract class Response {
     protected long ref;
     protected Status status;
-    protected Date timestamp;
-    protected String error;
+    private Date timestamp;
+    private String error;
 
     public long getRef() {
         return ref;
@@ -24,9 +24,11 @@ public abstract class Response {
     public Status getStatus() {
         return status;
     }
+
     public Date getTimestamp() {
         return timestamp;
     }
+
     public String getError() {
         return error;
     }
@@ -52,5 +54,13 @@ public abstract class Response {
         ERROR
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "\n" +
+                "ref: " + ref + "\n" +
+                "status: " + status + "\n" +
+                "timestamp: " + timestamp + "\n" +
+                "error: " + error + "\n";
 
+    }
 }
