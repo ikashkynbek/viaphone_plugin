@@ -4,6 +4,7 @@ package com.viaphone.sdk.model;
 import java.util.Date;
 
 public abstract class Response {
+
     protected long ref;
     protected Status status = Status.OK;
     private Date timestamp;
