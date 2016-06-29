@@ -1,6 +1,9 @@
 package com.viaphone.sdk.model.customer;
 
-public class ConfirmPurchaseReq {
+import com.viaphone.sdk.model.Request;
+
+public class ConfirmPurchaseReq extends Request {
+
     private final Long purchaseId;
 
     public ConfirmPurchaseReq(long paymentId) {

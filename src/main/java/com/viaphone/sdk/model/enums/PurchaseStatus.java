@@ -1,4 +1,4 @@
-package com.viaphone.sdk.model;
+package com.viaphone.sdk.model.enums;
 
 public enum PurchaseStatus {
     CREATED,

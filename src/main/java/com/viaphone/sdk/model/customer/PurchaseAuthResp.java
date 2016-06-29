@@ -1,7 +1,7 @@
 package com.viaphone.sdk.model.customer;
 
 
-import com.viaphone.sdk.model.PurchaseStatus;
+import com.viaphone.sdk.model.enums.PurchaseStatus;
 import com.viaphone.sdk.model.Response;
 
 public class PurchaseAuthResp extends Response {
@@ -27,6 +27,4 @@ public class PurchaseAuthResp extends Response {
     public String toString() {
         return "ref: " + ref + " purchaseId: " + purchaseId + " purchaseStatus:" + purchaseStatus + " status: " + status;
     }
-
-
 }

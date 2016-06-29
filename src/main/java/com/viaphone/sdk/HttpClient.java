@@ -1,5 +1,7 @@
 package com.viaphone.sdk;
 
+import com.viaphone.sdk.model.customer.*;
+import com.viaphone.sdk.model.merchant.*;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -11,6 +13,9 @@ import org.apache.http.util.EntityUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import static com.viaphone.sdk.utils.Utils.fromJson;
+import static com.viaphone.sdk.utils.Utils.toJson;
 
 
 class HttpClient {
@@ -29,7 +34,28 @@ class HttpClient {
         return result.toString();
     }
 
-    static String postRequest(String url, String accessToken, String content) throws IOException {
+    static Object sendRequest(String url, String token, Object obj) throws IOException {
+        String result = postRequest(url, token, toJson(obj));
+        if (obj instanceof CreateReq) {
+            return fromJson(result, CreateResp.class);
+        } else if (obj instanceof PurchaseStatusReq) {
+            return fromJson(result, PurchaseStatusResp.class);
+        } else if (obj instanceof LookupReq) {
+            return fromJson(result, LookupResp.class);
+        } else if (obj instanceof SignupReq) {
+            return fromJson(result, SignupResp.class);
+        } else if (obj instanceof CreateInfoReq) {
+            return fromJson(result, CreateInfoResp.class);
+        } else if (obj instanceof PurchaseAuthReq) {
+            return fromJson(result, PurchaseAuthResp.class);
+        } else if (obj instanceof ConfirmPurchaseReq) {
+            return fromJson(result, ConfirmPurchaseResp.class);
+        } else {
+            return result;
+        }
+    }
+
+    private static String postRequest(String url, String accessToken, String content) throws IOException {
         org.apache.http.client.HttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(url);
         post.setHeader("Content-Type", "application/json");

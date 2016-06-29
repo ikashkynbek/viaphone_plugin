@@ -55,8 +55,8 @@ public class ChirpApi {
 
     private String getAuthData() {
         JSONObject obj = new JSONObject();
-        obj.put("app_key", "aa");
-        obj.put("app_secret", "aa");
+        obj.put("app_key", "OWGipvYxhPJ0YqemjJHFXhbHJ");
+        obj.put("app_secret", "W3YvfGMrZxQoK81sswrjBOhrHEiIkrUSAHW0LUkzSDjJRyR3ya");
         obj.put("device_id", "12345678123456781234567812345678");
         return obj.toString();
     }

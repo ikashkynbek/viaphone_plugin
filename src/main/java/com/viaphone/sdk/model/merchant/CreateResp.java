@@ -1,10 +1,8 @@
 package com.viaphone.sdk.model.merchant;
 
 
-import com.viaphone.sdk.model.PurchaseStatus;
+import com.viaphone.sdk.model.enums.PurchaseStatus;
 import com.viaphone.sdk.model.Response;
-
-import java.util.Date;
 
 public class CreateResp extends Response {
 
@@ -13,10 +11,6 @@ public class CreateResp extends Response {
     private String token;
     private ConfirmType confirmType;
     private String qr;
-
-
-    public CreateResp() {
-    }
 
     public void setPurchaseId(Long purchaseId) {
         this.purchaseId = purchaseId;
@@ -54,7 +48,6 @@ public class CreateResp extends Response {
         return qr;
     }
 
-
     public ConfirmType getConfirmType() {
         return confirmType;
     }
@@ -64,7 +57,6 @@ public class CreateResp extends Response {
         return "ref: " + ref + " purchaseId: " + purchaseId + " token: " + token
                 + " purchaseStatus:" + purchaseStatus + " status: " + status;
     }
-
 
     public enum ConfirmType {
         SMS, PUSH, QR

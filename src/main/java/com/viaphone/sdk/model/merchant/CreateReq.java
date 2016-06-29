@@ -26,7 +26,6 @@ public class CreateReq extends Request {
         return createDate;
     }
 
-
     public Double getAmount() {
         return amount;
     }
