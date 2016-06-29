@@ -1,20 +1,17 @@
 package com.viaphone.sdk.model.customer;
 
 import com.viaphone.sdk.model.Request;
+import com.viaphone.sdk.model.enums.PurchaseStatus;
 
 public class PurchasesReq extends Request {
 
-    private final Status status;
+    private final PurchaseStatus status;
 
-    public PurchasesReq(Status status) {
+    public PurchasesReq(PurchaseStatus status) {
         this.status = status;
     }
 
-    public Status getStatus() {
+    public PurchaseStatus getStatus() {
         return status;
-    }
-
-    public enum Status {
-        HISTORY, ACTIVE
     }
 }

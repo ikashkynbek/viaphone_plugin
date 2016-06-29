@@ -45,6 +45,16 @@ class HttpClient {
             return fromJson(result, SignupResp.class);
         } else if (obj instanceof CreateInfoReq) {
             return fromJson(result, CreateInfoResp.class);
+        } else if (obj instanceof MyStatsReq) {
+            return fromJson(result, MyStatsResp.class);
+        } else if (obj instanceof OffersReq) {
+            return fromJson(result, OffersResp.class);
+        } else if (obj instanceof BranchReq) {
+            return fromJson(result, BranchResp.class);
+        } else if (obj instanceof AppTokenReq) {
+            return fromJson(result, AppTokenResp.class);
+        } else if (obj instanceof PurchasesReq) {
+            return fromJson(result, PurchasesResp.class);
         } else if (obj instanceof PurchaseAuthReq) {
             return fromJson(result, PurchaseAuthResp.class);
         } else if (obj instanceof ConfirmPurchaseReq) {

@@ -57,6 +57,10 @@ public class ProductItem {
         return type;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public void setQty(int qty) {
         this.qty = qty;
     }

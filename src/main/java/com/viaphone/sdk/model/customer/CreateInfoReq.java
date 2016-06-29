@@ -107,4 +107,19 @@ public class CreateInfoReq extends Request {
     public void setTwitterId(String twitterId) {
         this.twitterId = twitterId;
     }
+
+    @Override
+    public String toString() {
+        return "\n\temail: " + email +
+                "\n\tcountry: " + country +
+                "\n\tstate: " + state +
+                "\n\tcity: " + city +
+                "\n\tbirthday " + birthday +
+                "\n\tgender " + gender +
+                "\n\tsocialStatus " + socialStatus +
+                "\n\tfacebookId: " + facebookId +
+                "\n\tgoogleId: " + googleId +
+                "\n\tinstagramId: " + instagramId +
+                "\n\ttwitterId: " + twitterId;
+    }
 }

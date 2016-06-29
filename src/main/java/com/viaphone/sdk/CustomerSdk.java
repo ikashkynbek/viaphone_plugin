@@ -4,8 +4,7 @@ package com.viaphone.sdk;
 import com.viaphone.sdk.model.OauthToken;
 import com.viaphone.sdk.model.Request;
 import com.viaphone.sdk.model.customer.*;
-
-import java.io.IOException;
+import com.viaphone.sdk.model.enums.PurchaseStatus;
 
 import static com.viaphone.sdk.HttpClient.getRequestJson;
 import static com.viaphone.sdk.utils.Constants.DEFAULT_HOST;
@@ -13,14 +12,13 @@ import static com.viaphone.sdk.utils.Utils.fromJson;
 
 public class CustomerSdk {
 
-    //    private static final String URL_APP_TOKEN = HOST + URL_CUST + "google-token";
-//    private static final String URL_CUST_INF = HOST + URL_CUST + "info";
-//    private static final String URL_ACC_INF = HOST + URL_CUST + "account-info";
-//    private static final String URL_PURCHASES = HOST + URL_CUST + "purchases";
-//    private static final String URL_GET_BRANCHES = HOST + URL_CUST + "get-stores";
-//    private static final String URL_GET_OFFERS = HOST + URL_CUST + "get-offers";
     private final String URL_SIGN_UP;
     private final String URL_SEND_INFO;
+    private final String URL_CUST_INFO;
+    private final String URL_GET_OFFERS;
+    private final String URL_GET_BRANCHES;
+    private final String URL_APP_TOKEN;
+    private final String URL_PURCHASES;
     private final String URL_AUTH_PURCHASE;
     private final String URL_CONFIRM_PURCHASE;
 
@@ -37,6 +35,11 @@ public class CustomerSdk {
         this.accessToken = host + "/oauth/token?grant_type=password&client_id=%s&client_secret=%s&username=%s&password=%s";
         this.URL_SIGN_UP = host + "/customer/create";
         this.URL_SEND_INFO = apiRoot + "create-info";
+        this.URL_CUST_INFO = apiRoot + "info";
+        this.URL_GET_OFFERS = apiRoot + "get-offers";
+        this.URL_GET_BRANCHES = apiRoot + "get-branches";
+        this.URL_APP_TOKEN = apiRoot + "google-token";
+        this.URL_PURCHASES = apiRoot + "purchases";
         this.URL_AUTH_PURCHASE = apiRoot + "authorize-purchase";
         this.URL_CONFIRM_PURCHASE = apiRoot + "confirm-purchase";
 
@@ -46,49 +49,50 @@ public class CustomerSdk {
         }
     }
 
-    public void sendAppToken(String token) {
+    public AppTokenResp sendAppToken(String token) throws Exception {
+        return (AppTokenResp) sendRequest(URL_APP_TOKEN, new AppTokenReq(token));
     }
 
-    public void getNearestBranches(double longitude, double attitude) {
+    public BranchResp getNearestBranches(double latitude, double longitude) throws Exception {
+        return (BranchResp) sendRequest(URL_GET_BRANCHES, new BranchReq(latitude, longitude));
     }
 
-    public PurchaseAuthResp authorizePurchase(String code) throws IOException {
+    public PurchaseAuthResp authorizePurchase(String code) throws Exception {
         return (PurchaseAuthResp) sendRequest(URL_AUTH_PURCHASE, new PurchaseAuthReq(code));
     }
 
-
-    public ConfirmPurchaseResp confirmPurchase(Long purchaseId) throws IOException {
+    public ConfirmPurchaseResp confirmPurchase(Long purchaseId) throws Exception {
         return (ConfirmPurchaseResp) sendRequest(URL_CONFIRM_PURCHASE, new ConfirmPurchaseReq(purchaseId));
     }
 
-    public void getMyStats() {
-
+    public MyStatsResp getMyStats() throws Exception {
+        return (MyStatsResp) sendRequest(URL_CUST_INFO, new MyStatsReq());
     }
 
-    public void getOffers() {
-
+    public OffersResp getOffers() throws Exception {
+        return (OffersResp) sendRequest(URL_GET_OFFERS, new OffersReq());
     }
 
-    public void getPurchases() {
-
+    public PurchasesResp getPurchases(PurchaseStatus status) throws Exception {
+        return (PurchasesResp) sendRequest(URL_PURCHASES, new PurchasesReq(status));
     }
 
-    public Long signUp(String phone, String pass, String nick) throws IOException {
+    public Long signUp(String phone, String pass, String nick) throws Exception {
         Request signupReq = new SignupReq(phone, pass, nick);
         SignupResp resp = (SignupResp) HttpClient.sendRequest(URL_SIGN_UP, null, signupReq);
         return resp.getCustomerId();
     }
 
-    public Long createInfo(CreateInfoReq req) throws IOException {
+    public Long createInfo(CreateInfoReq req) throws Exception {
         CreateInfoResp resp = (CreateInfoResp) sendRequest(URL_SEND_INFO, req);
         return resp.getInfoId();
     }
 
-    private Object sendRequest(String url, Object obj) throws IOException {
+    private Object sendRequest(String url, Object obj) throws Exception {
         return HttpClient.sendRequest(url, token.getAccess_token(), obj);
     }
 
-    private OauthToken getAccessToken(String username, String password) throws IOException {
+    private OauthToken getAccessToken(String username, String password) throws Exception {
         String url = String.format(accessToken, "mobileapp", "secret", username, password);
         return (OauthToken) fromJson(getRequestJson(url), OauthToken.class);
     }

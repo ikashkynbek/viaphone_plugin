@@ -1,6 +1,6 @@
 package com.viaphone.sdk.model;
 
-public class Branch {
+public class CustomerBranch {
 
     private String name;
     private String phone;
