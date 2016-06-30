@@ -20,10 +20,10 @@ public class CustomerSdkTest {
 
 //    @Test
     public void signup() throws Exception {
-        System.out.println("Signing up customer " + NICK);
-        Long resp = sdk.signUp(PHONE, PASS, NICK);
-        Assert.assertNotEquals(resp, null);
-        System.out.println("Response: " + (resp));
+//        System.out.println("Signing up customer " + NICK);
+//        Long resp = sdk.signUp(PHONE, PASS, NICK);
+//        Assert.assertNotEquals(resp, null);
+//        System.out.println("Response: " + (resp));
     }
 
 

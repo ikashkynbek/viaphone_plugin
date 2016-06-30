@@ -62,4 +62,14 @@ public class Offer {
     public void setDiscountUnit(String discountUnit) {
         this.discountUnit = discountUnit;
     }
+
+    @Override
+    public String toString() {
+        return "\n\tmanufacturerName: " + manufacturerName +
+                "\n\tcustomerDiscount: " + customerDiscount +
+                "\n\tstartDate: " + startDate +
+                "\n\tendDate: " + endDate +
+                "\n\tproductName: " + productName +
+                "\n\tdiscountUnit: " + discountUnit;
+    }
 }

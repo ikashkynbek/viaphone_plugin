@@ -16,6 +16,6 @@ public class PurchaseStatusReq extends Request {
 
     @Override
     public String toString() {
-        return "\n\tref: " + ref + "\n\tpurchase: " + purchaseId;
+        return "\n\tpurchaseId: " + purchaseId + super.toString();
     }
 }

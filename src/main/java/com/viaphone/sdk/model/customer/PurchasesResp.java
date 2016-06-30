@@ -22,4 +22,9 @@ public class PurchasesResp extends Response {
     public void setPurchases(List<CustomerPurchase> purchases) {
         this.purchases = purchases;
     }
+
+    @Override
+    public String toString() {
+        return "\n\tpurchases: " + purchases + super.toString();
+    }
 }

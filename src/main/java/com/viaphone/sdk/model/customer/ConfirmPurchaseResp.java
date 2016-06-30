@@ -23,4 +23,11 @@ public class ConfirmPurchaseResp extends Response {
     public void setPurchaseId(long purchaseId) {
         this.purchaseId = purchaseId;
     }
+
+    @Override
+    public String toString() {
+        return "\n\tpurchaseStatus: " + purchaseStatus +
+                "\n\tpurchaseId: " + purchaseId +
+                super.toString();
+    }
 }

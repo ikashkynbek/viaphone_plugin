@@ -18,6 +18,6 @@ public class PurchaseStatusResp extends Response {
 
     @Override
     public String toString() {
-        return "ref: " + ref + " purchaseStatus: " + purchaseStatus + " status: " + status;
+        return "\n\tpurchaseStatus: " + purchaseStatus + super.toString();
     }
 }

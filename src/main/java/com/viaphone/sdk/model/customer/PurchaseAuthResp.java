@@ -16,4 +16,9 @@ public class PurchaseAuthResp extends Response {
     public void setPurchase(CustomerPurchase purchase) {
         this.purchase = purchase;
     }
+
+    @Override
+    public String toString() {
+        return "\n\tpurchase: " + purchase + super.toString();
+    }
 }

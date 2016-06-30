@@ -12,7 +12,6 @@ import static com.viaphone.sdk.utils.Utils.fromJson;
 
 public class CustomerSdk {
 
-    private final String URL_SIGN_UP;
     private final String URL_SEND_INFO;
     private final String URL_CUST_INFO;
     private final String URL_GET_OFFERS;
@@ -33,7 +32,6 @@ public class CustomerSdk {
     public CustomerSdk(String host, String username, String password) throws Exception {
         String apiRoot = host + "/api/customer/";
         this.accessToken = host + "/oauth/token?grant_type=password&client_id=%s&client_secret=%s&username=%s&password=%s";
-        this.URL_SIGN_UP = host + "/customer/create";
         this.URL_SEND_INFO = apiRoot + "create-info";
         this.URL_CUST_INFO = apiRoot + "info";
         this.URL_GET_OFFERS = apiRoot + "get-offers";
@@ -75,12 +73,6 @@ public class CustomerSdk {
 
     public PurchasesResp getPurchases(PurchaseStatus status) throws Exception {
         return (PurchasesResp) sendRequest(URL_PURCHASES, new PurchasesReq(status));
-    }
-
-    public Long signUp(String phone, String pass, String nick) throws Exception {
-        Request signupReq = new SignupReq(phone, pass, nick);
-        SignupResp resp = (SignupResp) HttpClient.sendRequest(URL_SIGN_UP, null, signupReq);
-        return resp.getCustomerId();
     }
 
     public Long createInfo(CreateInfoReq req) throws Exception {

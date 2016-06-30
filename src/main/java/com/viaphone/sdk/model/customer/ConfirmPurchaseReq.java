@@ -13,4 +13,9 @@ public class ConfirmPurchaseReq extends Request {
     public Long getPurchaseId() {
         return purchaseId;
     }
+
+    @Override
+    public String toString() {
+        return "\n\tpurchaseId: " + purchaseId + super.toString();
+    }
 }

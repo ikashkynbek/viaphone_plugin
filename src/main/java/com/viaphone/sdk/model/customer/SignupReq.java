@@ -26,4 +26,11 @@ public class SignupReq extends Request {
         return nick;
     }
 
+    @Override
+    public String toString() {
+        return "\n\tphone: " + phone +
+                "\n\tpassword: " + password +
+                "\n\tnick: " + nick +
+                super.toString();
+    }
 }

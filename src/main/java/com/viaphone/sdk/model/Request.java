@@ -15,4 +15,9 @@ abstract public class Request {
     public long getRef() {
         return ref;
     }
+
+    @Override
+    public String toString() {
+        return "\n\tref: " + ref;
+    }
 }

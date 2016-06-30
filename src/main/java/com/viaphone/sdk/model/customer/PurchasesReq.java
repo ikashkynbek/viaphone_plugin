@@ -14,4 +14,9 @@ public class PurchasesReq extends Request {
     public PurchaseStatus getStatus() {
         return status;
     }
+
+    @Override
+    public String toString() {
+        return "\n\tstatus: " + status + super.toString();
+    }
 }

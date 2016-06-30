@@ -6,7 +6,7 @@ public class SignupResp extends Response {
 
     private Long customerId;
 
-    public long getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
@@ -16,7 +16,6 @@ public class SignupResp extends Response {
 
     @Override
     public String toString() {
-        return super.toString() +
-                "customerId: " + customerId;
+        return "\n\tcustomerId: " + customerId + super.toString();
     }
 }

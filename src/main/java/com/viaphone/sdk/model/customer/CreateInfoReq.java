@@ -114,12 +114,13 @@ public class CreateInfoReq extends Request {
                 "\n\tcountry: " + country +
                 "\n\tstate: " + state +
                 "\n\tcity: " + city +
-                "\n\tbirthday " + birthday +
-                "\n\tgender " + gender +
-                "\n\tsocialStatus " + socialStatus +
+                "\n\tbirthday: " + birthday +
+                "\n\tgender: " + gender +
+                "\n\tsocialStatus: " + socialStatus +
                 "\n\tfacebookId: " + facebookId +
                 "\n\tgoogleId: " + googleId +
                 "\n\tinstagramId: " + instagramId +
-                "\n\ttwitterId: " + twitterId;
+                "\n\ttwitterId: " + twitterId +
+                super.toString();
     }
 }

@@ -8,6 +8,7 @@ import com.viaphone.sdk.model.merchant.*;
 import com.viaphone.sdk.utils.ChirpApi;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -66,6 +67,17 @@ public class MerchantSdk {
             amount += item.getPrice() * item.getQty();
         }
         return (CreateResp) sendRequest(createPurchase, new CreateReq(amount, items));
+    }
+
+    @Deprecated
+    public CreateResp createPurchase(List<ProductItem> items, Date date) throws IOException {
+        double amount = 0;
+        for (ProductItem item : items) {
+            amount += item.getPrice() * item.getQty();
+        }
+        CreateReq req = new CreateReq(amount, items);
+        req.setCreateDate(date);
+        return (CreateResp) sendRequest(createPurchase, req);
     }
 
     public PurchaseStatusResp getPurchaseStatus(long purchaseId) throws IOException {

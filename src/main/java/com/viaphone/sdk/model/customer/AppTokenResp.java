@@ -14,4 +14,9 @@ public class AppTokenResp extends Response {
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
+
+    @Override
+    public String toString() {
+        return "\n\tcustomerId: " + customerId + super.toString();
+    }
 }

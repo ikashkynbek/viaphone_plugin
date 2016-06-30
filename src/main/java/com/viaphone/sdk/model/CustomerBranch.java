@@ -74,4 +74,16 @@ public class CustomerBranch {
     public void setDistance(double distance) {
         this.distance = distance;
     }
+
+    @Override
+    public String toString() {
+        return "\n\tname: " + name +
+                "\n\tphone: " + phone +
+                "\n\topenTime: " + openTime +
+                "\n\tcloseTime: " + closeTime +
+                "\n\taddress: " + address +
+                "\n\tlatitude: " + latitude +
+                "\n\tlongitude: " + longitude +
+                "\n\tdistance: " + distance;
+    }
 }

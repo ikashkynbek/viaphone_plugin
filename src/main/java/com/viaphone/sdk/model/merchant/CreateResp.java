@@ -54,8 +54,12 @@ public class CreateResp extends Response {
 
     @Override
     public String toString() {
-        return "ref: " + ref + " purchaseId: " + purchaseId + " token: " + token
-                + " purchaseStatus:" + purchaseStatus + " status: " + status;
+        return "\n\tpurchaseId: " + purchaseId +
+                "\n\tpurchaseStatus: " + purchaseStatus +
+                "\n\ttoken: " + token +
+                "\n\tconfirmType: " + confirmType +
+                "\n\tqr: " + qr +
+                super.toString();
     }
 
     public enum ConfirmType {

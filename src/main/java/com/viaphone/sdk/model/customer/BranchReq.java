@@ -20,4 +20,11 @@ public class BranchReq extends Request {
     public double getLongitude() {
         return longitude;
     }
+
+    @Override
+    public String toString() {
+        return "\n\tlatitude: " + latitude +
+                "\n\tlongitude: " + longitude +
+                super.toString();
+    }
 }

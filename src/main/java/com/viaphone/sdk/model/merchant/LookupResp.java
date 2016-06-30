@@ -25,7 +25,8 @@ public class LookupResp extends Response {
 
     @Override
     public String toString() {
-        return "ref: " + ref + " discountPrice: " + discountPrice + " status: " + status;
+        return "\n\tpurchaseId: " + purchaseId +
+                "\n\tdiscountPrice: " + discountPrice +
+                super.toString();
     }
-
 }

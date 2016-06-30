@@ -17,4 +17,9 @@ public class BranchResp extends Response {
     public void setBranches(List<CustomerBranch> branches) {
         this.branches = branches;
     }
+
+    @Override
+    public String toString() {
+        return "\n\tbranches: " + branches + super.toString();
+    }
 }

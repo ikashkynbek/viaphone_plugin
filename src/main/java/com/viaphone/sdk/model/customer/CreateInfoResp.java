@@ -13,4 +13,9 @@ public class CreateInfoResp extends Response {
     public void setInfoId(Long infoId) {
         this.infoId = infoId;
     }
+
+    @Override
+    public String toString() {
+        return "\n\tinfoId: " + infoId + super.toString();
+    }
 }

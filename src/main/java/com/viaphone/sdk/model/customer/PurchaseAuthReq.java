@@ -16,6 +16,6 @@ public class PurchaseAuthReq extends Request {
 
     @Override
     public String toString() {
-        return "\n\tref: " + ref + "\n\tcode: " + code;
+        return "\n\tcode: " + code + super.toString();
     }
 }

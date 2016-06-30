@@ -78,5 +78,18 @@ public class CustomerPurchase extends Response {
     public void setProducts(List<ProductItem> products) {
         this.products = products;
     }
+
+    @Override
+    public String toString() {
+        return "\n\tbranchName: " + branchName +
+                "\n\tstoreName: " + storeName +
+                "\n\tamount: " + amount +
+                "\n\tdiscount: " + discount +
+                "\n\tsecret: " + secret +
+                "\n\tcreated: " + created +
+                "\n\tcompleted: " + completed +
+                "\n\tproducts: " + products +
+                super.toString();
+    }
 }
 

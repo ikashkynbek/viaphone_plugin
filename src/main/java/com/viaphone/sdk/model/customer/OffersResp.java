@@ -17,4 +17,9 @@ public class OffersResp extends Response {
     public void setOffers(List<Offer> offers) {
         this.offers = offers;
     }
+
+    @Override
+    public String toString() {
+        return "\n\toffers: " + offers + super.toString();
+    }
 }

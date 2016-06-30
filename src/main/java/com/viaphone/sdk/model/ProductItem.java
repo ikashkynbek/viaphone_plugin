@@ -80,4 +80,15 @@ public class ProductItem {
     public void setBarCode(String barCode) {
         this.barCode = barCode;
     }
+
+    @Override
+    public String toString() {
+        return "\n\tbarCode: " + barCode +
+                "\n\tname: " + name +
+                "\n\tcategory: " + category +
+                "\n\tbrand: " + brand +
+                "\n\tqty: " + qty +
+                "\n\tprice: " + price +
+                "\n\ttype: " + type;
+    }
 }

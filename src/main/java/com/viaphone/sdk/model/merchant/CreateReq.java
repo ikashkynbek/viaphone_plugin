@@ -34,4 +34,11 @@ public class CreateReq extends Request {
         return productItems;
     }
 
+    @Override
+    public String toString() {
+        return "\n\tamount: " + amount +
+                "\n\tproductItems: " + productItems +
+                "\n\tcreateDate: " + createDate +
+                super.toString();
+    }
 }

@@ -13,4 +13,9 @@ public class AppTokenReq extends Request {
     public String getToken() {
         return token;
     }
+
+    @Override
+    public String toString() {
+        return "\n\ttoken: " + token + super.toString();
+    }
 }

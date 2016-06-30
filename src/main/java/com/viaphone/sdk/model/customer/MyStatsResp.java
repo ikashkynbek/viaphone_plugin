@@ -32,4 +32,12 @@ public class MyStatsResp extends Response {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Override
+    public String toString() {
+        return "\n\tphone: " + phone +
+                "\n\tname: " + name +
+                "\n\temail: " + email +
+                super.toString();
+    }
 }
