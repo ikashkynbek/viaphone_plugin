@@ -1,39 +1,26 @@
 import com.viaphone.sdk.CustomerSdk;
-import org.junit.Assert;
-import org.junit.Test;
-
-import java.io.IOException;
+import com.viaphone.sdk.model.customer.ConfirmPurchaseResp;
+import com.viaphone.sdk.model.customer.PurchaseAuthResp;
 
 public class CustomerSdkTest {
 
-    private static final String PHONE = "8555666";
-    private static final String PASS = "12345";
+    private static final String HOST = "http://localhost:8081";
+    private static final String PHONE = "77785522433";
+    private static final String PASS = "123";
     private static final String NICK = "mikkey";
     private String accessToken;
     private CustomerSdk sdk;
 
 
     public CustomerSdkTest() throws Exception {
-        sdk = new CustomerSdk(PHONE, PASS);
-
+        sdk = new CustomerSdk(HOST, PHONE, PASS);
     }
 
-//    @Test
-    public void signup() throws Exception {
-//        System.out.println("Signing up customer " + NICK);
-//        Long resp = sdk.signUp(PHONE, PASS, NICK);
-//        Assert.assertNotEquals(resp, null);
-//        System.out.println("Response: " + (resp));
+    public PurchaseAuthResp authPurchase(String code) throws Exception {
+        return sdk.authorizePurchase(code);
     }
 
-
-
-/*
-
-    public static void main(String[] args) {
-        CustomerSdkTest test = new CustomerSdkTest();
-        test.signupCustomer();
+    public ConfirmPurchaseResp confirmPurchase(Long id) throws Exception {
+        return sdk.confirmPurchase(id);
     }
-*/
-
 }

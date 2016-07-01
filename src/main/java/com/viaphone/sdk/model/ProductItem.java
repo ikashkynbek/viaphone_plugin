@@ -8,12 +8,11 @@ public class ProductItem {
     private String brand;
     private int qty;
     private double price;
+    private double discount;
     private String type;
-
 
     public ProductItem() {
     }
-
 
     public ProductItem(String barCode, String name, String category, String brand, String type, int qty, double price) {
         this.barCode = barCode;
@@ -81,14 +80,23 @@ public class ProductItem {
         this.barCode = barCode;
     }
 
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
     @Override
     public String toString() {
-        return "\n\tbarCode: " + barCode +
-                "\n\tname: " + name +
-                "\n\tcategory: " + category +
-                "\n\tbrand: " + brand +
-                "\n\tqty: " + qty +
-                "\n\tprice: " + price +
-                "\n\ttype: " + type;
+        return "\n\t\tbarCode: " + barCode +
+                "\n\t\tname: " + name +
+                "\n\t\tcategory: " + category +
+                "\n\t\tbrand: " + brand +
+                "\n\t\tqty: " + qty +
+                "\n\t\tprice: " + price +
+                "\n\t\tdiscount: " + discount +
+                "\n\t\ttype: " + type;
     }
 }

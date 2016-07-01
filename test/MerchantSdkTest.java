@@ -1,5 +1,8 @@
+import com.viaphone.sdk.CustomerSdk;
 import com.viaphone.sdk.ResultListener;
 import com.viaphone.sdk.MerchantSdk;
+import com.viaphone.sdk.model.customer.ConfirmPurchaseResp;
+import com.viaphone.sdk.model.customer.PurchaseAuthResp;
 import com.viaphone.sdk.model.enums.PurchaseStatus;
 import com.viaphone.sdk.model.merchant.CreateResp;
 import com.viaphone.sdk.model.ProductItem;
@@ -21,20 +24,25 @@ public class MerchantSdkTest implements ResultListener {
 
     public static void main(String[] args) throws Exception {
         MerchantSdkTest mt = new MerchantSdkTest();
-//        mt.createResponse();
-//        mt.loockup(33);
-        mt.loockup(33);
-    }
+        CreateResp createResp = mt.createResponse();
+        System.out.println(createResp);
 
+        CustomerSdkTest customerSdk = new CustomerSdkTest();
+        PurchaseAuthResp authResp = customerSdk.authPurchase(createResp.getToken());
+        System.out.println(authResp);
+
+        System.out.println(mt.lookup(createResp.getPurchaseId()));
+
+        ConfirmPurchaseResp resp = customerSdk.confirmPurchase(createResp.getPurchaseId());
+        System.out.println(resp);
+    }
 
     private MerchantSdkTest() throws Exception {
         api = new MerchantSdk(host, clientId, clientSecret, this);
     }
 
-    private void loockup(long purchaseId) throws IOException {
-        System.out.println("Sending LookupReq");
-        LookupResp resp = api.lookupPurchase(purchaseId);
-        System.out.println("Response: " + resp);
+    private LookupResp lookup(long purchaseId) throws IOException {
+        return api.lookupPurchase(purchaseId);
     }
 
     public void purchaseStatus(long purchaseId) throws IOException {
@@ -44,13 +52,12 @@ public class MerchantSdkTest implements ResultListener {
     }
 
 
-    private void createResponse() throws Exception {
+    private CreateResp createResponse() throws Exception {
         System.out.println("Sending CreateReq");
         List<ProductItem> items = new ArrayList<>();
-        items.add(new ProductItem("45745755374y", "Rastishka", "Produce", "Zanone", "Yogurt", 5, 20));
-        CreateResp resp = api.createPurchase(items);
-        api.playChirp(resp.getToken());
-        System.out.println("Response: " + resp);
+        items.add(new ProductItem("123456", "test prod", "Contact Lenses sub 1", "Zanone", "Yogurt", 5, 20));
+        items.add(new ProductItem("1234567", "test prod 2", "Contact Lenses sub 1", "Zanone", "Yogurt", 2, 50));
+        return api.createPurchase(items);
     }
 
     @Override
