@@ -6,6 +6,7 @@ import java.util.List;
 
 public class CustomerPurchase extends Response {
 
+    private String id;
     private String branchName;
     private String storeName;
     private Double amount;
@@ -14,6 +15,14 @@ public class CustomerPurchase extends Response {
     private Date created;
     private Date completed;
     private List<ProductItem> products = new ArrayList<>();
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getBranchName() {
         return branchName;
@@ -81,7 +90,8 @@ public class CustomerPurchase extends Response {
 
     @Override
     public String toString() {
-        return "\n\tbranchName: " + branchName +
+        return "\n\tid: " + id +
+                "\n\tbranchName: " + branchName +
                 "\n\tstoreName: " + storeName +
                 "\n\tamount: " + amount +
                 "\n\tdiscount: " + discount +

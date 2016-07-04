@@ -8,12 +8,21 @@ public class Offer {
     public static final String PERCENT = "PERCENT";
     public static final String MONEY = "MONEY";
 
+    private String id;
     private String manufacturerName;
     private Double customerDiscount;
     private Date startDate;
     private Date endDate;
     private String productName;
     private String discountUnit;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getManufacturerName() {
         return manufacturerName;
@@ -65,7 +74,8 @@ public class Offer {
 
     @Override
     public String toString() {
-        return "\n\tmanufacturerName: " + manufacturerName +
+        return "\n\tid: " + id +
+                "\n\tmanufacturerName: " + manufacturerName +
                 "\n\tcustomerDiscount: " + customerDiscount +
                 "\n\tstartDate: " + startDate +
                 "\n\tendDate: " + endDate +
