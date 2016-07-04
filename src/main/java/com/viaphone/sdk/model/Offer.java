@@ -8,7 +8,7 @@ public class Offer {
     public static final String PERCENT = "PERCENT";
     public static final String MONEY = "MONEY";
 
-    private String id;
+    private Long id;
     private String manufacturerName;
     private Double customerDiscount;
     private Date startDate;
@@ -16,11 +16,11 @@ public class Offer {
     private String productName;
     private String discountUnit;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

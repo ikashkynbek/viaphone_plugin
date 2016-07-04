@@ -6,7 +6,7 @@ import java.util.List;
 
 public class CustomerPurchase extends Response {
 
-    private String id;
+    private Long id;
     private String branchName;
     private String storeName;
     private Double amount;
@@ -16,11 +16,11 @@ public class CustomerPurchase extends Response {
     private Date completed;
     private List<ProductItem> products = new ArrayList<>();
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
