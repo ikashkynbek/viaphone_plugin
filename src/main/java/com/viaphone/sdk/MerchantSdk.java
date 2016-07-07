@@ -109,7 +109,7 @@ public class MerchantSdk {
                             if (status == PurchaseStatus.AUTHORIZED && !lookuped) {
                                 stopChirp();
                                 LookupResp lookupResp = lookupPurchase(purchaseId);
-                                resultListener.onAuthorized(lookupResp.getDiscountPrice());
+                                resultListener.onAuthorized(lookupResp.getPurchase());
                                 lookuped = true;
                             } else if (status == PurchaseStatus.COMPLETED) {
                                 resultListener.onConfirmed(status);

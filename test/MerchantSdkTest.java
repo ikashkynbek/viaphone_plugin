@@ -1,6 +1,7 @@
 import com.viaphone.sdk.CustomerSdk;
 import com.viaphone.sdk.ResultListener;
 import com.viaphone.sdk.MerchantSdk;
+import com.viaphone.sdk.model.CustomerPurchase;
 import com.viaphone.sdk.model.customer.ConfirmPurchaseResp;
 import com.viaphone.sdk.model.customer.PurchaseAuthResp;
 import com.viaphone.sdk.model.enums.PurchaseStatus;
@@ -55,14 +56,14 @@ public class MerchantSdkTest implements ResultListener {
     private CreateResp createResponse() throws Exception {
         System.out.println("Sending CreateReq");
         List<ProductItem> items = new ArrayList<>();
-        items.add(new ProductItem("123456", "test prod", "Contact Lenses sub 1", "Zanone", "Yogurt", 5, 20));
+        items.add(new ProductItem("07124917312", "L'Oreal Paris Men's Expert Hydra-Energetic Ice Cold Eye Roller", "Contact Lenses sub 1", "Zanone", "Yogurt", 5, 20));
         items.add(new ProductItem("1234567", "test prod 2", "Contact Lenses sub 1", "Zanone", "Yogurt", 2, 50));
         return api.createPurchase(items);
     }
 
     @Override
-    public void onAuthorized(double discountPrice) {
-        System.out.println("onAuthorized: " + discountPrice);
+    public void onAuthorized(CustomerPurchase purchase) {
+        System.out.println("onAuthorized: " + purchase.toString());
     }
 
     @Override

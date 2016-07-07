@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class CustomerPurchase extends Response {
+public class CustomerPurchase {
 
     private Long id;
     private String branchName;
@@ -98,8 +98,7 @@ public class CustomerPurchase extends Response {
                 "\n\tsecret: " + secret +
                 "\n\tcreated: " + created +
                 "\n\tcompleted: " + completed +
-                "\n\tproducts: " + products +
-                super.toString();
+                "\n\tproducts: " + products;
     }
 }
 

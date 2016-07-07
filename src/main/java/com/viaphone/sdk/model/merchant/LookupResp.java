@@ -1,32 +1,23 @@
 package com.viaphone.sdk.model.merchant;
 
+import com.viaphone.sdk.model.CustomerPurchase;
 import com.viaphone.sdk.model.Response;
 
 public class LookupResp extends Response {
 
-    private Long purchaseId;
-    private Double discountPrice;
+    private CustomerPurchase purchase;
 
-    public void setPurchaseId(Long purchaseId) {
-        this.purchaseId = purchaseId;
+    public CustomerPurchase getPurchase() {
+        return purchase;
     }
 
-    public void setDiscountPrice(Double discountPrice) {
-        this.discountPrice = discountPrice;
-    }
-
-    public Long getPurchaseId() {
-        return purchaseId;
-    }
-
-    public double getDiscountPrice() {
-        return discountPrice;
+    public void setPurchase(CustomerPurchase purchase) {
+        this.purchase = purchase;
     }
 
     @Override
     public String toString() {
-        return "\n\tpurchaseId: " + purchaseId +
-                "\n\tdiscountPrice: " + discountPrice +
+        return "\n\tpurchase: " + purchase +
                 super.toString();
     }
 }
