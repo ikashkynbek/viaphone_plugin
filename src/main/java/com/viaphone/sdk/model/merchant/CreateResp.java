@@ -9,7 +9,6 @@ public class CreateResp extends Response {
     private Long purchaseId;
     private PurchaseStatus purchaseStatus;
     private String token;
-    private ConfirmType confirmType;
     private String qr;
 
     public void setPurchaseId(Long purchaseId) {
@@ -22,10 +21,6 @@ public class CreateResp extends Response {
 
     public void setToken(String token) {
         this.token = token;
-    }
-
-    public void setConfirmType(ConfirmType confirmType) {
-        this.confirmType = confirmType;
     }
 
     public void setQr(String qr) {
@@ -48,21 +43,12 @@ public class CreateResp extends Response {
         return qr;
     }
 
-    public ConfirmType getConfirmType() {
-        return confirmType;
-    }
-
     @Override
     public String toString() {
         return "\n\tpurchaseId: " + purchaseId +
                 "\n\tpurchaseStatus: " + purchaseStatus +
                 "\n\ttoken: " + token +
-                "\n\tconfirmType: " + confirmType +
                 "\n\tqr: " + qr +
                 super.toString();
-    }
-
-    public enum ConfirmType {
-        SMS, PUSH, QR
     }
 }

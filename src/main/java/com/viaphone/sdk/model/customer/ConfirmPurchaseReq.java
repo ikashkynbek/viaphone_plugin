@@ -6,7 +6,7 @@ public class ConfirmPurchaseReq extends Request {
 
     private final Long purchaseId;
 
-    public ConfirmPurchaseReq(long paymentId) {
+    public ConfirmPurchaseReq(Long paymentId) {
         this.purchaseId = paymentId;
     }
 

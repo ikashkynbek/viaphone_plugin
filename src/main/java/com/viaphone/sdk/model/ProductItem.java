@@ -6,15 +6,15 @@ public class ProductItem {
     private String name;
     private String category;
     private String brand;
-    private int qty;
-    private double price;
-    private double discount;
+    private Integer qty;
+    private Double price;
+    private Double discount;
     private String type;
 
     public ProductItem() {
     }
 
-    public ProductItem(String barCode, String name, String category, String brand, String type, int qty, double price) {
+    public ProductItem(String barCode, String name, String category, String brand, String type, Integer qty, Double price) {
         this.barCode = barCode;
         this.name = name;
         this.type = type;
@@ -48,7 +48,7 @@ public class ProductItem {
         this.brand = brand;
     }
 
-    public int getQty() {
+    public Integer getQty() {
         return qty;
     }
 
@@ -60,15 +60,15 @@ public class ProductItem {
         this.type = type;
     }
 
-    public void setQty(int qty) {
+    public void setQty(Integer qty) {
         this.qty = qty;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -80,11 +80,11 @@ public class ProductItem {
         this.barCode = barCode;
     }
 
-    public double getDiscount() {
+    public Double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(double discount) {
+    public void setDiscount(Double discount) {
         this.discount = discount;
     }
 

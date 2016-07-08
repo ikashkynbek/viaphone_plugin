@@ -56,8 +56,8 @@ public class MerchantSdkTest implements ResultListener {
     private CreateResp createResponse() throws Exception {
         System.out.println("Sending CreateReq");
         List<ProductItem> items = new ArrayList<>();
-        items.add(new ProductItem("07124917312", "L'Oreal Paris Men's Expert Hydra-Energetic Ice Cold Eye Roller", "Contact Lenses sub 1", "Zanone", "Yogurt", 5, 20));
-        items.add(new ProductItem("1234567", "test prod 2", "Contact Lenses sub 1", "Zanone", "Yogurt", 2, 50));
+        items.add(new ProductItem("07124917312", "L'Oreal Paris Men's Expert Hydra-Energetic Ice Cold Eye Roller", "Contact Lenses sub 1", "Zanone", "Yogurt", 5, 20.0));
+        items.add(new ProductItem("1234567", "test prod 2", "Contact Lenses sub 1", "Zanone", "Yogurt", 2, 50.0));
         return api.createPurchase(items);
     }
 

@@ -6,7 +6,7 @@ public class PurchaseStatusReq extends Request {
 
     private final Long purchaseId;
 
-    public PurchaseStatusReq(long purchaseId) {
+    public PurchaseStatusReq(Long purchaseId) {
         this.purchaseId = purchaseId;
     }
 

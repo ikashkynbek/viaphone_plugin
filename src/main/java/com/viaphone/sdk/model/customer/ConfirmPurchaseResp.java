@@ -6,7 +6,7 @@ import com.viaphone.sdk.model.enums.PurchaseStatus;
 public class ConfirmPurchaseResp extends Response {
 
     private PurchaseStatus purchaseStatus;
-    private long purchaseId;
+    private Long purchaseId;
 
     public PurchaseStatus getPurchaseStatus() {
         return purchaseStatus;
@@ -16,11 +16,11 @@ public class ConfirmPurchaseResp extends Response {
         this.purchaseStatus = purchaseStatus;
     }
 
-    public long getPurchaseId() {
+    public Long getPurchaseId() {
         return purchaseId;
     }
 
-    public void setPurchaseId(long purchaseId) {
+    public void setPurchaseId(Long purchaseId) {
         this.purchaseId = purchaseId;
     }
 
