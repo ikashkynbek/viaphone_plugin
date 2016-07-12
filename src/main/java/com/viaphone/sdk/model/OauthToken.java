@@ -7,6 +7,8 @@ public class OauthToken {
     private String refresh_token;
     private Long expires_in;
     private String scope;
+    private String error;
+    private String error_description;
 
     public String getAccess_token() {
         return access_token;
@@ -46,5 +48,21 @@ public class OauthToken {
 
     public void setScope(String scope) {
         this.scope = scope;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
+    public String getError_description() {
+        return error_description;
+    }
+
+    public void setError_description(String error_description) {
+        this.error_description = error_description;
     }
 }

@@ -2,7 +2,6 @@ package com.viaphone.sdk;
 
 
 import com.viaphone.sdk.model.OauthToken;
-import com.viaphone.sdk.model.Request;
 import com.viaphone.sdk.model.customer.*;
 import com.viaphone.sdk.model.enums.PurchaseStatus;
 
@@ -21,8 +20,7 @@ public class CustomerSdk {
     private final String URL_AUTH_PURCHASE;
     private final String URL_CONFIRM_PURCHASE;
 
-
-    private final String accessToken;
+    private final String accessToken, username, password;
     private OauthToken token;
 
     public CustomerSdk(String username, String password) throws Exception {
@@ -41,7 +39,9 @@ public class CustomerSdk {
         this.URL_AUTH_PURCHASE = apiRoot + "authorize-purchase";
         this.URL_CONFIRM_PURCHASE = apiRoot + "confirm-purchase";
 
-        token = getAccessToken(username, password);
+        this.username = username;
+        this.password = password;
+        token = getAccessToken();
         if (token == null || token.getAccess_token() == null) {
             throw new Exception("Access token is null");
         }
@@ -81,10 +81,15 @@ public class CustomerSdk {
     }
 
     private Object sendRequest(String url, Object obj) throws Exception {
-        return HttpClient.sendRequest(url, token.getAccess_token(), obj);
+        Object result = HttpClient.sendRequest(url, token.getAccess_token(), obj);
+        if (result instanceof OauthToken) {
+            token = getAccessToken();
+            result = HttpClient.sendRequest(url, token.getAccess_token(), obj);
+        }
+        return result;
     }
 
-    private OauthToken getAccessToken(String username, String password) throws Exception {
+    private OauthToken getAccessToken() throws Exception {
         String url = String.format(accessToken, "mobileapp", "secret", username, password);
         return (OauthToken) fromJson(getRequestJson(url), OauthToken.class);
     }

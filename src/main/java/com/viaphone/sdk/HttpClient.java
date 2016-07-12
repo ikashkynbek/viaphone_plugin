@@ -1,5 +1,6 @@
 package com.viaphone.sdk;
 
+import com.viaphone.sdk.model.OauthToken;
 import com.viaphone.sdk.model.customer.*;
 import com.viaphone.sdk.model.merchant.*;
 import org.apache.http.HttpEntity;
@@ -35,7 +36,10 @@ class HttpClient {
 
     static Object sendRequest(String url, String token, Object obj) throws IOException {
         String result = postRequest(url, token, toJson(obj));
-        if (obj instanceof CreateReq) {
+
+        if (result.contains("Access token expired: " + token)) {
+            return fromJson(result, OauthToken.class);
+        } else if (obj instanceof CreateReq) {
             return fromJson(result, CreateResp.class);
         } else if (obj instanceof PurchaseStatusReq) {
             return fromJson(result, PurchaseStatusResp.class);

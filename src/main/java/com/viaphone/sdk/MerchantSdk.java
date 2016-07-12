@@ -90,7 +90,12 @@ public class MerchantSdk {
     }
 
     private Object sendRequest(String url, Object obj) throws IOException {
-        return HttpClient.sendRequest(url, token.getAccess_token(), obj);
+        Object result = HttpClient.sendRequest(url, token.getAccess_token(), obj);
+        if (result instanceof OauthToken) {
+            token = getAccessToken();
+            result = HttpClient.sendRequest(url, token.getAccess_token(), obj);
+        }
+        return result;
     }
 
     private OauthToken getAccessToken() throws IOException {

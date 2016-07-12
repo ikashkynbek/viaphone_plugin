@@ -1,4 +1,3 @@
-import com.viaphone.sdk.CustomerSdk;
 import com.viaphone.sdk.ResultListener;
 import com.viaphone.sdk.MerchantSdk;
 import com.viaphone.sdk.model.CustomerPurchase;
@@ -27,16 +26,17 @@ public class MerchantSdkTest implements ResultListener {
     public static void main(String[] args) throws Exception {
         MerchantSdkTest mt = new MerchantSdkTest();
         CreateResp createResp = mt.createResponse();
-        System.out.println(createResp);
+        System.out.println("createResp:\n" + createResp);
 
         CustomerSdkTest customerSdk = new CustomerSdkTest();
         PurchaseAuthResp authResp = customerSdk.authPurchase(createResp.getConfirmCode());
-        System.out.println(authResp);
+        System.out.println("authResp:\n" + authResp);
 
-        System.out.println(mt.lookup(createResp.getPurchaseId()));
+        LookupResp lookupResp = mt.lookup(createResp.getPurchaseId());
+        System.out.println("lookupResp:\n" + lookupResp);
 
-        ConfirmPurchaseResp resp = customerSdk.confirmPurchase(createResp.getPurchaseId());
-        System.out.println(resp);
+        ConfirmPurchaseResp confirmResp = customerSdk.confirmPurchase(createResp.getPurchaseId());
+        System.out.println("confirmResp:\n" + confirmResp);
     }
 
     private MerchantSdkTest() throws Exception {
