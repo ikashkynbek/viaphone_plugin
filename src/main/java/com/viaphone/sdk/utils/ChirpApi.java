@@ -16,6 +16,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+@Deprecated
 public class ChirpApi {
 
     private String api = "http://api.chirp.io/v1/";

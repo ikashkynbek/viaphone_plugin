@@ -2,6 +2,7 @@ package com.viaphone.sdk;
 
 import com.viaphone.sdk.model.OauthToken;
 import com.viaphone.sdk.model.ProductItem;
+import com.viaphone.sdk.model.enums.ConfirmType;
 import com.viaphone.sdk.model.enums.PurchaseStatus;
 import com.viaphone.sdk.model.Response;
 import com.viaphone.sdk.model.merchant.*;
@@ -61,12 +62,12 @@ public class MerchantSdk {
         chirpApi.stopSound();
     }
 
-    public CreateResp createPurchase(List<ProductItem> items) throws IOException {
+    public CreateResp createPurchase(List<ProductItem> items, ConfirmType confirmType) throws IOException {
         double amount = 0;
         for (ProductItem item : items) {
             amount += item.getPrice() * item.getQty();
         }
-        return (CreateResp) sendRequest(createPurchase, new CreateReq(amount, items));
+        return (CreateResp) sendRequest(createPurchase, new CreateReq(amount, items, confirmType));
     }
 
     @Deprecated
@@ -75,7 +76,7 @@ public class MerchantSdk {
         for (ProductItem item : items) {
             amount += item.getPrice() * item.getQty();
         }
-        CreateReq req = new CreateReq(amount, items);
+        CreateReq req = new CreateReq(amount, items, ConfirmType.TOKEN);
         req.setCreateDate(date);
         return (CreateResp) sendRequest(createPurchase, req);
     }

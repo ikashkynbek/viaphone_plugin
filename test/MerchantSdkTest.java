@@ -4,6 +4,7 @@ import com.viaphone.sdk.MerchantSdk;
 import com.viaphone.sdk.model.CustomerPurchase;
 import com.viaphone.sdk.model.customer.ConfirmPurchaseResp;
 import com.viaphone.sdk.model.customer.PurchaseAuthResp;
+import com.viaphone.sdk.model.enums.ConfirmType;
 import com.viaphone.sdk.model.enums.PurchaseStatus;
 import com.viaphone.sdk.model.merchant.CreateResp;
 import com.viaphone.sdk.model.ProductItem;
@@ -29,7 +30,7 @@ public class MerchantSdkTest implements ResultListener {
         System.out.println(createResp);
 
         CustomerSdkTest customerSdk = new CustomerSdkTest();
-        PurchaseAuthResp authResp = customerSdk.authPurchase(createResp.getToken());
+        PurchaseAuthResp authResp = customerSdk.authPurchase(createResp.getConfirmCode());
         System.out.println(authResp);
 
         System.out.println(mt.lookup(createResp.getPurchaseId()));
@@ -58,7 +59,7 @@ public class MerchantSdkTest implements ResultListener {
         List<ProductItem> items = new ArrayList<>();
         items.add(new ProductItem("07124917312", "L'Oreal Paris Men's Expert Hydra-Energetic Ice Cold Eye Roller", "Contact Lenses sub 1", "Zanone", "Yogurt", 5, 20.0));
         items.add(new ProductItem("1234567", "test prod 2", "Contact Lenses sub 1", "Zanone", "Yogurt", 2, 50.0));
-        return api.createPurchase(items);
+        return api.createPurchase(items, ConfirmType.TOKEN);
     }
 
     @Override

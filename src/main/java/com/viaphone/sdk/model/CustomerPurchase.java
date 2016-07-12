@@ -1,5 +1,7 @@
 package com.viaphone.sdk.model;
 
+import com.viaphone.sdk.model.enums.PurchaseStatus;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,9 +13,9 @@ public class CustomerPurchase {
     private String storeName;
     private Double amount;
     private Double discount;
-    private String secret;
     private Date created;
     private Date completed;
+    private PurchaseStatus status;
     private List<ProductItem> products = new ArrayList<>();
 
     public Long getId() {
@@ -56,14 +58,6 @@ public class CustomerPurchase {
         this.discount = discount;
     }
 
-    public String getSecret() {
-        return secret;
-    }
-
-    public void setSecret(String secret) {
-        this.secret = secret;
-    }
-
     public Date getCreated() {
         return created;
     }
@@ -78,6 +72,14 @@ public class CustomerPurchase {
 
     public void setCompleted(Date completed) {
         this.completed = completed;
+    }
+
+    public PurchaseStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(PurchaseStatus status) {
+        this.status = status;
     }
 
     public List<ProductItem> getProducts() {
@@ -95,9 +97,9 @@ public class CustomerPurchase {
                 "\n\tstoreName: " + storeName +
                 "\n\tamount: " + amount +
                 "\n\tdiscount: " + discount +
-                "\n\tsecret: " + secret +
                 "\n\tcreated: " + created +
                 "\n\tcompleted: " + completed +
+                "\n\tstatus: " + status +
                 "\n\tproducts: " + products;
     }
 }
