@@ -35,47 +35,51 @@ class HttpClient {
     }
 
     static Object sendRequest(String url, String token, Object obj) throws IOException {
-        String result = postRequest(url, token, toJson(obj));
+        HttpResponse response = postRequest(url, token, toJson(obj));
+        int code = response.getStatusLine().getStatusCode();
+        String result = EntityUtils.toString(response.getEntity());
 
-        if (result.contains("Access token expired: " + token)) {
-            return fromJson(result, OauthToken.class);
-        } else if (obj instanceof CreateReq) {
-            return fromJson(result, CreateResp.class);
-        } else if (obj instanceof PurchaseStatusReq) {
-            return fromJson(result, PurchaseStatusResp.class);
-        } else if (obj instanceof LookupReq) {
-            return fromJson(result, LookupResp.class);
-        } else if (obj instanceof SignupReq) {
-            return fromJson(result, SignupResp.class);
-        } else if (obj instanceof CreateInfoReq) {
-            return fromJson(result, CreateInfoResp.class);
-        } else if (obj instanceof MyStatsReq) {
-            return fromJson(result, MyStatsResp.class);
-        } else if (obj instanceof OffersReq) {
-            return fromJson(result, OffersResp.class);
-        } else if (obj instanceof BranchReq) {
-            return fromJson(result, BranchResp.class);
-        } else if (obj instanceof AppTokenReq) {
-            return fromJson(result, AppTokenResp.class);
-        } else if (obj instanceof PurchasesReq) {
-            return fromJson(result, PurchasesResp.class);
-        } else if (obj instanceof PurchaseAuthReq) {
-            return fromJson(result, PurchaseAuthResp.class);
-        } else if (obj instanceof ConfirmPurchaseReq) {
-            return fromJson(result, ConfirmPurchaseResp.class);
-        } else {
-            return result;
+        if (code == 200) {
+            if (obj instanceof CreateReq) {
+                return fromJson(result, CreateResp.class);
+            } else if (obj instanceof PurchaseStatusReq) {
+                return fromJson(result, PurchaseStatusResp.class);
+            } else if (obj instanceof LookupReq) {
+                return fromJson(result, LookupResp.class);
+            } else if (obj instanceof SignupReq) {
+                return fromJson(result, SignupResp.class);
+            } else if (obj instanceof CreateInfoReq) {
+                return fromJson(result, CreateInfoResp.class);
+            } else if (obj instanceof MyStatsReq) {
+                return fromJson(result, MyStatsResp.class);
+            } else if (obj instanceof OffersReq) {
+                return fromJson(result, OffersResp.class);
+            } else if (obj instanceof BranchReq) {
+                return fromJson(result, BranchResp.class);
+            } else if (obj instanceof AppTokenReq) {
+                return fromJson(result, AppTokenResp.class);
+            } else if (obj instanceof PurchasesReq) {
+                return fromJson(result, PurchasesResp.class);
+            } else if (obj instanceof PurchaseAuthReq) {
+                return fromJson(result, PurchaseAuthResp.class);
+            } else if (obj instanceof ConfirmPurchaseReq) {
+                return fromJson(result, ConfirmPurchaseResp.class);
+            }
+        } else if (code == 401) {
+            if (result.contains("Access token expired: " + token)) {
+                return fromJson(result, OauthToken.class);
+            }
         }
+        return result;
     }
 
-    private static String postRequest(String url, String accessToken, String content) throws IOException {
+    private static HttpResponse postRequest(String url, String accessToken, String content) throws IOException {
         org.apache.http.client.HttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(url);
         post.setHeader("Content-Type", "application/json");
         post.setHeader("Authorization", "Bearer " + accessToken);
         HttpEntity entity = new ByteArrayEntity(content.getBytes("UTF-8"));
         post.setEntity(entity);
-        HttpResponse response = client.execute(post);
-        return EntityUtils.toString(response.getEntity());
+        return client.execute(post);
     }
 }
