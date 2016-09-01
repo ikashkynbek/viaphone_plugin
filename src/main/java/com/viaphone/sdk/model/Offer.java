@@ -9,7 +9,7 @@ public class Offer {
     public static final String MONEY = "MONEY";
 
     private Long id;
-    private String manufacturerName;
+    private String ownerName;
     private Double customerDiscount;
     private Date startDate;
     private Date endDate;
@@ -24,12 +24,12 @@ public class Offer {
         this.id = id;
     }
 
-    public String getManufacturerName() {
-        return manufacturerName;
+    public String getOwnerName() {
+        return ownerName;
     }
 
-    public void setManufacturerName(String manufacturerName) {
-        this.manufacturerName = manufacturerName;
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 
     public Double getCustomerDiscount() {
@@ -75,7 +75,7 @@ public class Offer {
     @Override
     public String toString() {
         return "\n\tid: " + id +
-                "\n\tmanufacturerName: " + manufacturerName +
+                "\n\townerName: " + ownerName +
                 "\n\tcustomerDiscount: " + customerDiscount +
                 "\n\tstartDate: " + startDate +
                 "\n\tendDate: " + endDate +
