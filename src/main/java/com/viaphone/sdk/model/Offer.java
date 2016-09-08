@@ -9,12 +9,14 @@ public class Offer {
     public static final String MONEY = "MONEY";
 
     private Long id;
+    private String type;
     private String ownerName;
     private Double customerDiscount;
     private Date startDate;
     private Date endDate;
     private String productName;
     private String discountUnit;
+    private String description;
 
     public Long getId() {
         return id;
@@ -72,14 +74,32 @@ public class Offer {
         this.discountUnit = discountUnit;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "\n\tid: " + id +
+                "\n\ttype: " + type +
                 "\n\townerName: " + ownerName +
                 "\n\tcustomerDiscount: " + customerDiscount +
                 "\n\tstartDate: " + startDate +
                 "\n\tendDate: " + endDate +
                 "\n\tproductName: " + productName +
-                "\n\tdiscountUnit: " + discountUnit;
+                "\n\tdiscountUnit: " + discountUnit +
+                "\n\tdescription: " + description;
     }
 }
