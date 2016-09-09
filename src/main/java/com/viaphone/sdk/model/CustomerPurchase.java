@@ -16,6 +16,7 @@ public class CustomerPurchase {
     private Date created;
     private Date completed;
     private PurchaseStatus status;
+    private List<Double> billDiscounts = new ArrayList<>();
     private List<ProductItem> products = new ArrayList<>();
 
     public Long getId() {
@@ -90,6 +91,14 @@ public class CustomerPurchase {
         this.products = products;
     }
 
+    public List<Double> getBillDiscounts() {
+        return billDiscounts;
+    }
+
+    public void setBillDiscounts(List<Double> billDiscounts) {
+        this.billDiscounts = billDiscounts;
+    }
+
     @Override
     public String toString() {
         return "\n\tid: " + id +
@@ -100,6 +109,7 @@ public class CustomerPurchase {
                 "\n\tcreated: " + created +
                 "\n\tcompleted: " + completed +
                 "\n\tstatus: " + status +
+                "\n\tbillDiscounts: " + billDiscounts +
                 "\n\tproducts: " + products;
     }
 }
