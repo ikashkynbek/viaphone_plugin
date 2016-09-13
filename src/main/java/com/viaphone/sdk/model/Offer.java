@@ -14,6 +14,7 @@ public class Offer {
     private Double customerDiscount;
     private Date startDate;
     private Date endDate;
+    private Long productId;
     private String productName;
     private String discountUnit;
     private String description;
@@ -58,6 +59,14 @@ public class Offer {
         this.endDate = endDate;
     }
 
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
     public String getProductName() {
         return productName;
     }
@@ -98,6 +107,7 @@ public class Offer {
                 "\n\tcustomerDiscount: " + customerDiscount +
                 "\n\tstartDate: " + startDate +
                 "\n\tendDate: " + endDate +
+                "\n\tproductId: " + productId +
                 "\n\tproductName: " + productName +
                 "\n\tdiscountUnit: " + discountUnit +
                 "\n\tdescription: " + description;
