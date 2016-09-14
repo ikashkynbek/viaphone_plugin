@@ -2,6 +2,7 @@ package com.viaphone.sdk.model;
 
 public class ProductItem {
 
+    private Long id;
     private Long productId;
     private String barCode;
     private String name;
@@ -23,6 +24,14 @@ public class ProductItem {
         this.brand = brand;
         this.qty = qty;
         this.price = price;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
