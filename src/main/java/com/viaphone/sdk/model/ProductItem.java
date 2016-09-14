@@ -2,6 +2,7 @@ package com.viaphone.sdk.model;
 
 public class ProductItem {
 
+    private Long productId;
     private String barCode;
     private String name;
     private String category;
@@ -88,9 +89,18 @@ public class ProductItem {
         this.discount = discount;
     }
 
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
     @Override
     public String toString() {
         return "\n\t\tbarCode: " + barCode +
+                "\n\t\tproductId: " + productId +
                 "\n\t\tname: " + name +
                 "\n\t\tcategory: " + category +
                 "\n\t\tbrand: " + brand +
