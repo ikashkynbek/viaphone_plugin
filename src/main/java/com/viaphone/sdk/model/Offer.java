@@ -1,19 +1,20 @@
 package com.viaphone.sdk.model;
 
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Offer {
-
-    public static final String PERCENT = "PERCENT";
-    public static final String MONEY = "MONEY";
 
     private Long id;
     private String type;
     private String ownerName;
     private Double customerDiscount;
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private LocalTime startTime;
+    private LocalTime endTime;
+    private Double limit;
     private Long productId;
     private String productName;
     private String discountUnit;
@@ -43,19 +44,19 @@ public class Offer {
         this.customerDiscount = customerDiscount;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
@@ -99,6 +100,31 @@ public class Offer {
         this.description = description;
     }
 
+
+    public LocalTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public Double getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Double limit) {
+        this.limit = limit;
+    }
+
     @Override
     public String toString() {
         return "\n\tid: " + id +
@@ -107,6 +133,9 @@ public class Offer {
                 "\n\tcustomerDiscount: " + customerDiscount +
                 "\n\tstartDate: " + startDate +
                 "\n\tendDate: " + endDate +
+                "\n\tstartTime: " + startTime +
+                "\n\tendTime: " + endTime +
+                "\n\tlimit: " + limit +
                 "\n\tproductId: " + productId +
                 "\n\tproductName: " + productName +
                 "\n\tdiscountUnit: " + discountUnit +
