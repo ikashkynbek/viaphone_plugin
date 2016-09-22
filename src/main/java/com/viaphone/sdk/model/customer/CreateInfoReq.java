@@ -4,7 +4,7 @@ import com.viaphone.sdk.model.Request;
 import com.viaphone.sdk.model.enums.Gender;
 import com.viaphone.sdk.model.enums.SocialStatus;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class CreateInfoReq extends Request {
 
@@ -12,7 +12,7 @@ public class CreateInfoReq extends Request {
     private String country;
     private String state;
     private String city;
-    private Date birthday;
+    private LocalDate birthday;
     private Gender gender;
     private SocialStatus socialStatus;
     private String facebookId;
@@ -52,11 +52,11 @@ public class CreateInfoReq extends Request {
         this.city = city;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
