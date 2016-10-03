@@ -2,9 +2,11 @@ package com.viaphone.sdk;
 
 import com.viaphone.sdk.model.OauthToken;
 import com.viaphone.sdk.model.ProductItem;
+import com.viaphone.sdk.model.Response;
+import com.viaphone.sdk.model.customer.OffersReq;
+import com.viaphone.sdk.model.customer.OffersResp;
 import com.viaphone.sdk.model.enums.ConfirmType;
 import com.viaphone.sdk.model.enums.PurchaseStatus;
-import com.viaphone.sdk.model.Response;
 import com.viaphone.sdk.model.merchant.*;
 import com.viaphone.sdk.utils.ChirpApi;
 
@@ -15,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.viaphone.sdk.HttpClient.getRequestJson;
 import static com.viaphone.sdk.utils.Constants.DEFAULT_HOST;
-import static com.viaphone.sdk.utils.Utils.fromJson;
+import static com.viaphone.sdk.utils.gson.GsonHelper.fromJson;
 
 
 public class MerchantSdk {
@@ -24,6 +26,7 @@ public class MerchantSdk {
     private final String createPurchase;
     private final String lookupPurchase;
     private final String purchaseStatus;
+    private final String offers;
 
     private String clientId;
     private String clientSecret;
@@ -43,6 +46,7 @@ public class MerchantSdk {
         this.createPurchase = apiRoot + "/create-purchase";
         this.lookupPurchase = apiRoot + "/lookup-purchase";
         this.purchaseStatus = apiRoot + "/purchase-status";
+        this.offers = apiRoot + "/get-offers";
 
         this.clientId = clientId;
         this.clientSecret = clientSecret;
@@ -87,6 +91,10 @@ public class MerchantSdk {
 
     public LookupResp lookupPurchase(long purchaseId) throws IOException {
         return (LookupResp) sendRequest(lookupPurchase, new LookupReq(purchaseId));
+    }
+
+    public OffersResp offers() throws IOException {
+        return (OffersResp) sendRequest(offers, new OffersReq());
     }
 
     private Object sendRequest(String url, Object obj) throws IOException {

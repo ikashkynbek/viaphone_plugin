@@ -7,7 +7,7 @@ import com.viaphone.sdk.model.enums.PurchaseStatus;
 
 import static com.viaphone.sdk.HttpClient.getRequestJson;
 import static com.viaphone.sdk.utils.Constants.DEFAULT_HOST;
-import static com.viaphone.sdk.utils.Utils.fromJson;
+import static com.viaphone.sdk.utils.gson.GsonHelper.fromJson;
 
 public class CustomerSdk {
 

@@ -3,6 +3,7 @@ package com.viaphone.sdk.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 public class Offer {
 
@@ -17,8 +18,11 @@ public class Offer {
     private Double limit;
     private Long productId;
     private String productName;
+    private String productCode;
     private String discountUnit;
     private String description;
+    private List<Long> cohort;
+
 
     public Long getId() {
         return id;
@@ -125,6 +129,22 @@ public class Offer {
         this.limit = limit;
     }
 
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
+    public List<Long> getCohort() {
+        return cohort;
+    }
+
+    public void setCohort(List<Long> cohort) {
+        this.cohort = cohort;
+    }
+
     @Override
     public String toString() {
         return "\n\tid: " + id +
@@ -138,6 +158,7 @@ public class Offer {
                 "\n\tlimit: " + limit +
                 "\n\tproductId: " + productId +
                 "\n\tproductName: " + productName +
+                "\n\tproductCode: " + productCode +
                 "\n\tdiscountUnit: " + discountUnit +
                 "\n\tdescription: " + description;
     }

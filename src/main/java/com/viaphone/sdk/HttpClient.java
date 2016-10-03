@@ -15,8 +15,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import static com.viaphone.sdk.utils.Utils.fromJson;
-import static com.viaphone.sdk.utils.Utils.toJson;
+import static com.viaphone.sdk.utils.gson.GsonHelper.fromJson;
+import static com.viaphone.sdk.utils.gson.GsonHelper.toJson;
 
 
 class HttpClient {
@@ -37,7 +37,7 @@ class HttpClient {
     static Object sendRequest(String url, String token, Object obj) throws IOException {
         HttpResponse response = postRequest(url, token, toJson(obj));
         int code = response.getStatusLine().getStatusCode();
-        String result = EntityUtils.toString(response.getEntity());
+        String result = EntityUtils.toString(response.getEntity(), "UTF-8");
 
         if (code == 200) {
             if (obj instanceof CreateReq) {
