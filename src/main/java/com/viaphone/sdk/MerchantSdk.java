@@ -5,6 +5,7 @@ import com.viaphone.sdk.model.ProductItem;
 import com.viaphone.sdk.model.Response;
 import com.viaphone.sdk.model.customer.OffersReq;
 import com.viaphone.sdk.model.customer.OffersResp;
+import com.viaphone.sdk.model.enums.CampaignStatus;
 import com.viaphone.sdk.model.enums.ConfirmType;
 import com.viaphone.sdk.model.enums.PurchaseStatus;
 import com.viaphone.sdk.model.merchant.*;
@@ -93,8 +94,8 @@ public class MerchantSdk {
         return (LookupResp) sendRequest(lookupPurchase, new LookupReq(purchaseId));
     }
 
-    public OffersResp offers() throws IOException {
-        return (OffersResp) sendRequest(offers, new OffersReq());
+    public OffersResp offers(CampaignStatus status) throws IOException {
+        return (OffersResp) sendRequest(offers, new OffersReq(status));
     }
 
     private Object sendRequest(String url, Object obj) throws IOException {

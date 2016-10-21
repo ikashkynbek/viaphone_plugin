@@ -1,6 +1,8 @@
 package com.viaphone.sdk.model;
 
 
+import com.viaphone.sdk.model.enums.CampaignStatus;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -21,6 +23,7 @@ public class Offer {
     private String productCode;
     private String discountUnit;
     private String description;
+    private CampaignStatus status;
     private List<Long> cohort;
 
 
@@ -145,6 +148,14 @@ public class Offer {
         this.cohort = cohort;
     }
 
+    public CampaignStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CampaignStatus status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "\n\tid: " + id +
@@ -160,6 +171,7 @@ public class Offer {
                 "\n\tproductName: " + productName +
                 "\n\tproductCode: " + productCode +
                 "\n\tdiscountUnit: " + discountUnit +
-                "\n\tdescription: " + description;
+                "\n\tdescription: " + description +
+                "\n\tstatus: " + status;
     }
 }

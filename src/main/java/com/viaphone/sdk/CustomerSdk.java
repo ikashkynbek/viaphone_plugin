@@ -3,6 +3,7 @@ package com.viaphone.sdk;
 
 import com.viaphone.sdk.model.OauthToken;
 import com.viaphone.sdk.model.customer.*;
+import com.viaphone.sdk.model.enums.CampaignStatus;
 import com.viaphone.sdk.model.enums.PurchaseStatus;
 
 import static com.viaphone.sdk.HttpClient.getRequestJson;
@@ -67,8 +68,8 @@ public class CustomerSdk {
         return (MyStatsResp) sendRequest(URL_CUST_INFO, new MyStatsReq());
     }
 
-    public OffersResp getOffers() throws Exception {
-        return (OffersResp) sendRequest(URL_GET_OFFERS, new OffersReq());
+    public OffersResp getOffers(CampaignStatus status) throws Exception {
+        return (OffersResp) sendRequest(URL_GET_OFFERS, new OffersReq(status));
     }
 
     public PurchasesResp getPurchases(PurchaseStatus status) throws Exception {
