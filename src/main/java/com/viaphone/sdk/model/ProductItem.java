@@ -1,5 +1,7 @@
 package com.viaphone.sdk.model;
 
+import java.util.Map;
+
 public class ProductItem {
 
     private Long id;
@@ -11,6 +13,7 @@ public class ProductItem {
     private Integer qty;
     private Double price;
     private Double discount;
+    private Map<Long, Double> discounts;
     private String type;
 
     public ProductItem() {
@@ -106,6 +109,14 @@ public class ProductItem {
         this.productId = productId;
     }
 
+    public Map<Long, Double> getDiscounts() {
+        return discounts;
+    }
+
+    public void setDiscounts(Map<Long, Double> discounts) {
+        this.discounts = discounts;
+    }
+
     @Override
     public String toString() {
         return "\n\t\tbarCode: " + barCode +
@@ -116,6 +127,7 @@ public class ProductItem {
                 "\n\t\tqty: " + qty +
                 "\n\t\tprice: " + price +
                 "\n\t\tdiscount: " + discount +
+                "\n\t\tdiscounts: " + discounts +
                 "\n\t\ttype: " + type;
     }
 }

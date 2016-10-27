@@ -7,22 +7,42 @@ import com.viaphone.sdk.model.enums.ConfirmType;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class CreateReq extends Request {
 
-    private final Double amount;
+    private Double amount;
     private final List<ProductItem> productItems;
-    private final ConfirmType confirmType;
-    private Date createDate;  //todo only for purchase generation
+    private ConfirmType confirmType;
+    private Date createDate;
+    private Long customerId;
+    private String comment;
+    private Double totalDiscount;
+    private Map<Long, Double> billDiscounts;
 
-    public CreateReq(Double amount, List<ProductItem> details, ConfirmType confirmType) {
+    public CreateReq(List<ProductItem> details, ConfirmType confirmType) {
+        double amount = 0;
+        for (ProductItem item : details) {
+            amount += item.getPrice() * item.getQty();
+        }
         this.amount = amount;
         this.productItems = details;
         this.confirmType = confirmType;
     }
 
-    public void setCreateDate(Date ceateDate) {
-        this.createDate = ceateDate;
+    public CreateReq(List<ProductItem> details, Date createDate, Long customerId, String comment,
+                     Double totalDiscount, Map<Long, Double> billDiscounts) {
+        double amount = 0;
+        for (ProductItem item : details) {
+            amount += item.getPrice() * item.getQty();
+        }
+        this.amount = amount;
+        this.productItems = details;
+        this.createDate = createDate;
+        this.customerId = customerId;
+        this.comment = comment;
+        this.totalDiscount = totalDiscount;
+        this.billDiscounts = billDiscounts;
     }
 
     public Date getCreateDate() {
@@ -41,12 +61,32 @@ public class CreateReq extends Request {
         return confirmType;
     }
 
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public Double getTotalDiscount() {
+        return totalDiscount;
+    }
+
+    public Map<Long, Double> getBillDiscounts() {
+        return billDiscounts;
+    }
+
     @Override
     public String toString() {
         return "\n\tamount: " + amount +
                 "\n\tproductItems: " + productItems +
                 "\n\tconfirmType: " + confirmType +
                 "\n\tcreateDate: " + createDate +
+                "\n\tcustomerId: " + customerId +
+                "\n\tcomment: " + comment +
+                "\n\ttotalDiscount: " + totalDiscount +
+                "\n\tbillDiscounts: " + billDiscounts +
                 super.toString();
     }
 }

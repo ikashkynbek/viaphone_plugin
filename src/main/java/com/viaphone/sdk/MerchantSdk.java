@@ -12,7 +12,6 @@ import com.viaphone.sdk.model.merchant.*;
 import com.viaphone.sdk.utils.ChirpApi;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -27,6 +26,7 @@ public class MerchantSdk {
     private final String createPurchase;
     private final String lookupPurchase;
     private final String purchaseStatus;
+    private final String savePurchases;
     private final String offers;
 
     private String clientId;
@@ -47,6 +47,7 @@ public class MerchantSdk {
         this.createPurchase = apiRoot + "/create-purchase";
         this.lookupPurchase = apiRoot + "/lookup-purchase";
         this.purchaseStatus = apiRoot + "/purchase-status";
+        this.savePurchases = apiRoot + "/save-purchases";
         this.offers = apiRoot + "/get-offers";
 
         this.clientId = clientId;
@@ -68,22 +69,11 @@ public class MerchantSdk {
     }
 
     public CreateResp createPurchase(List<ProductItem> items, ConfirmType confirmType) throws IOException {
-        double amount = 0;
-        for (ProductItem item : items) {
-            amount += item.getPrice() * item.getQty();
-        }
-        return (CreateResp) sendRequest(createPurchase, new CreateReq(amount, items, confirmType));
+        return (CreateResp) sendRequest(createPurchase, new CreateReq(items, confirmType));
     }
 
-    @Deprecated
-    public CreateResp createPurchase(List<ProductItem> items, Date date) throws IOException {
-        double amount = 0;
-        for (ProductItem item : items) {
-            amount += item.getPrice() * item.getQty();
-        }
-        CreateReq req = new CreateReq(amount, items, ConfirmType.TOKEN);
-        req.setCreateDate(date);
-        return (CreateResp) sendRequest(createPurchase, req);
+    public SavePurchasesResp savePurchases(List<CreateReq> purchases) throws IOException {
+        return (SavePurchasesResp) sendRequest(savePurchases, new SavePurchasesReq(purchases));
     }
 
     public PurchaseStatusResp getPurchaseStatus(long purchaseId) throws IOException {
