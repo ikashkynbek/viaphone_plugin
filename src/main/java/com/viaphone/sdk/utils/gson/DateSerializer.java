@@ -9,7 +9,7 @@ import java.util.Date;
 
 class DateSerializer implements JsonSerializer<Date>, JsonDeserializer<Date> {
 
-    private static final String PATTERN = "yyyy-MM-dd hh:mm:ss";
+    private static final String PATTERN = "yyyy-MM-dd HH:mm:ss";
     private static final SimpleDateFormat formatter = new SimpleDateFormat(PATTERN);
 
 
