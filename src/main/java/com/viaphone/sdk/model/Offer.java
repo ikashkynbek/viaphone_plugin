@@ -25,6 +25,7 @@ public class Offer {
     private String description;
     private CampaignStatus status;
     private List<Long> cohort;
+    private List<String> branches;
 
 
     public Long getId() {
@@ -154,6 +155,14 @@ public class Offer {
 
     public void setStatus(CampaignStatus status) {
         this.status = status;
+    }
+
+    public List<String> getBranches() {
+        return branches;
+    }
+
+    public void setBranches(List<String> branches) {
+        this.branches = branches;
     }
 
     @Override

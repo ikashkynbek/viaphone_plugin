@@ -2,6 +2,7 @@ package com.viaphone.sdk.utils.gson;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.viaphone.sdk.utils.Utils;
 
 import java.io.InputStream;
@@ -35,10 +36,17 @@ public class GsonHelper {
     }
 
     public static Object fromJson(String bodyString, Class classe) {
-        GsonBuilder gson = new GsonBuilder()
+        return gsonBuilder().create().fromJson(bodyString, classe);
+    }
+
+    public static <T> T fromJson(String bodyString, TypeToken typeToken) {
+        return gsonBuilder().create().fromJson(bodyString, typeToken.getType());
+    }
+
+    private static GsonBuilder gsonBuilder() {
+        return new GsonBuilder()
                 .registerTypeAdapter(Date.class, new DateSerializer())
                 .registerTypeAdapter(LocalDate.class, new LocalDateSerializer())
                 .registerTypeAdapter(LocalTime.class, new LocalTimeSerializer());
-        return gson.create().fromJson(bodyString, classe);
     }
 }

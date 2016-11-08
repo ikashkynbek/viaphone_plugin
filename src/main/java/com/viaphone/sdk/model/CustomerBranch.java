@@ -1,11 +1,13 @@
 package com.viaphone.sdk.model;
 
+import java.time.LocalTime;
+
 public class CustomerBranch {
 
     private String name;
     private String phone;
-    private int openTime;
-    private int closeTime;
+    private LocalTime openTime;
+    private LocalTime closeTime;
     private String address;
     private double latitude;
     private double longitude;
@@ -27,19 +29,19 @@ public class CustomerBranch {
         this.phone = phone;
     }
 
-    public int getOpenTime() {
+    public LocalTime getOpenTime() {
         return openTime;
     }
 
-    public void setOpenTime(int openTime) {
+    public void setOpenTime(LocalTime openTime) {
         this.openTime = openTime;
     }
 
-    public int getCloseTime() {
+    public LocalTime getCloseTime() {
         return closeTime;
     }
 
-    public void setCloseTime(int closeTime) {
+    public void setCloseTime(LocalTime closeTime) {
         this.closeTime = closeTime;
     }
 
