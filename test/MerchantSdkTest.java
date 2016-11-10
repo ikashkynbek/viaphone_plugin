@@ -63,11 +63,24 @@ public class MerchantSdkTest implements ResultListener {
         pi.setPrice(150.0);
         pi.setQty(1);
         items.add(pi);
-        Map<Long, Double> map = new LinkedHashMap<>();
+
+        ProductItem pi2 = new ProductItem();
+        pi2.setName("ДК Растишка 110 гр йогурт Клубника");
+        pi2.setBarCode("4870206412596");
+        pi2.setPrice(100.0);
+        pi2.setQty(2);
+        pi2.setDiscount(10.0);
+        Map<Long, Double> mapproduct = new LinkedHashMap<>();
+        mapproduct.put(19L, 11.0);
+        pi2.setDiscounts(mapproduct);
+        items.add(pi2);
+
+        Map<Long, Double> mapbill = new LinkedHashMap<>();
+        mapbill.put(18L, 5.0);
         String str = "2016-11-03 16:08:10";
         Date date = formatter.parse(str);
 
-        CreateReq req = new CreateReq(items, 1L, date, 2L, "test", 0.0, map);
+        CreateReq req = new CreateReq(items, 1L, date, 1L, "test", 16.0, mapbill);
         List<CreateReq> reqs = new ArrayList<>();
         reqs.add(req);
         return api.savePurchases(reqs);
@@ -81,7 +94,14 @@ public class MerchantSdkTest implements ResultListener {
         pi.setBarCode("2000043970016");
         pi.setPrice(150.0);
         pi.setQty(1);
+
+        ProductItem pi2 = new ProductItem();
+        pi2.setName("ДК Растишка 110 гр йогурт Клубника");
+        pi2.setBarCode("4870206412596");
+        pi2.setPrice(100.0);
+        pi2.setQty(2);
         items.add(pi);
+        items.add(pi2);
         return api.createPurchase(items, 1L, ConfirmType.TOKEN);
     }
 
