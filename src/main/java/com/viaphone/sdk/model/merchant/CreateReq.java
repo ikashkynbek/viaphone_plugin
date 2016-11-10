@@ -11,8 +11,9 @@ import java.util.Map;
 
 public class CreateReq extends Request {
 
-    private Double amount;
+    private final Double amount;
     private final List<ProductItem> productItems;
+    private final Long branchId;
     private ConfirmType confirmType;
     private Date createDate;
     private Long customerId;
@@ -20,17 +21,18 @@ public class CreateReq extends Request {
     private Double totalDiscount;
     private Map<Long, Double> billDiscounts;
 
-    public CreateReq(List<ProductItem> details, ConfirmType confirmType) {
+    public CreateReq(List<ProductItem> details, Long branchId, ConfirmType confirmType) {
         double amount = 0;
         for (ProductItem item : details) {
             amount += item.getPrice() * item.getQty();
         }
         this.amount = amount;
         this.productItems = details;
+        this.branchId = branchId;
         this.confirmType = confirmType;
     }
 
-    public CreateReq(List<ProductItem> details, Date createDate, Long customerId, String comment,
+    public CreateReq(List<ProductItem> details, Long branchId, Date createDate, Long customerId, String comment,
                      Double totalDiscount, Map<Long, Double> billDiscounts) {
         double amount = 0;
         for (ProductItem item : details) {
@@ -38,6 +40,7 @@ public class CreateReq extends Request {
         }
         this.amount = amount;
         this.productItems = details;
+        this.branchId = branchId;
         this.createDate = createDate;
         this.customerId = customerId;
         this.comment = comment;
@@ -77,10 +80,15 @@ public class CreateReq extends Request {
         return billDiscounts;
     }
 
+    public Long getBranchId() {
+        return branchId;
+    }
+
     @Override
     public String toString() {
         return "\n\tamount: " + amount +
                 "\n\tproductItems: " + productItems +
+                "\n\tbranchId: " + branchId +
                 "\n\tconfirmType: " + confirmType +
                 "\n\tcreateDate: " + createDate +
                 "\n\tcustomerId: " + customerId +

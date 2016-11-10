@@ -67,7 +67,7 @@ public class MerchantSdkTest implements ResultListener {
         String str = "2016-11-03 16:08:10";
         Date date = formatter.parse(str);
 
-        CreateReq req = new CreateReq(items, date, 2L, "test", 0.0, map);
+        CreateReq req = new CreateReq(items, 1L, date, 2L, "test", 0.0, map);
         List<CreateReq> reqs = new ArrayList<>();
         reqs.add(req);
         return api.savePurchases(reqs);
@@ -82,7 +82,7 @@ public class MerchantSdkTest implements ResultListener {
         pi.setPrice(150.0);
         pi.setQty(1);
         items.add(pi);
-        return api.createPurchase(items, ConfirmType.TOKEN);
+        return api.createPurchase(items, 1L, ConfirmType.TOKEN);
     }
 
     @Override

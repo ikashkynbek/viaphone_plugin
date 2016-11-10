@@ -68,8 +68,8 @@ public class MerchantSdk {
         chirpApi.stopSound();
     }
 
-    public CreateResp createPurchase(List<ProductItem> items, ConfirmType confirmType) throws IOException {
-        return (CreateResp) sendRequest(createPurchase, new CreateReq(items, confirmType));
+    public CreateResp createPurchase(List<ProductItem> items, Long branchId, ConfirmType confirmType) throws IOException {
+        return (CreateResp) sendRequest(createPurchase, new CreateReq(items, branchId, confirmType));
     }
 
     public SavePurchasesResp savePurchases(List<CreateReq> purchases) throws IOException {
