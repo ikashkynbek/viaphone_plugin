@@ -28,6 +28,7 @@ public class MerchantSdk {
     private final String purchaseStatus;
     private final String savePurchases;
     private final String offers;
+    private final String purchaseComments;
 
     private String clientId;
     private String clientSecret;
@@ -49,6 +50,7 @@ public class MerchantSdk {
         this.purchaseStatus = apiRoot + "/purchase-status";
         this.savePurchases = apiRoot + "/save-purchases";
         this.offers = apiRoot + "/get-offers";
+        this.purchaseComments = apiRoot + "/purchase-comments";
 
         this.clientId = clientId;
         this.clientSecret = clientSecret;
@@ -86,6 +88,10 @@ public class MerchantSdk {
 
     public OffersResp offers(CampaignStatus status) throws IOException {
         return (OffersResp) sendRequest(offers, new OffersReq(status));
+    }
+
+    public PurchaseCommentResp purchaseComments() throws IOException {
+        return (PurchaseCommentResp) sendRequest(purchaseComments, new PurchaseCommentReq());
     }
 
     private Object sendRequest(String url, Object obj) throws IOException {

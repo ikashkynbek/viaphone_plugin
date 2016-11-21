@@ -48,6 +48,8 @@ class HttpClient {
                 return fromJson(result, LookupResp.class);
             } else if (obj instanceof SavePurchasesReq) {
                 return fromJson(result, SavePurchasesResp.class);
+            } else if (obj instanceof PurchaseCommentReq) {
+                return fromJson(result, PurchaseCommentResp.class);
             } else if (obj instanceof SignupReq) {
                 return fromJson(result, SignupResp.class);
             } else if (obj instanceof CreateInfoReq) {
