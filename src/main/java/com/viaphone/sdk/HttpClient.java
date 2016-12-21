@@ -74,7 +74,7 @@ class HttpClient {
                 return fromJson(result, OauthToken.class);
             }
         }
-        return result;
+        throw new ClassCastException(result);
     }
 
     private static HttpResponse postRequest(String url, String accessToken, String content) throws IOException {
