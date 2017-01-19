@@ -8,6 +8,7 @@ import com.viaphone.sdk.model.Request;
 public class SetFavoriteReq extends Request {
 
     private Long campaignId;
+    private boolean isFavorite;
 
     public Long getCampaignId() {
         return campaignId;
@@ -16,4 +17,8 @@ public class SetFavoriteReq extends Request {
     public void setCampaignId(Long campaignId) {
         this.campaignId = campaignId;
     }
+
+    public boolean isFavorite() { return isFavorite; }
+
+    public void setFavorite(boolean favorite) { isFavorite = favorite; }
 }
