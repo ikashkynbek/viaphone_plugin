@@ -26,6 +26,7 @@ public class Offer {
     private CampaignStatus status;
     private List<Long> cohort;
     private List<String> branches;
+    private boolean isFavorite;
 
 
     public Long getId() {
@@ -164,6 +165,10 @@ public class Offer {
     public void setBranches(List<String> branches) {
         this.branches = branches;
     }
+
+    public boolean isFavorite() { return isFavorite; }
+
+    public void setFavorite(boolean favorite) { isFavorite = favorite; }
 
     @Override
     public String toString() {

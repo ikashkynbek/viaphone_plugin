@@ -6,7 +6,8 @@
 
     <groupId>com.viaphone.sdk</groupId>
     <artifactId>viaphone.sdk</artifactId>
-    <version>0.3.0b</version>
+    <!--<version>0.3.0b</version>-->
+    <version>0.3.1b</version>
     <distributionManagement>
         <repository>
             <id>com.viaphone.sdk-release</id>
