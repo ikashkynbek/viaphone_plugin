@@ -15,11 +15,11 @@ public class RestSdk {
     }
 
     public RestSdk(String host) throws Exception {
-        this.URL_SIGN_UP = host + "/customer/create";
+        this.URL_SIGN_UP = host + "/customer/login";
     }
 
-    public SignupResp signUp(String phone, String pass, String nick) throws Exception {
-        return signUp(new SignupReq(phone, pass, nick));
+    public SignupResp signUp(String phone) throws Exception {
+        return signUp(new SignupReq(phone));
     }
 
     public SignupResp signUp(SignupReq req) throws Exception {
