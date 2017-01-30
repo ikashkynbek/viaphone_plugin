@@ -1,11 +1,15 @@
 package com.viaphone.sdk.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Map;
 
 public class ProductItem {
 
     private Long id;
+    @SerializedName(value="productId", alternate={"product_id"})
     private Long productId;
+    @SerializedName(value="barCode", alternate={"bar_code"})
     private String barCode;
     private String name;
     private String category;

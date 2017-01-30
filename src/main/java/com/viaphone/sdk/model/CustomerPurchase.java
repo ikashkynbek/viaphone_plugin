@@ -9,6 +9,8 @@ import java.util.List;
 public class CustomerPurchase {
 
     private Long id;
+    private Long storeId;
+    private Long branchId;
     private String branchName;
     private String storeName;
     private Double amount;
@@ -25,6 +27,22 @@ public class CustomerPurchase {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Long storeId) {
+        this.storeId = storeId;
+    }
+
+    public Long getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Long branchId) {
+        this.branchId = branchId;
     }
 
     public String getBranchName() {
