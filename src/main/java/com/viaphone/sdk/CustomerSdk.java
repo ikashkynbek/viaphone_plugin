@@ -1,10 +1,14 @@
 package com.viaphone.sdk;
 
 
-import com.viaphone.sdk.model.OauthToken;
-import com.viaphone.sdk.model.customer.*;
-import com.viaphone.sdk.model.enums.CampaignStatus;
+import com.viaphone.sdk.model.*;
+import com.viaphone.sdk.model.customer.AppTokenReq;
+import com.viaphone.sdk.model.customer.ConfirmPurchaseReq;
+import com.viaphone.sdk.model.customer.PurchaseAuthReq;
+import com.viaphone.sdk.model.customer.SetFavoriteReq;
 import com.viaphone.sdk.model.enums.PurchaseStatus;
+
+import java.util.List;
 
 import static com.viaphone.sdk.HttpClient.getRequestJson;
 import static com.viaphone.sdk.utils.Constants.DEFAULT_HOST;
@@ -20,6 +24,7 @@ public class CustomerSdk {
     private final String URL_PURCHASES;
     private final String URL_AUTH_PURCHASE;
     private final String URL_CONFIRM_PURCHASE;
+    private final String URL_SET_FAVORITE;
 
     private final String accessToken, username, password;
     private OauthToken token;
@@ -39,6 +44,7 @@ public class CustomerSdk {
         this.URL_PURCHASES = apiRoot + "purchases";
         this.URL_AUTH_PURCHASE = apiRoot + "authorize-purchase";
         this.URL_CONFIRM_PURCHASE = apiRoot + "confirm-purchase";
+        this.URL_SET_FAVORITE = apiRoot + "set-favorite";
 
         this.username = username;
         this.password = password;
@@ -48,44 +54,57 @@ public class CustomerSdk {
         }
     }
 
-    public AppTokenResp sendAppToken(String token) throws Exception {
-        return (AppTokenResp) sendRequest(URL_APP_TOKEN, new AppTokenReq(token));
+    public void sendAppToken(String token) throws Exception {
+        sendPostRequest(URL_APP_TOKEN, new AppTokenReq(token));
     }
 
-    public BranchResp getNearestBranches(double latitude, double longitude) throws Exception {
-        return (BranchResp) sendRequest(URL_GET_BRANCHES, new BranchReq(latitude, longitude));
+    public void authorizePurchase(String code) throws Exception {
+        sendPostRequest(URL_AUTH_PURCHASE, new PurchaseAuthReq(code));
     }
 
-    public PurchaseAuthResp authorizePurchase(String code) throws Exception {
-        return (PurchaseAuthResp) sendRequest(URL_AUTH_PURCHASE, new PurchaseAuthReq(code));
+    public void confirmPurchase(Long purchaseId) throws Exception {
+        sendPostRequest(URL_CONFIRM_PURCHASE, new ConfirmPurchaseReq(purchaseId));
     }
 
-    public ConfirmPurchaseResp confirmPurchase(Long purchaseId) throws Exception {
-        return (ConfirmPurchaseResp) sendRequest(URL_CONFIRM_PURCHASE, new ConfirmPurchaseReq(purchaseId));
+    public void setFavoriteCampaign(Long campaign, boolean isFavorite) throws Exception {
+        sendPostRequest(URL_SET_FAVORITE, new SetFavoriteReq(campaign, isFavorite));
     }
 
-    public MyStatsResp getMyStats() throws Exception {
-        return (MyStatsResp) sendRequest(URL_CUST_INFO, new MyStatsReq());
+    public List<CustomerBranch> getBranches() throws Exception {
+        return (List<CustomerBranch>) sendGetRequest(URL_GET_BRANCHES);
     }
 
-    public OffersResp getOffers(CampaignStatus status) throws Exception {
-        return (OffersResp) sendRequest(URL_GET_OFFERS, new OffersReq(status));
+    public CustomerInfo getMyStats() throws Exception {
+        return (CustomerInfo) sendGetRequest(URL_CUST_INFO);
     }
 
-    public PurchasesResp getPurchases(PurchaseStatus status) throws Exception {
-        return (PurchasesResp) sendRequest(URL_PURCHASES, new PurchasesReq(status));
+    public List<Offer> getOffers() throws Exception {
+        return (List<Offer>) sendGetRequest(URL_GET_OFFERS);
     }
 
-    public Long createInfo(CreateInfoReq req) throws Exception {
-        CreateInfoResp resp = (CreateInfoResp) sendRequest(URL_SEND_INFO, req);
-        return resp.getInfoId();
+    public List<CustomerPurchase> getPurchases(PurchaseStatus status) throws Exception {
+        String url = URL_PURCHASES + "?status=" + status.name();
+        return (List<CustomerPurchase>) sendGetRequest(url);
     }
 
-    private Object sendRequest(String url, Object obj) throws Exception {
-        Object result = HttpClient.sendRequest(url, token.getAccess_token(), obj);
+    public void createInfo(CustomerInfo info) throws Exception {
+        sendPostRequest(URL_SEND_INFO, info);
+    }
+
+    private Object sendGetRequest(String url) throws Exception {
+        Object result = HttpClient.getRequest(url, token.getAccess_token());
         if (result instanceof OauthToken) {
             token = getAccessToken();
-            result = HttpClient.sendRequest(url, token.getAccess_token(), obj);
+            result = HttpClient.getRequest(url, token.getAccess_token());
+        }
+        return result;
+    }
+
+    private Object sendPostRequest(String url, Object obj) throws Exception {
+        Object result = HttpClient.postRequest(url, token.getAccess_token(), obj);
+        if (result instanceof OauthToken) {
+            token = getAccessToken();
+            result = HttpClient.postRequest(url, token.getAccess_token(), obj);
         }
         return result;
     }

@@ -1,21 +1,16 @@
 package com.viaphone.sdk;
 
-import com.viaphone.sdk.model.OauthToken;
-import com.viaphone.sdk.model.ProductItem;
-import com.viaphone.sdk.model.Response;
-import com.viaphone.sdk.model.customer.OffersReq;
-import com.viaphone.sdk.model.customer.OffersResp;
+import com.viaphone.sdk.model.*;
 import com.viaphone.sdk.model.enums.CampaignStatus;
 import com.viaphone.sdk.model.enums.ConfirmType;
-import com.viaphone.sdk.model.enums.PurchaseStatus;
-import com.viaphone.sdk.model.merchant.*;
-import com.viaphone.sdk.utils.ChirpApi;
+import com.viaphone.sdk.model.enums.MessageType;
+import com.viaphone.sdk.model.merchant.CreateReq;
+import com.viaphone.sdk.model.merchant.CreateResp;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static com.viaphone.sdk.HttpClient.getRequestJson;
+import static com.viaphone.sdk.model.enums.MessageType.*;
 import static com.viaphone.sdk.utils.Constants.DEFAULT_HOST;
 import static com.viaphone.sdk.utils.gson.GsonHelper.fromJson;
 
@@ -25,7 +20,6 @@ public class MerchantSdk {
     private final String accessToken;
     private final String createPurchase;
     private final String lookupPurchase;
-    private final String purchaseStatus;
     private final String savePurchases;
     private final String offers;
     private final String purchaseComments;
@@ -34,7 +28,7 @@ public class MerchantSdk {
     private String clientSecret;
     private OauthToken token;
     private ResultListener resultListener;
-    private ChirpApi chirpApi;
+//    private ChirpApi chirpApi;
     private boolean shutdownThread = false;
 
     public MerchantSdk(String clientId, String clientSecret, ResultListener resultListener) throws Exception {
@@ -47,7 +41,6 @@ public class MerchantSdk {
         this.accessToken = host + "/oauth/token?grant_type=password&client_id=%s&client_secret=%s";
         this.createPurchase = apiRoot + "/create-purchase";
         this.lookupPurchase = apiRoot + "/lookup-purchase";
-        this.purchaseStatus = apiRoot + "/purchase-status";
         this.savePurchases = apiRoot + "/save-purchases";
         this.offers = apiRoot + "/get-offers";
         this.purchaseComments = apiRoot + "/purchase-comments";
@@ -61,54 +54,52 @@ public class MerchantSdk {
         }
     }
 
-    public void playChirp(String token) throws Exception {
-        chirpApi = new ChirpApi();
-        chirpApi.start(token);
+    public CreateResp createPurchase(List<ProductItem> items, Long branchId, ConfirmType confirmType) throws Exception {
+        return (CreateResp) sendPostRequest(createPurchase, new CreateReq(items, branchId, confirmType), CREATE_PURCHASE);
     }
 
-    public void stopChirp() {
-        chirpApi.stopSound();
+    public void savePurchases(List<CreateReq> purchases) throws Exception {
+        sendPostRequest(savePurchases, purchases, SAVE_PURCHASES);
     }
 
-    public CreateResp createPurchase(List<ProductItem> items, Long branchId, ConfirmType confirmType) throws IOException {
-        return (CreateResp) sendRequest(createPurchase, new CreateReq(items, branchId, confirmType));
+    public CustomerPurchase lookupPurchase(long purchaseId) throws Exception {
+        String url = lookupPurchase + "?id=" + purchaseId;
+        return (CustomerPurchase) sendGetRequest(url);
     }
 
-    public SavePurchasesResp savePurchases(List<CreateReq> purchases) throws IOException {
-        return (SavePurchasesResp) sendRequest(savePurchases, new SavePurchasesReq(purchases));
+    public List<Offer> offers(CampaignStatus status) throws Exception {
+        String url = offers + "?status=" + status.name();
+        return (List<Offer>) sendGetRequest(url);
     }
 
-    public PurchaseStatusResp getPurchaseStatus(long purchaseId) throws IOException {
-        return (PurchaseStatusResp) sendRequest(purchaseStatus, new PurchaseStatusReq(purchaseId));
+    public List<String> purchaseComments() throws Exception {
+        return (List<String>) sendGetRequest(purchaseComments);
     }
 
-    public LookupResp lookupPurchase(long purchaseId) throws IOException {
-        return (LookupResp) sendRequest(lookupPurchase, new LookupReq(purchaseId));
-    }
-
-    public OffersResp offers(CampaignStatus status) throws IOException {
-        return (OffersResp) sendRequest(offers, new OffersReq(status));
-    }
-
-    public PurchaseCommentResp purchaseComments() throws IOException {
-        return (PurchaseCommentResp) sendRequest(purchaseComments, new PurchaseCommentReq());
-    }
-
-    private Object sendRequest(String url, Object obj) throws IOException {
-        Object result = HttpClient.sendRequest(url, token.getAccess_token(), obj);
+    private Object sendGetRequest(String url) throws Exception {
+        Object result = HttpClient.getRequest(url, token.getAccess_token());
         if (result instanceof OauthToken) {
             token = getAccessToken();
-            result = HttpClient.sendRequest(url, token.getAccess_token(), obj);
+            result = HttpClient.getRequest(url, token.getAccess_token());
         }
         return result;
     }
 
-    private OauthToken getAccessToken() throws IOException {
+    private Object sendPostRequest(String url, Object obj, MessageType type) throws Exception {
+        Object result = HttpClient.postRequest(url, token.getAccess_token(), obj);
+        if (result instanceof OauthToken) {
+            token = getAccessToken();
+            result = HttpClient.postRequest(url, token.getAccess_token(), obj);
+        }
+        return result;
+    }
+
+    private OauthToken getAccessToken() throws Exception {
         String url = String.format(accessToken, clientId, clientSecret);
         return (OauthToken) fromJson(getRequestJson(url), OauthToken.class);
     }
 
-    private void executeTask(Long purchaseId) {
+    /*private void executeTask(Long purchaseId) {
         Runnable runnable = () -> {
             try {
                 boolean lookuped = false;
@@ -122,7 +113,7 @@ public class MerchantSdk {
                                 LookupResp lookupResp = lookupPurchase(purchaseId);
                                 resultListener.onAuthorized(lookupResp.getPurchase());
                                 lookuped = true;
-                            } else if (status == PurchaseStatus.COMPLETED) {
+                            } else if (sta  tus == PurchaseStatus.COMPLETED) {
                                 resultListener.onConfirmed(status);
                                 shutdownThread = true;
                             } else if (status == PurchaseStatus.CANCELED) {
@@ -150,5 +141,5 @@ public class MerchantSdk {
     public void stopExecutor() {
         System.out.println("Stop executor");
         shutdownThread = true;
-    }
+    }*/
 }

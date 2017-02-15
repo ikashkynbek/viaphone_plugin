@@ -1,0 +1,18 @@
+package com.viaphone.sdk.model.enums;
+
+public enum MessageType {
+    CREATE_PURCHASE,
+    LOOKUP_PURCHASE,
+    SAVE_PURCHASES,
+    GET_OFFERS,
+    PURCHASE_COMMENTS,
+    SEND_INFO,
+    GET_INFO,
+    GET_BRANCHES,
+    GET_PURCHASES,
+    SEND_APP_TOKEN,
+    SET_FAVORITE_CAMPAIGN,
+    AUTH_PURCHASE,
+    CONFIRM_PURCHASE,
+    LOGIN
+}

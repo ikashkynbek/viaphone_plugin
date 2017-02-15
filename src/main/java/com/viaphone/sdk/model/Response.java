@@ -1,69 +1,29 @@
 package com.viaphone.sdk.model;
 
 
-import java.util.Date;
+import com.viaphone.sdk.model.enums.MessageType;
 
-public abstract class Response {
+public class Response {
 
-    private long ref;
-    private Status status = Status.OK;
-    private Date timestamp;
-    private String error;
+    private Object data;
+    private MessageType messageType;
+    private Long timestamp;
 
-    public long getRef() {
-        return ref;
+    public Response(Object data, MessageType type) {
+        this.data = data;
+        this.messageType = type;
+        this.timestamp = System.currentTimeMillis();
     }
 
-    public void setRef(long ref) {
-        this.ref = ref;
+    public Object getData() {
+        return data;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public MessageType getMessageType() {
+        return messageType;
     }
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public Date getTimestamp() {
+    public Long getTimestamp() {
         return timestamp;
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public enum Status {
-        OK,
-        NOT_CORRECT_SECRET_CODE,
-        CUSTOMER_NOT_FOUND,
-        CUSTOMER_CUSTOMER_ALREADY_EXIST,
-        CANT_SEND_SECRET_CODE,
-        REQUIRED_FIELD_NULL,
-        MERCHANT_NOT_FOUND,
-        NOT_OWN_PURCHASE,
-        PURCHASE_NOT_FOUND,
-        PURCHASE_NOT_AUTHORIZED,
-        PURCHASE_ALREADY_AUTHORIZED,
-        PURCHASE_ALREADY_COMPLETED,
-        TOKEN_NULL_OR_EMPTY,
-        ERROR
-    }
-
-    @Override
-    public String toString() {
-        return "\n\tref: " + ref +
-                "\n\tstatus: " + status +
-                "\n\ttimestamp: " + timestamp +
-                "\n\terror: " + error;
     }
 }

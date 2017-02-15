@@ -1,8 +1,6 @@
 package com.viaphone.sdk.model.customer;
 
-import com.viaphone.sdk.model.Request;
-
-public class AppTokenReq extends Request {
+public class AppTokenReq  {
 
     private final String token;
 
@@ -16,6 +14,6 @@ public class AppTokenReq extends Request {
 
     @Override
     public String toString() {
-        return "\n\ttoken: " + token + super.toString();
+        return "\n\ttoken: " + token;
     }
 }

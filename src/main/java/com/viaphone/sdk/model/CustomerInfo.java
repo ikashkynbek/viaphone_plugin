@@ -1,17 +1,13 @@
-package com.viaphone.sdk.model.customer;
+package com.viaphone.sdk.model;
 
-
-import com.viaphone.sdk.model.Response;
 import com.viaphone.sdk.model.enums.Gender;
 import com.viaphone.sdk.model.enums.SocialStatus;
 
 import java.time.LocalDate;
 
-public class MyStatsResp extends Response {
+public class CustomerInfo {
 
     private Long customerId;
-    private String phone;
-    private String name;
     private String email;
     private String country;
     private String state;
@@ -30,22 +26,6 @@ public class MyStatsResp extends Response {
 
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getEmail() {
@@ -96,14 +76,6 @@ public class MyStatsResp extends Response {
         this.gender = gender;
     }
 
-    public SocialStatus getSocialStatus() {
-        return socialStatus;
-    }
-
-    public void setSocialStatus(SocialStatus socialStatus) {
-        this.socialStatus = socialStatus;
-    }
-
     public String getFacebookId() {
         return facebookId;
     }
@@ -136,22 +108,11 @@ public class MyStatsResp extends Response {
         this.twitterId = twitterId;
     }
 
-    @Override
-    public String toString() {
-        return "\n\tcustomerId: " + customerId +
-                "\n\tphone: " + phone +
-                "\n\tname: " + name +
-                "\n\temail: " + email +
-                "\n\tcountry: " + country +
-                "\n\tstate: " + state +
-                "\n\tcity: " + city +
-                "\n\tbirthday: " + birthday +
-                "\n\tgender: " + gender +
-                "\n\tsocialStatus: " + socialStatus +
-                "\n\tfacebookId: " + facebookId +
-                "\n\tgoogleId: " + googleId +
-                "\n\tinstagramId: " + instagramId +
-                "\n\ttwitterId: " + twitterId +
-                super.toString();
+    public SocialStatus getSocialStatus() {
+        return socialStatus;
+    }
+
+    public void setSocialStatus(SocialStatus socialStatus) {
+        this.socialStatus = socialStatus;
     }
 }

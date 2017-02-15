@@ -39,6 +39,10 @@ public class GsonHelper {
         return gsonBuilder().create().fromJson(bodyString, classe);
     }
 
+    public static <T> T fromJson(InputStream inputStream, TypeToken typeToken) {
+        return fromJson(Utils.toString(inputStream), typeToken);
+    }
+
     public static <T> T fromJson(String bodyString, TypeToken typeToken) {
         return gsonBuilder().create().fromJson(bodyString, typeToken.getType());
     }

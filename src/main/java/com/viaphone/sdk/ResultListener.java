@@ -2,7 +2,6 @@ package com.viaphone.sdk;
 
 import com.viaphone.sdk.model.CustomerPurchase;
 import com.viaphone.sdk.model.enums.PurchaseStatus;
-import com.viaphone.sdk.model.merchant.PurchaseStatusResp;
 
 public interface ResultListener {
 
@@ -12,5 +11,5 @@ public interface ResultListener {
 
     void onCancel(PurchaseStatus status);
 
-    void onError(PurchaseStatusResp.Status status);
+//    void onError(Response.Status status);
 }

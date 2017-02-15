@@ -2,14 +2,13 @@ package com.viaphone.sdk.model.merchant;
 
 
 import com.viaphone.sdk.model.ProductItem;
-import com.viaphone.sdk.model.Request;
 import com.viaphone.sdk.model.enums.ConfirmType;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class CreateReq extends Request {
+public class CreateReq {
 
     private final Double amount;
     private final List<ProductItem> productItems;
@@ -94,7 +93,6 @@ public class CreateReq extends Request {
                 "\n\tcustomerId: " + customerId +
                 "\n\tcomment: " + comment +
                 "\n\ttotalDiscount: " + totalDiscount +
-                "\n\tbillDiscounts: " + billDiscounts +
-                super.toString();
+                "\n\tbillDiscounts: " + billDiscounts;
     }
 }

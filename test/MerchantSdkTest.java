@@ -2,11 +2,12 @@ import com.viaphone.sdk.MerchantSdk;
 import com.viaphone.sdk.ResultListener;
 import com.viaphone.sdk.model.CustomerPurchase;
 import com.viaphone.sdk.model.ProductItem;
+import com.viaphone.sdk.model.enums.CampaignStatus;
 import com.viaphone.sdk.model.enums.ConfirmType;
 import com.viaphone.sdk.model.enums.PurchaseStatus;
-import com.viaphone.sdk.model.merchant.*;
+import com.viaphone.sdk.model.merchant.CreateReq;
+import com.viaphone.sdk.model.merchant.CreateResp;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -23,38 +24,26 @@ public class MerchantSdkTest implements ResultListener {
 
     public static void main(String[] args) throws Exception {
         MerchantSdkTest mt = new MerchantSdkTest();
-       /* CreateResp createResp = mt.createResponse();
+        CreateResp createResp = mt.createResponse();
         System.out.println("createResp:\n" + createResp);
 
         CustomerSdkTest customerSdk = new CustomerSdkTest();
-        PurchaseAuthResp authResp = customerSdk.authPurchase(createResp.getConfirmCode());
-        System.out.println("authResp:\n" + authResp);
+        customerSdk.authPurchase(createResp.getConfirmCode());
 
-        LookupResp lookupResp = mt.lookup(createResp.getPurchaseId());
-        System.out.println("lookupResp:\n" + lookupResp);
+        CustomerPurchase purchase = mt.api.lookupPurchase(createResp.getPurchaseId());
+        System.out.println("lookupPurchase:\n" + purchase);
+        customerSdk.confirmPurchase(createResp.getPurchaseId());
 
-        ConfirmPurchaseResp confirmResp = customerSdk.confirmPurchase(createResp.getPurchaseId());
-        System.out.println("confirmResp:\n" + confirmResp);*/
-
-        SavePurchasesResp savePurchasesResp = mt.savePurchase();
-        System.out.println("savePurchasesResp:\n" + savePurchasesResp);
+        mt.savePurchase();
     }
 
     private MerchantSdkTest() throws Exception {
         api = new MerchantSdk(host, clientId, clientSecret, this);
+        api.purchaseComments();
+        api.offers(CampaignStatus.ACTIVE);
     }
 
-    private LookupResp lookup(long purchaseId) throws IOException {
-        return api.lookupPurchase(purchaseId);
-    }
-
-    public void purchaseStatus(long purchaseId) throws IOException {
-        System.out.println("Sending PurchaseStatusReq");
-        PurchaseStatusResp resp = api.getPurchaseStatus(purchaseId);
-        System.out.println("Response: " + resp);
-    }
-
-    private SavePurchasesResp savePurchase() throws Exception {
+    private void savePurchase() throws Exception {
         System.out.println("Sending CreateReq");
         List<ProductItem> items = new ArrayList<>();
         ProductItem pi = new ProductItem();
@@ -83,25 +72,47 @@ public class MerchantSdkTest implements ResultListener {
         CreateReq req = new CreateReq(items, 1L, date, 1L, "test", 16.0, mapbill);
         List<CreateReq> reqs = new ArrayList<>();
         reqs.add(req);
-        return api.savePurchases(reqs);
+        api.savePurchases(reqs);
     }
 
     private CreateResp createResponse() throws Exception {
         System.out.println("Sending CreateReq");
         List<ProductItem> items = new ArrayList<>();
-        ProductItem pi = new ProductItem();
-        pi.setName("2043-MR Ваза-универсальная (x8)");
-        pi.setBarCode("2000043970016");
-        pi.setPrice(150.0);
-        pi.setQty(1);
+//        ProductItem pi = new ProductItem();
+//        pi.setName("2043-MR Ваза-универсальная (x8)");
+//        pi.setBarCode("2000043970016");
+//        pi.setPrice(150.0);
+//        pi.setQty(1);
 
-        ProductItem pi2 = new ProductItem();
-        pi2.setName("ДК Растишка 110 гр йогурт Клубника");
-        pi2.setBarCode("4870206412596");
-        pi2.setPrice(100.0);
-        pi2.setQty(2);
-        items.add(pi);
-        items.add(pi2);
+//        ProductItem pi2 = new ProductItem();
+//        pi2.setName("ДК Растишка 110 гр йогурт Клубника");
+//        pi2.setBarCode("4870206412596");
+//        pi2.setPrice(100.0);
+//        pi2.setQty(2);
+
+//        ProductItem pi3 = new ProductItem();
+//        pi3.setName("ДК Растишка 110 гр йогурт Банан");
+//        pi3.setBarCode("4870206412985");
+//        pi3.setPrice(200.0);
+//        pi3.setQty(2);
+//
+        ProductItem pi4 = new ProductItem();
+        pi4.setName("ДК Растишка 110 гр йогурт Без фруктов и ягод");
+        pi4.setBarCode("4870206412725");
+        pi4.setPrice(220.0);
+        pi4.setQty(1);
+
+        ProductItem pi5 = new ProductItem();
+        pi5.setName("ДК Растишка 110 гр йогурт Яблоко-груша");
+        pi5.setBarCode("4870206412602");
+        pi5.setPrice(230.0);
+        pi5.setQty(2);
+
+//        items.add(pi);
+//        items.add(pi2);
+//        items.add(pi3);
+        items.add(pi4);
+        items.add(pi5);
         return api.createPurchase(items, 1L, ConfirmType.TOKEN);
     }
 
@@ -120,8 +131,8 @@ public class MerchantSdkTest implements ResultListener {
         System.out.println("onCancel: " + status);
     }
 
-    @Override
-    public void onError(PurchaseStatusResp.Status status) {
-        System.out.println("onError: " + status);
-    }
+//    @Override
+//    public void onError(Response.Status status) {
+//        System.out.println("onError: " + status);
+//    }
 }

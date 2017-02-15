@@ -1,24 +1,25 @@
 package com.viaphone.sdk.model.customer;
 
-import com.viaphone.sdk.model.Request;
 
-/**
- * Created by dansharky on 1/18/17.
- */
-public class SetFavoriteReq extends Request {
+public class SetFavoriteReq {
 
     private Long campaignId;
     private boolean isFavorite;
+
+    public SetFavoriteReq(Long campaignId, boolean isFavorite) {
+        this.campaignId = campaignId;
+        this.isFavorite = isFavorite;
+    }
 
     public Long getCampaignId() {
         return campaignId;
     }
 
-    public void setCampaignId(Long campaignId) {
-        this.campaignId = campaignId;
-    }
-
     public boolean isFavorite() { return isFavorite; }
 
-    public void setFavorite(boolean favorite) { isFavorite = favorite; }
+    @Override
+    public String toString() {
+        return "\n\tcampaignId: " + campaignId +
+                "\n\tisFavorite: " + isFavorite;
+    }
 }

@@ -1,8 +1,7 @@
 package com.viaphone.sdk.model.customer;
 
-import com.viaphone.sdk.model.Request;
 
-public class SignupReq extends Request {
+public class SignupReq {
 
     private final String phone;
 
@@ -16,7 +15,6 @@ public class SignupReq extends Request {
 
     @Override
     public String toString() {
-        return "\n\tphone: " + phone +
-                super.toString();
+        return "\n\tphone: " + phone;
     }
 }

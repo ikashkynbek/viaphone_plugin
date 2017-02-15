@@ -1,8 +1,6 @@
 package com.viaphone.sdk.model.customer;
 
-import com.viaphone.sdk.model.Request;
-
-public class PurchaseAuthReq extends Request {
+public class PurchaseAuthReq {
 
     private final String code;
 
@@ -16,6 +14,6 @@ public class PurchaseAuthReq extends Request {
 
     @Override
     public String toString() {
-        return "\n\tcode: " + code + super.toString();
+        return "\n\tcode: " + code;
     }
 }

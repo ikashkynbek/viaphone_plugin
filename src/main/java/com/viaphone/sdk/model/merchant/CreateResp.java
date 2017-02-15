@@ -3,9 +3,8 @@ package com.viaphone.sdk.model.merchant;
 
 import com.viaphone.sdk.model.enums.ConfirmType;
 import com.viaphone.sdk.model.enums.PurchaseStatus;
-import com.viaphone.sdk.model.Response;
 
-public class CreateResp extends Response {
+public class CreateResp {
 
     private Long purchaseId;
     private PurchaseStatus purchaseStatus;
@@ -49,7 +48,6 @@ public class CreateResp extends Response {
         return "\n\tpurchaseId: " + purchaseId +
                 "\n\tpurchaseStatus: " + purchaseStatus +
                 "\n\tconfirmCode: " + confirmCode +
-                "\n\tconfirmType: " + confirmType +
-                super.toString();
+                "\n\tconfirmType: " + confirmType;
     }
 }
