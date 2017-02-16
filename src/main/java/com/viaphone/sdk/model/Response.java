@@ -15,6 +15,12 @@ public class Response {
         this.timestamp = System.currentTimeMillis();
     }
 
+    public Response(String key, Object value, MessageType type) {
+        this.data = new DefaultObject(key, value);
+        this.messageType = type;
+        this.timestamp = System.currentTimeMillis();
+    }
+
     public Object getData() {
         return data;
     }
@@ -25,5 +31,24 @@ public class Response {
 
     public Long getTimestamp() {
         return timestamp;
+    }
+
+    class DefaultObject {
+
+        private String key;
+        private Object value;
+
+        DefaultObject(String key, Object value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public Object getValue() {
+            return value;
+        }
     }
 }
