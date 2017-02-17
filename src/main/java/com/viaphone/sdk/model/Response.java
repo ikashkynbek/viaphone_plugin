@@ -2,6 +2,7 @@ package com.viaphone.sdk.model;
 
 
 import com.viaphone.sdk.model.enums.MessageType;
+import com.viaphone.sdk.model.enums.RequestType;
 
 import java.util.Collections;
 import java.util.List;
@@ -9,30 +10,33 @@ import java.util.List;
 public class Response<T> {
 
     private final List<T> data;
+    private final int requestType;
     private final int messageType;
     private final int status;
     private final Long timestamp;
     private final String error;
 
-    public Response() {
-        this(Collections.emptyList(), MessageType.EMPTY);
+    public Response(RequestType type) {
+        this(Collections.emptyList(), type);
     }
 
-    public Response(T data, MessageType type) {
+    public Response(T data, RequestType type) {
         this(Collections.singletonList(data), type);
     }
 
-    public Response(List<T> data, MessageType type) {
+    public Response(List<T> data, RequestType type) {
         this.data = data;
         this.status = STATUS.OK.getValue();
-        this.messageType = type.getValue();
+        this.requestType = type.getValue();
+        this.messageType = type.getMessageType().getValue();
         this.timestamp = System.currentTimeMillis();
         this.error = null;
     }
 
-    public Response(STATUS status, String error) {
+    public Response(RequestType type, STATUS status, String error) {
         this.data = Collections.emptyList();
         this.status = status.getValue();
+        this.requestType = type.getValue();
         this.messageType = MessageType.EMPTY.getValue();
         this.error = error;
         this.timestamp = System.currentTimeMillis();
@@ -56,6 +60,10 @@ public class Response<T> {
 
     public String getError() {
         return error;
+    }
+
+    public int getRequestType() {
+        return requestType;
     }
 
     public enum STATUS {
