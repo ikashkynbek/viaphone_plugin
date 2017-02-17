@@ -1,16 +1,15 @@
 package com.viaphone.sdk;
 
-import com.viaphone.sdk.model.*;
+import com.viaphone.sdk.model.OauthToken;
+import com.viaphone.sdk.model.ProductItem;
+import com.viaphone.sdk.model.Response;
 import com.viaphone.sdk.model.enums.CampaignStatus;
 import com.viaphone.sdk.model.enums.ConfirmType;
-import com.viaphone.sdk.model.enums.MessageType;
 import com.viaphone.sdk.model.merchant.CreateReq;
-import com.viaphone.sdk.model.merchant.CreateResp;
 
 import java.util.List;
 
 import static com.viaphone.sdk.HttpClient.getRequestJson;
-import static com.viaphone.sdk.model.enums.MessageType.*;
 import static com.viaphone.sdk.utils.Constants.DEFAULT_HOST;
 import static com.viaphone.sdk.utils.gson.GsonHelper.fromJson;
 
@@ -54,44 +53,44 @@ public class MerchantSdk {
         }
     }
 
-    public CreateResp createPurchase(List<ProductItem> items, Long branchId, ConfirmType confirmType) throws Exception {
-        return (CreateResp) sendPostRequest(createPurchase, new CreateReq(items, branchId, confirmType), CREATE_PURCHASE);
+    public Response createPurchase(List<ProductItem> items, Long branchId, ConfirmType confirmType) throws Exception {
+        return sendPostRequest(createPurchase, new CreateReq(items, branchId, confirmType));
     }
 
-    public void savePurchases(List<CreateReq> purchases) throws Exception {
-        sendPostRequest(savePurchases, purchases, SAVE_PURCHASES);
+    public Response savePurchases(List<CreateReq> purchases) throws Exception {
+        return sendPostRequest(savePurchases, purchases);
     }
 
-    public CustomerPurchase lookupPurchase(long purchaseId) throws Exception {
+    public Response lookupPurchase(long purchaseId) throws Exception {
         String url = lookupPurchase + "?id=" + purchaseId;
-        return (CustomerPurchase) sendGetRequest(url);
+        return sendGetRequest(url);
     }
 
-    public List<Offer> offers(CampaignStatus status) throws Exception {
+    public Response offers(CampaignStatus status) throws Exception {
         String url = offers + "?status=" + status.name();
-        return (List<Offer>) sendGetRequest(url);
+        return sendGetRequest(url);
     }
 
-    public List<String> purchaseComments() throws Exception {
-        return (List<String>) sendGetRequest(purchaseComments);
+    public Response purchaseComments() throws Exception {
+        return sendGetRequest(purchaseComments);
     }
 
-    private Object sendGetRequest(String url) throws Exception {
+    private Response sendGetRequest(String url) throws Exception {
         Object result = HttpClient.getRequest(url, token.getAccess_token());
         if (result instanceof OauthToken) {
             token = getAccessToken();
             result = HttpClient.getRequest(url, token.getAccess_token());
         }
-        return result;
+        return (Response) result;
     }
 
-    private Object sendPostRequest(String url, Object obj, MessageType type) throws Exception {
+    private Response sendPostRequest(String url, Object obj) throws Exception {
         Object result = HttpClient.postRequest(url, token.getAccess_token(), obj);
         if (result instanceof OauthToken) {
             token = getAccessToken();
             result = HttpClient.postRequest(url, token.getAccess_token(), obj);
         }
-        return result;
+        return (Response) result;
     }
 
     private OauthToken getAccessToken() throws Exception {

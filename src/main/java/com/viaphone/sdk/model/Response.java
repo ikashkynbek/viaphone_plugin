@@ -3,51 +3,75 @@ package com.viaphone.sdk.model;
 
 import com.viaphone.sdk.model.enums.MessageType;
 
-public class Response {
+import java.util.Collections;
+import java.util.List;
 
-    private Object data;
-    private MessageType messageType;
-    private Long timestamp;
+public class Response<T> {
 
-    public Response(Object data, MessageType type) {
+    private final List<T> data;
+    private final int messageType;
+    private final int status;
+    private final Long timestamp;
+    private final String error;
+
+    public Response() {
+        this(Collections.emptyList(), MessageType.EMPTY);
+    }
+
+    public Response(T data, MessageType type) {
+        this(Collections.singletonList(data), type);
+    }
+
+    public Response(List<T> data, MessageType type) {
         this.data = data;
-        this.messageType = type;
+        this.status = STATUS.OK.getValue();
+        this.messageType = type.getValue();
+        this.timestamp = System.currentTimeMillis();
+        this.error = null;
+    }
+
+    public Response(STATUS status, String error) {
+        this.data = Collections.emptyList();
+        this.status = status.getValue();
+        this.messageType = MessageType.EMPTY.getValue();
+        this.error = error;
         this.timestamp = System.currentTimeMillis();
     }
 
-    public Response(String key, Object value, MessageType type) {
-        this.data = new DefaultObject(key, value);
-        this.messageType = type;
-        this.timestamp = System.currentTimeMillis();
-    }
-
-    public Object getData() {
+    public List getData() {
         return data;
     }
 
-    public MessageType getMessageType() {
+    public int getMessageType() {
         return messageType;
+    }
+
+    public int getStatus() {
+        return status;
     }
 
     public Long getTimestamp() {
         return timestamp;
     }
 
-    class DefaultObject {
+    public String getError() {
+        return error;
+    }
 
-        private String key;
-        private Object value;
+    public enum STATUS {
+        OK(0),
+        USER_NOT_FOUND(1),
+        EMPTY_REQUEST(2),
+        REQUIRED_PARAM_NULL(3),
+        ERROR(4);
 
-        DefaultObject(String key, Object value) {
-            this.key = key;
+        private int value;
+
+        private STATUS(int value) {
             this.value = value;
         }
 
-        public String getKey() {
-            return key;
-        }
-
-        public Object getValue() {
+        public int getValue() {
             return value;
         }
     }

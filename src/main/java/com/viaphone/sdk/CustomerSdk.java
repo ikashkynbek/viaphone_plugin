@@ -1,14 +1,14 @@
 package com.viaphone.sdk;
 
 
-import com.viaphone.sdk.model.*;
+import com.viaphone.sdk.model.CustomerInfo;
+import com.viaphone.sdk.model.OauthToken;
+import com.viaphone.sdk.model.Response;
 import com.viaphone.sdk.model.customer.AppTokenReq;
 import com.viaphone.sdk.model.customer.ConfirmPurchaseReq;
 import com.viaphone.sdk.model.customer.PurchaseAuthReq;
 import com.viaphone.sdk.model.customer.SetFavoriteReq;
 import com.viaphone.sdk.model.enums.PurchaseStatus;
-
-import java.util.List;
 
 import static com.viaphone.sdk.HttpClient.getRequestJson;
 import static com.viaphone.sdk.utils.Constants.DEFAULT_HOST;
@@ -54,59 +54,59 @@ public class CustomerSdk {
         }
     }
 
-    public void sendAppToken(String token) throws Exception {
-        sendPostRequest(URL_APP_TOKEN, new AppTokenReq(token));
+    public Response sendAppToken(String token) throws Exception {
+        return sendPostRequest(URL_APP_TOKEN, new AppTokenReq(token));
     }
 
-    public void authorizePurchase(String code) throws Exception {
-        sendPostRequest(URL_AUTH_PURCHASE, new PurchaseAuthReq(code));
+    public Response authorizePurchase(String code) throws Exception {
+        return sendPostRequest(URL_AUTH_PURCHASE, new PurchaseAuthReq(code));
     }
 
-    public void confirmPurchase(Long purchaseId) throws Exception {
-        sendPostRequest(URL_CONFIRM_PURCHASE, new ConfirmPurchaseReq(purchaseId));
+    public Response confirmPurchase(Long purchaseId) throws Exception {
+        return sendPostRequest(URL_CONFIRM_PURCHASE, new ConfirmPurchaseReq(purchaseId));
     }
 
-    public void setFavoriteCampaign(Long campaign, boolean isFavorite) throws Exception {
-        sendPostRequest(URL_SET_FAVORITE, new SetFavoriteReq(campaign, isFavorite));
+    public Response setFavoriteCampaign(Long campaign, boolean isFavorite) throws Exception {
+        return sendPostRequest(URL_SET_FAVORITE, new SetFavoriteReq(campaign, isFavorite));
     }
 
-    public List<CustomerBranch> getBranches() throws Exception {
-        return (List<CustomerBranch>) sendGetRequest(URL_GET_BRANCHES);
+    public Response getBranches() throws Exception {
+        return sendGetRequest(URL_GET_BRANCHES);
     }
 
-    public CustomerInfo getMyStats() throws Exception {
-        return (CustomerInfo) sendGetRequest(URL_CUST_INFO);
+    public Response getMyStats() throws Exception {
+        return sendGetRequest(URL_CUST_INFO);
     }
 
-    public List<Offer> getOffers() throws Exception {
-        return (List<Offer>) sendGetRequest(URL_GET_OFFERS);
+    public Response getOffers() throws Exception {
+        return sendGetRequest(URL_GET_OFFERS);
     }
 
-    public List<CustomerPurchase> getPurchases(PurchaseStatus status) throws Exception {
+    public Response getPurchases(PurchaseStatus status) throws Exception {
         String url = URL_PURCHASES + "?status=" + status.name();
-        return (List<CustomerPurchase>) sendGetRequest(url);
+        return sendGetRequest(url);
     }
 
     public void createInfo(CustomerInfo info) throws Exception {
         sendPostRequest(URL_SEND_INFO, info);
     }
 
-    private Object sendGetRequest(String url) throws Exception {
+    private Response sendGetRequest(String url) throws Exception {
         Object result = HttpClient.getRequest(url, token.getAccess_token());
         if (result instanceof OauthToken) {
             token = getAccessToken();
             result = HttpClient.getRequest(url, token.getAccess_token());
         }
-        return result;
+        return (Response) result;
     }
 
-    private Object sendPostRequest(String url, Object obj) throws Exception {
+    private Response sendPostRequest(String url, Object obj) throws Exception {
         Object result = HttpClient.postRequest(url, token.getAccess_token(), obj);
         if (result instanceof OauthToken) {
             token = getAccessToken();
             result = HttpClient.postRequest(url, token.getAccess_token(), obj);
         }
-        return result;
+        return (Response) result;
     }
 
     private OauthToken getAccessToken() throws Exception {

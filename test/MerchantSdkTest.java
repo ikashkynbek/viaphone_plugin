@@ -2,6 +2,7 @@ import com.viaphone.sdk.MerchantSdk;
 import com.viaphone.sdk.ResultListener;
 import com.viaphone.sdk.model.CustomerPurchase;
 import com.viaphone.sdk.model.ProductItem;
+import com.viaphone.sdk.model.Response;
 import com.viaphone.sdk.model.enums.CampaignStatus;
 import com.viaphone.sdk.model.enums.ConfirmType;
 import com.viaphone.sdk.model.enums.PurchaseStatus;
@@ -24,26 +25,32 @@ public class MerchantSdkTest implements ResultListener {
 
     public static void main(String[] args) throws Exception {
         MerchantSdkTest mt = new MerchantSdkTest();
-        CreateResp createResp = mt.createResponse();
+        Response response = mt.createResponse();
+        if (response.getStatus() != 0) {
+            System.out.println(response.getError());
+            return;
+        }
+
+        CreateResp createResp = (CreateResp) response.getData().get(0);
         System.out.println("createResp:\n" + createResp);
 
         CustomerSdkTest customerSdk = new CustomerSdkTest();
         customerSdk.authPurchase(createResp.getConfirmCode());
 
-        CustomerPurchase purchase = mt.api.lookupPurchase(createResp.getPurchaseId());
+        Response purchase = mt.api.lookupPurchase(createResp.getPurchaseId());
         System.out.println("lookupPurchase:\n" + purchase);
         customerSdk.confirmPurchase(createResp.getPurchaseId());
 
-        mt.savePurchase();
+        Response save = mt.savePurchase();
     }
 
     private MerchantSdkTest() throws Exception {
         api = new MerchantSdk(host, clientId, clientSecret, this);
-        api.purchaseComments();
-        api.offers(CampaignStatus.ACTIVE);
+        System.out.println(api.purchaseComments());;
+        System.out.println(api.offers(CampaignStatus.ACTIVE));
     }
 
-    private void savePurchase() throws Exception {
+    private Response savePurchase() throws Exception {
         System.out.println("Sending CreateReq");
         List<ProductItem> items = new ArrayList<>();
         ProductItem pi = new ProductItem();
@@ -72,10 +79,10 @@ public class MerchantSdkTest implements ResultListener {
         CreateReq req = new CreateReq(items, 1L, date, 1L, "test", 16.0, mapbill);
         List<CreateReq> reqs = new ArrayList<>();
         reqs.add(req);
-        api.savePurchases(reqs);
+        return api.savePurchases(reqs);
     }
 
-    private CreateResp createResponse() throws Exception {
+    private Response createResponse() throws Exception {
         System.out.println("Sending CreateReq");
         List<ProductItem> items = new ArrayList<>();
 //        ProductItem pi = new ProductItem();

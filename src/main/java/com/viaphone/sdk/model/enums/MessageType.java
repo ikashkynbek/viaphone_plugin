@@ -1,18 +1,26 @@
 package com.viaphone.sdk.model.enums;
 
 public enum MessageType {
-    CREATE_PURCHASE,
-    LOOKUP_PURCHASE,
-    SAVE_PURCHASES,
-    GET_OFFERS,
-    PURCHASE_COMMENTS,
-    SEND_INFO,
-    GET_INFO,
-    GET_BRANCHES,
-    GET_PURCHASES,
-    SEND_APP_TOKEN,
-    SET_FAVORITE_CAMPAIGN,
-    AUTH_PURCHASE,
-    CONFIRM_PURCHASE,
-    LOGIN
+    OFFERS(0),
+    PURCHASE(1),
+    CUSTOMER_INFO(2),
+    BRANCHES(3),
+    FAVORITE_CAMPAIGN(4),
+    EMPTY(5),
+    CREATE_PURCHASE(6),
+    PURCHASE_COMMENTS(7);
+
+    private int value;
+
+    MessageType(int value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public static MessageType fromValue(int value) {
+        return MessageType.values()[value];
+    }
 }
