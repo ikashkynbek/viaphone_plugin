@@ -11,8 +11,13 @@ public class CustomerSdkTest {
     private static final String PASS = "123";
     private CustomerSdk sdk;
 
-    public CustomerSdkTest() throws Exception {
-        sdk = new CustomerSdk(HOST, PHONE, PASS);
+    CustomerSdkTest(String proxyHost, Integer proxyPort) throws Exception {
+        if (proxyHost != null) {
+            sdk = new CustomerSdk(HOST, PHONE, PASS, proxyHost, proxyPort);
+        } else {
+            sdk = new CustomerSdk(HOST, PHONE, PASS);
+        }
+
         List branches = sdk.getBranches().getData();
         CustomerInfo customerInfo = (CustomerInfo) sdk.getMyStats().getData().get(0);
         List offers = sdk.getOffers().getData();
@@ -24,15 +29,17 @@ public class CustomerSdkTest {
 
     }
 
-    public void authPurchase(String code) throws Exception {
+    void authPurchase(String code) throws Exception {
         sdk.authorizePurchase(code);
     }
 
-    public void confirmPurchase(Long id) throws Exception {
+    void confirmPurchase(Long id) throws Exception {
         sdk.confirmPurchase(id);
     }
 
     public static void main(String[] args) throws Exception {
-        new CustomerSdkTest();
+        String proxyHost = "190.248.134.70";
+        int proxyPort = 8080;
+        new CustomerSdkTest(proxyHost, proxyPort);
     }
 }

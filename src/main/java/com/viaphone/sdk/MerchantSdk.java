@@ -1,6 +1,5 @@
 package com.viaphone.sdk;
 
-import com.viaphone.sdk.model.OauthToken;
 import com.viaphone.sdk.model.ProductItem;
 import com.viaphone.sdk.model.Response;
 import com.viaphone.sdk.model.enums.CampaignStatus;
@@ -9,93 +8,71 @@ import com.viaphone.sdk.model.merchant.CreateReq;
 
 import java.util.List;
 
-import static com.viaphone.sdk.HttpClient.getRequestJson;
 import static com.viaphone.sdk.utils.Constants.DEFAULT_HOST;
-import static com.viaphone.sdk.utils.gson.GsonHelper.fromJson;
 
 
 public class MerchantSdk {
 
-    private final String accessToken;
     private final String createPurchase;
     private final String lookupPurchase;
     private final String savePurchases;
     private final String offers;
     private final String purchaseComments;
+    private final HttpClient httpClient;
 
-    private String clientId;
-    private String clientSecret;
-    private OauthToken token;
-    private ResultListener resultListener;
+//    private ResultListener resultListener;
 //    private ChirpApi chirpApi;
-    private boolean shutdownThread = false;
+//    private boolean shutdownThread = false;
 
-    public MerchantSdk(String clientId, String clientSecret, ResultListener resultListener) throws Exception {
-        this(DEFAULT_HOST, clientId, clientSecret, resultListener);
+    public MerchantSdk(String clientId, String clientSecret) throws Exception {
+        this(DEFAULT_HOST, clientId, clientSecret, false, null, null);
     }
 
-    public MerchantSdk(String host, String clientId, String clientSecret, ResultListener resultListener) throws Exception {
-        String apiRoot = host + "/api/merchant";
+    public MerchantSdk(String clientId, String clientSecret, String proxyHost, int proxyPort) throws Exception {
+        this(DEFAULT_HOST, clientId, clientSecret, true, proxyHost, proxyPort);
+    }
 
-        this.accessToken = host + "/oauth/token?grant_type=password&client_id=%s&client_secret=%s";
+    public MerchantSdk(String host, String clientId, String clientSecret) throws Exception {
+        this(host, clientId, clientSecret, false, null, null);
+    }
+
+    public MerchantSdk(String host, String clientId, String clientSecret, String proxyHost, int proxyPort) throws Exception {
+        this(host, clientId, clientSecret, true, proxyHost, proxyPort);
+    }
+
+    private MerchantSdk(String host, String clientId, String clientSecret, boolean hasProxy, String proxyHost, Integer proxyPort) throws Exception {
+        String apiRoot = host + "/api/merchant";
+        String accessToken = host + "/oauth/token?grant_type=password&client_id=%s&client_secret=%s";
         this.createPurchase = apiRoot + "/create-purchase";
         this.lookupPurchase = apiRoot + "/lookup-purchase";
         this.savePurchases = apiRoot + "/save-purchases";
         this.offers = apiRoot + "/get-offers";
         this.purchaseComments = apiRoot + "/purchase-comments";
 
-        this.clientId = clientId;
-        this.clientSecret = clientSecret;
-        this.resultListener = resultListener;
-        token = getAccessToken();
-        if (token == null || token.getAccess_token() == null) {
-            throw new Exception("Access token is null");
-        }
+        String tokenUrl = String.format(accessToken, clientId, clientSecret);
+        httpClient = new HttpClient(tokenUrl, hasProxy, proxyHost, proxyPort);
     }
 
     public Response createPurchase(List<ProductItem> items, Long branchId, ConfirmType confirmType) throws Exception {
-        return sendPostRequest(createPurchase, new CreateReq(items, branchId, confirmType));
+        return httpClient.sendPostRequest(createPurchase, new CreateReq(items, branchId, confirmType));
     }
 
     public Response savePurchases(List<CreateReq> purchases) throws Exception {
-        return sendPostRequest(savePurchases, purchases);
+        return httpClient.sendPostRequest(savePurchases, purchases);
     }
 
     public Response lookupPurchase(long purchaseId) throws Exception {
         String url = lookupPurchase + "?id=" + purchaseId;
-        return sendGetRequest(url);
+        return httpClient.sendGetRequest(url);
     }
 
     public Response offers(CampaignStatus status) throws Exception {
         String url = offers + "?status=" + status.name();
-        return sendGetRequest(url);
+        return httpClient.sendGetRequest(url);
     }
 
     public Response purchaseComments() throws Exception {
-        return sendGetRequest(purchaseComments);
-    }
-
-    private Response sendGetRequest(String url) throws Exception {
-        Object result = HttpClient.getRequest(url, token.getAccess_token());
-        if (result instanceof OauthToken) {
-            token = getAccessToken();
-            result = HttpClient.getRequest(url, token.getAccess_token());
-        }
-        return (Response) result;
-    }
-
-    private Response sendPostRequest(String url, Object obj) throws Exception {
-        Object result = HttpClient.postRequest(url, token.getAccess_token(), obj);
-        if (result instanceof OauthToken) {
-            token = getAccessToken();
-            result = HttpClient.postRequest(url, token.getAccess_token(), obj);
-        }
-        return (Response) result;
-    }
-
-    private OauthToken getAccessToken() throws Exception {
-        String url = String.format(accessToken, clientId, clientSecret);
-        return (OauthToken) fromJson(getRequestJson(url), OauthToken.class);
+        return httpClient.sendGetRequest(purchaseComments);
     }
 
     /*private void executeTask(Long purchaseId) {

@@ -34,20 +34,23 @@ public class MerchantSdkTest implements ResultListener {
         CreateResp createResp = (CreateResp) response.getData().get(0);
         System.out.println("createResp:\n" + createResp);
 
-        CustomerSdkTest customerSdk = new CustomerSdkTest();
+        CustomerSdkTest customerSdk = new CustomerSdkTest(null, null);
         customerSdk.authPurchase(createResp.getConfirmCode());
 
         Response purchase = mt.api.lookupPurchase(createResp.getPurchaseId());
-        System.out.println("lookupPurchase:\n" + purchase);
+        System.out.println("lookupPurchase:\n" + purchase.getData());
         customerSdk.confirmPurchase(createResp.getPurchaseId());
 
         Response save = mt.savePurchase();
     }
 
     private MerchantSdkTest() throws Exception {
-        api = new MerchantSdk(host, clientId, clientSecret, this);
-        System.out.println(api.purchaseComments());;
-        System.out.println(api.offers(CampaignStatus.ACTIVE));
+        String proxyHost = "190.248.134.70";
+        int proxyPort = 8080;
+        api = new MerchantSdk(host, clientId, clientSecret);
+//        api = new MerchantSdk(clientId, clientSecret, proxyHost, proxyPort);
+        System.out.println(api.purchaseComments().getData());;
+        System.out.println(api.offers(CampaignStatus.ACTIVE).getData());
     }
 
     private Response savePurchase() throws Exception {
