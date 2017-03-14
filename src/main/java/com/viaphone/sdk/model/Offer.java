@@ -11,6 +11,7 @@ public class Offer {
 
     private Long id;
     private String type;
+    private Long ownerId;
     private String ownerName;
     private Double customerDiscount;
     private LocalDate startDate;
@@ -21,6 +22,8 @@ public class Offer {
     private Long productId;
     private String productName;
     private String productCode;
+    private Long brandId;
+    private String brandName;
     private String discountUnit;
     private String description;
     private CampaignStatus status;
@@ -35,6 +38,14 @@ public class Offer {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 
     public String getOwnerName() {
@@ -170,10 +181,27 @@ public class Offer {
 
     public void setFavorite(boolean favorite) { isFavorite = favorite; }
 
+    public Long getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(Long brandId) {
+        this.brandId = brandId;
+    }
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
+
     @Override
     public String toString() {
         return "\n\tid: " + id +
                 "\n\ttype: " + type +
+                "\n\townerId: " + ownerId +
                 "\n\townerName: " + ownerName +
                 "\n\tcustomerDiscount: " + customerDiscount +
                 "\n\tstartDate: " + startDate +
@@ -184,8 +212,11 @@ public class Offer {
                 "\n\tproductId: " + productId +
                 "\n\tproductName: " + productName +
                 "\n\tproductCode: " + productCode +
+                "\n\tbrandId: " + brandId +
+                "\n\tbrandName: " + brandName +
                 "\n\tdiscountUnit: " + discountUnit +
                 "\n\tdescription: " + description +
-                "\n\tstatus: " + status;
+                "\n\tstatus: " + status +
+                "\n\tisFavorite: " + isFavorite;
     }
 }
