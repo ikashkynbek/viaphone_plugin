@@ -8,7 +8,8 @@ public enum MessageType {
     FAVORITE_CAMPAIGN(4),
     EMPTY(5),
     CREATE_PURCHASE(6),
-    PURCHASE_COMMENTS(7);
+    PURCHASE_COMMENTS(7),
+    PRODUCT(8);
 
     private int value;
 

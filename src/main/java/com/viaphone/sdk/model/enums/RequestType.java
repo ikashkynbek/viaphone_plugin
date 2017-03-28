@@ -7,7 +7,7 @@ public enum RequestType {
     GET_OFFERS(3, MessageType.OFFERS),
     GET_BRANCHES(4, MessageType.BRANCHES),
     SEND_TOKEN(5, MessageType.EMPTY),
-    GET_PURCHASES(6, MessageType.PURCHASE),
+    GET_HISTORY(6, MessageType.PRODUCT),
     AUTH_PURCHASE(7, MessageType.PURCHASE),
     CONFIRM_PURCHASE(8, MessageType.EMPTY),
     SET_FAVORITE_CAMPAIGN(9, MessageType.FAVORITE_CAMPAIGN),

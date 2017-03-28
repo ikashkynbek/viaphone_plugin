@@ -89,6 +89,8 @@ class HttpClient {
                     return fromJson(result, new TypeToken<Response<Offer>>() {});
                 case PURCHASE:
                     return fromJson(result, new TypeToken<Response<CustomerPurchase>>() {});
+                case PRODUCT:
+                    return fromJson(result, new TypeToken<Response<ProductItem>>() {});
                 case CUSTOMER_INFO:
                     return fromJson(result, new TypeToken<Response<CustomerInfo>>() {});
                 case BRANCHES:

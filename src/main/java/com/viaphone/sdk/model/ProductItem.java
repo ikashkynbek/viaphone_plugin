@@ -2,6 +2,7 @@ package com.viaphone.sdk.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
 import java.util.Map;
 
 public class ProductItem {
@@ -19,6 +20,7 @@ public class ProductItem {
     private Double discount;
     private Map<Long, Double> discounts;
     private String type;
+    private Date purchaseDate;
 
     public ProductItem() {
     }
@@ -119,6 +121,14 @@ public class ProductItem {
 
     public void setDiscounts(Map<Long, Double> discounts) {
         this.discounts = discounts;
+    }
+
+    public Date getPurchaseDate() {
+        return purchaseDate;
+    }
+
+    public void setPurchaseDate(Date purchaseDate) {
+        this.purchaseDate = purchaseDate;
     }
 
     @Override
