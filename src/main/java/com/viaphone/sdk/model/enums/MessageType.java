@@ -9,7 +9,8 @@ public enum MessageType {
     EMPTY(5),
     CREATE_PURCHASE(6),
     PURCHASE_COMMENTS(7),
-    PRODUCT(8);
+    PRODUCT(8),
+    PROMO_CODE(9);
 
     private int value;
 

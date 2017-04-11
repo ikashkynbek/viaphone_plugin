@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.viaphone.sdk.model.*;
+import com.viaphone.sdk.model.customer.PromoCodeReq;
 import com.viaphone.sdk.model.customer.SetFavoriteReq;
 import com.viaphone.sdk.model.enums.MessageType;
 import com.viaphone.sdk.model.merchant.CreateResp;
@@ -101,6 +102,8 @@ class HttpClient {
                     return fromJson(result, new TypeToken<Response<CreateResp>>() {});
                 case PURCHASE_COMMENTS:
                     return fromJson(result, new TypeToken<Response<String>>() {});
+                case PROMO_CODE:
+                    return fromJson(result, new TypeToken<Response<PromoCodeReq>>() {});
                 default:
                     return fromJson(result, new TypeToken<Response<String>>() {});
             }

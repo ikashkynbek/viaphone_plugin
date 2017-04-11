@@ -3,10 +3,7 @@ package com.viaphone.sdk;
 
 import com.viaphone.sdk.model.CustomerInfo;
 import com.viaphone.sdk.model.Response;
-import com.viaphone.sdk.model.customer.AppTokenReq;
-import com.viaphone.sdk.model.customer.ConfirmPurchaseReq;
-import com.viaphone.sdk.model.customer.PurchaseAuthReq;
-import com.viaphone.sdk.model.customer.SetFavoriteReq;
+import com.viaphone.sdk.model.customer.*;
 
 import static com.viaphone.sdk.utils.Constants.DEFAULT_HOST;
 
@@ -21,6 +18,8 @@ public class CustomerSdk {
     private final String URL_AUTH_PURCHASE;
     private final String URL_CONFIRM_PURCHASE;
     private final String URL_SET_FAVORITE;
+    private final String URL_GET_PROMO;
+    private final String URL_SET_PROMO;
 
     private final HttpClient httpClient;
 
@@ -52,6 +51,8 @@ public class CustomerSdk {
         this.URL_AUTH_PURCHASE = apiRoot + "authorize-purchase";
         this.URL_CONFIRM_PURCHASE = apiRoot + "confirm-purchase";
         this.URL_SET_FAVORITE = apiRoot + "set-favorite";
+        this.URL_GET_PROMO = apiRoot + "get-promo";
+        this.URL_SET_PROMO = apiRoot + "set-promo";
 
         String tokenUrl = String.format(accessToken, "mobileapp", "secret", username, password);
         httpClient = new HttpClient(tokenUrl, hasProxy, proxyHost, proxyPort);
@@ -91,5 +92,13 @@ public class CustomerSdk {
 
     public void createInfo(CustomerInfo info) throws Exception {
         httpClient.sendPostRequest(URL_SEND_INFO, info);
+    }
+
+    public Response getPromoCode() throws Exception {
+        return httpClient.sendGetRequest(URL_GET_PROMO);
+    }
+
+    public Response setPromoCode(String code) throws Exception {
+        return httpClient.sendPostRequest(URL_SET_PROMO, new PromoCodeReq(code));
     }
 }

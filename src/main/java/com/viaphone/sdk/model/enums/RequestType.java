@@ -14,7 +14,10 @@ public enum RequestType {
     CREATE_PURCHASE(10, MessageType.CREATE_PURCHASE),
     LOOKUP_PURCHASE(11, MessageType.PURCHASE),
     SAVE_PURCHASE(12, MessageType.EMPTY),
-    GET_PURCHASE_COMMENTS(13, MessageType.PURCHASE_COMMENTS);
+    GET_PURCHASE_COMMENTS(13, MessageType.PURCHASE_COMMENTS),
+    SIGN_UP(14, MessageType.EMPTY),
+    GET_PROMO(15, MessageType.PROMO_CODE),
+    SET_PROMO(16, MessageType.EMPTY);
 
     private int value;
     private MessageType messageType;

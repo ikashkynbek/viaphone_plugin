@@ -5,7 +5,7 @@ public class CustomerSdkTest {
 
     private static final String HOST = "http://localhost:8081";
     private static final String PHONE = "77785522433";
-    private static final String PASS = "7409";
+    private static final String PASS = "123";
     private CustomerSdk sdk;
 
     CustomerSdkTest(String proxyHost, Integer proxyPort) throws Exception {
@@ -18,13 +18,17 @@ public class CustomerSdkTest {
 //        List branches = sdk.getBranches().getData();
 //        CustomerInfo customerInfo = (CustomerInfo) sdk.getMyStats().getData().get(0);
 //        List offers = sdk.getOffers().getData();
-        Response purchases = sdk.getHistory();
+//        Response purchases = sdk.getHistory();
 //        System.out.println(branches);
 //        System.out.println(customerInfo);
 //        System.out.println(offers);
-        System.out.println(purchases);
+//        System.out.println(purchases);
 //        Response response = sdk.setFavoriteCampaign(23L, true);
 //        System.out.println(response);
+
+        Response response = sdk.getPromoCode();
+        Response response1 = sdk.setPromoCode("4f8325");
+        System.out.println(response);
     }
 
     void authPurchase(String code) throws Exception {
