@@ -58,8 +58,8 @@ public class CustomerSdk {
         httpClient = new HttpClient(tokenUrl, hasProxy, proxyHost, proxyPort);
     }
 
-    public Response sendAppToken(String token) throws Exception {
-        return httpClient.sendPostRequest(URL_APP_TOKEN, new AppTokenReq(token));
+    public Response sendAppToken(boolean isEnabled, String token) throws Exception {
+        return httpClient.sendPostRequest(URL_APP_TOKEN, new AppTokenReq(isEnabled, token));
     }
 
     public Response authorizePurchase(String code) throws Exception {
